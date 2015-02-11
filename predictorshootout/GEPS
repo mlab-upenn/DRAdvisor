@@ -1,0 +1,14 @@
+GEPS
+
+This dataset is problem A of the "Great energy predictor shootout" contest.
+("The Great Energy Predictor Shootout" - The First Building Data Analysis And
+Prediction Competition; ASHRAE Meeting; Denver, Colorado; June, 1993;
+co-chaired by Jan F. Kreider and Jeff S. Haberl;
+active Period:  December 1, 1992 -  April 30, 1993)
+
+building.dat contains 4208 data examples of the form:
+  MONTH  DAY  YEAR  HOUR  TEMP  HUMID  SOLAR  WIND  WBE  WBCW  WBHW
+where
+  WBE      whole building electrical energy
+  WBCW     whole building cold water
+  WBHW     whole building hot water

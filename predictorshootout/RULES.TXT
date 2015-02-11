@@ -1,0 +1,310 @@
+"THE GREAT ENERGY PREDICTOR SHOOTOUT" - THE FIRST BUILDING DATA ANALYSIS 
+AND PREDICTION COMPETITION
+Concept and Summary
+ASHRAE Meeting
+Denver, Colorado
+June, 1993
+Co-chaired by Jan F. Kreider and Jeff S. Haberl
+
+
+Active Period:  December 1, 1992 -  April 30, 1993
+INTRODUCTION
+A wide range of new techniques is now being applied to the  analysis problems involved with 
+predicting the future behavior of HVAC systems and deducing properties of these systems. 
+Similar problems arise in  most observational disciplines, including physics, biology, and 
+economics.  New  tools, such as genetic algorithms, simulated annealing, the use of 
+connectionist models for forecasting and tree-based classifiers or the extraction of 
+parameters of nonlinear systems with time-delay embedding, promise to provide results that 
+are unobtainable with more traditional techniques. Unfortunately, the realization and 
+evaluation of this  promise has been hampered by the difficulty of making rigorous 
+comparisons  between competing techniques, particularly ones that come from different  
+disciplines.  The prediction of energy usage by HVAC systems is important for purposes of 
+HVAC diagnostics, system control, optimization and energy management.
+In order to facilitate such comparisons and to foster contact among the relevant disciplines, 
+ASHRAE's TC4.7 and TC 1.5 have organized a building data analysis and prediction competition 
+in the form of an ASHRAE seminar to be held in Denver in June, 1993. Forecasting or 
+prediction using empirical models will be the goal of the competition. (Neither system 
+characterization, system identification nor simulation code validation [e.g., DOE-2 or BLAST] 
+are the subject of this seminar; they will be addressed in a future session.) Two carefully 
+chosen  sets of energy and environmental data from real buildings will be made available to 
+the contestants.  Each contestant will be required to prepare  quantitative analyses of these 
+data and submit them to the seminar co-chairs prior to the ASHRAE seminar.  Those with the 
+best results will be asked to make a presentation to the seminar.
+At the close of the competition the performance of the techniques  submitted will be compared 
+and published.  If there is sufficient interest, a server accessible by modem may be set up 
+to operate as an on-line archive of interesting data sets, programs, and comparisons among 
+algorithms in the future.  There will be no monetary prizes. An ASHRAE symposium has been 
+scheduled for the Winter 1994 ASHRAE meeting in New Orleans to explore the results of the 
+competition in formal papers.
+The competition does not require advanced registration; to enter, simply request the data 
+(there is no charge for the data diskette) along with support information and submit your 
+analysis on time. The detailed description of the competition and instructions for acquiring 
+the data and entering  the competition are given below.
+ACCESSING THE DATA
+The data are available on disks (5.25-in size) in ASCII, IBM-PC format. To
+
+
+receive the data, send a self-addressed 9 x 12 in. envelope, with a $2.90 priority 
+mail stamp affixed, to:
+	Building Energy Predictor Shootout
+	Joint Center for Energy Management
+	Campus Box 428
+
+
+	University of Colorado
+	Boulder, CO  80309-0428
+Instructions on submitting a return disk with the analysis of the data will be included in 
+a README file on the data disk.  The disk will also include an entry form that each entrant 
+will need to complete and submit along with the results.
+FOR MORE INFORMATION
+Further questions about the competition should be directed to either of the organizers:
+	Professor Jan F. Kreider, Director	Professor Jeff S. Haberl
+
+
+	Joint Center for Energy Management	Department of Mechanical
+	Engineering
+	Campus Box 428	Texas A&M University
+	University of Colorado	College Station, TX  77843-3123
+	Boulder, CO  80309-0428	Phone:  409-845-1560
+
+
+	Phone:  303-492-3915	Fax:  409-862-2762
+	Fax:  303-492-7317	E-mail:  JSH4037@TAMSIGMA (Bitnet)
+	E-mail:  JKREIDER@VAXF.COLORADO.EDU
+Detailed instructions and data set descriptions are included in the attached document.
+[PB]
+INSTRUCTIONS - "The Great Energy Predictor Shootout"
+Contents
+	I.	Philosophy
+	II.	General Information
+	III.	Acquiring and Submitting Data
+	IV.	Data Sets
+
+
+	V.	Submittals
+	VI.	Other Matters
+1.1  Philosophy
+This competition has been organized to help clarify the conflicting claims among many 
+researchers who use and analyze building energy data and to foster contact among these 
+persons and their institutions. The intent is not necessarily only to declare winners but 
+rather to set up a format in which rigorous evaluations of techniques can be made. Because 
+there are natural measures of performance, a rank-ordering will be given. In all  cases, 
+however, the  goal is to collect and analyze quantitative results in order to understand 
+similarities and differences among the approaches.
+
+
+1.2   General Information
+Overview
+This section contains the instructions on how to participate in the competition.
+Data: Two distinct data sets are provided for prediction.  Contestants will be given these two 
+sets of independent variables with the corresponding values of dependent variables, e.g., 
+energy usage.  The accuracy of predictions of the dependent variables from values of 
+independent variables from this data set is one of the criteria for judging this competition.
+However, a more rigorous test is also planned.  Some of the dependent variable values will be 
+withheld from each of the two data sets (this is explained in detail in the next section). 
+"Withheld" means that you will be provided with a set of independent variables for which the 
+corresponding values of dependent variables have been withheld by the organizers
+[NOTE "For example you might be given a testing set consisting of weather and oc .   The data 
+set from which the independent variables have been withheld are hereinafter called the 
+"testing set" whereas the data that include both independent and dependent variable values are 
+called the "training set." Although this nomenclature is common in some numerical approaches 
+and not in others, it will provide an understandable nomenclature for this competition. The 
+independent variable values in the testing set will  will be used by each participant to make 
+their best predictions of the corresponding dependent variables.  The organizers will compare 
+these predictions by each contestant with the true (data) values of the dependent variables 
+that are known only to the organizers.  This second aspect of the competition is expected to 
+be of considerable interest to the seminar audience.
+Entries:  The competition will start on December 1, 1992 and will end on April 30,1993. 
+Entries received after that date cannot be considered. The format for the entries, described 
+in the following sections and in the entry form supplied on the data diskette must be followed 
+exactly, or the entry will regretfully have to be rejected.
+Results:  Following the close of the competition, the results will be analyzed and published. 
+This will be in the form of the ASHRAE seminar (Denver, June, 1993) as described above.  The 
+seminar co-chairs will not participate in the competition and but will be the sole analysts of 
+the results.  The overall results will be presented at the seminar by the co-chairs followed 
+by a presentation by each participant on their methodology.
+The results to be produced by the competitors  are in the form of predictions of the dependent 
+variables for the two testing sets of independent variables. These predictions will be 
+submitted to the organizers who will evaluate them using the same methods for all submissions.  
+Competitors will also conduct a self analysis of the accuracy of their prediction approach 
+when applied to the training set.
+The following criteria will be used by the organizers for assessing the respective accuracies 
+of the entries when analyzing the testing set
+	Coefficient of Variation ,CV:
+	[EQN "CV  == [Root  [Sigma below [i=1] above n (y sub [pred,i] - y sub [dat
+	Mean Bias Error, MBE:
+	[EQN "MBE  == [  [Sigma below [i=1] above n (y sub [pred,i] - y sub [data,i
+where
+
+
+[EQN "y sub [data,i]"]   is a data value of the dependent variable corresponding to a 
+particular set of values of the independent variables.
+[EQN "y sub [pred,i] "]   is a predicted dependent variable value for the same set of 
+independent variables above; these values are predictions by the entrants.
+[EQN "y bar sub data"]   is the mean value of the dependent variable
+	testing data set
+	[EQN "n"]   is the number of sets of data in the testing set
+Other statistics such as the correlation coefficient and maximum error may also be reported 
+in a brief written summary assembled by the seminar co-chairs. Time permitting, graphical 
+comparisons will be also prepared by the organizers. During each entrant's seminar 
+presentation they may use any presentation of scientific value that they wish on the 
+performance of their methods on the training set.
+Prizes:  There are no prizes in the competition  (to prevent unnecessary disagreements).
+Secrecy:  Because this is an open scientific study, entries that provide results without 
+describing the methods used are not acceptable. On the other hand we recognize that a great 
+deal of labor might have been applied to develop commercially useful applications and full 
+details of those need not be revealed.  Sufficient information has to be supplied so that the 
+results can in principle be independently verified. It is not necessary to submit practical 
+implementation details or the computer code. However, we encourage sharing the software at 
+the end of the competition. At a minimum, each participant should supply a flow chart of 
+their methodology and the data plots described below.
+Future Plans:   If interest warrants, it is planned that a computer server will operate after 
+the close of the competition as a central repository of interesting data, analysis programs, 
+and the results of other comparative studies.
+1.3  Acquiring and Submitting Data
+This section describes how to retrieve the data sets for the competition and how to submit 
+competition entries.
+The steps are: (1) read this section, (2) acquire the data, (3) analyze the data, and (4) 
+send in your results in along with an entry form.
+The data are available on disks (5.25-in size) in ASCII, IBM-PC format. To receive the data 
+and other information, send a self-addressed 9 x 12 in. envelope with a $2.90 priority mail 
+stamp affixed to:
+	Building Energy Predictor Shootout
+	Joint Center for Energy Management
+	Campus Box 428
+
+
+	University of Colorado
+	Boulder, CO  80309-0428
+Instructions on submitting a return disk with the analysis of the data will be included in 
+a README file on the data disk.  The mailing will also include an entry form that each 
+entrant will need to complete out and submit along with the results.
+
+
+
+Completed entries (diskette with results plus completed entry form) should be mailed to: 
+Energy Shootout Entry Disks at the above address. Part of the entry form will include your 
+name and address and describe the machine type and density that your submittal disks were 
+prepared with. The disks (either 3.5-in or 5.25-in. size of any density) must be in ASCII 
+format readable by an MS-DOS machine.  Hard copy or nonconforming entries cannot be accepted.
+1.4  Data Sets
+There are two data sets provided; they are DOS-readable ASCII text files. The data sets have 
+been chosen to address two different sorts of building-related data analysis problems. In 
+this section we describe the general features of the data sets.
+A.dat (approximately 3,000 points)
+This is a time record of hourly chilled water, hot water and whole building electricity usage 
+for a four-month period in an institutional building. Weather data and a time stamp are also 
+included.  The hourly values of usage of these three energy forms is to be predicted for the 
+two following months.  The testing set consists of the two months following the four-month 
+period.
+B.dat (approximately 2,400 points)
+These data consist of solar radiation measurements made by four fixed devices to be used to 
+predict the time-varying hourly beam radiation during a six-month period.  This four-
+pyranometer device is used in an adaptive controller to predict building cooling loads.  A 
+random sample of data from the full data set has been reserved as the training set of 1500 
+points.  The value of beam radiation is to be predicted from data from four fixed sensors for 
+the testing set of 900 additional points.
+1.5  Submittals
+The prediction tasks differ between the data sets (the sets were chosen to emphasize 
+different prediction problems). The withheld testing data used for evaluating the predictions 
+after the close of the competition will not be available to any of the entrants.
+A.dat
+For data set A submit predictions (i.e., forecasts) for chilled water, hot water and whole 
+building electricity use for the two months following the four-month training set.  The 
+testing set will include values of the same independent variables (weather, date and time) as 
+the training set.  Submit your predictions of the three energy end uses in serial order by 
+appending three columns containing your predictions to the right of the testing set columns 
+provided on the disk data file.  You will therefore submit to the organizers the testing set 
+plus three columns containing your predictions.  A sample of how you are to submit your data 
+will be supplied with the data diskette.
+The organizers will compare your predictions to the known values of the three energy uses and 
+report CV and MBE.
+You are also to prepare and submit with your diskette several graphs for the four-month 
+training set data as shown in Figs. 1 and 2.  Figure 1 is a time series plot of actual data 
+and a prediction along with the difference between the two (Fig. 1 is such a plot for one 
+month; you can either prepare one such plot for each of the four months or just one plot  for 
+all four months; you
+will need to prepare at least on such plot for each of the three energy end uses).  Figure 2 
+is a plot of hourly energy use vs. dry bulb temperature.  Data for all four months should be 
+presented on one such graph for each of the three energy end uses (total of three plots will 
+be prepared, one each for chilled water, hot water and whole building electricity).  On each 
+graph show the values of CV  and MBE as defined above.
+Summary:  You will submit to the seminar organizers one file on diskette with your 
+predictions of the three energy end uses for the testing set.  You will also submit several 
+graphs, just described, representing the accuracy of your prediction tool when used on the 
+training set only.
+B.dat
+For data set B submit predictions for hourly beam radiation given four values of hourly 
+fixed-sensor insolation for the testing set that has been randomly selected from the full 
+data set.  The testing set will include the values of the same four independent variables 
+(hourly insolation on four fixed surfaces) as the training set.  Submit your predictions of 
+beam insolation in order by appending one column containing their values to the right of the 
+four testing set columns provided on the disk data file.  You will therefore submit to the 
+organizers the testing set plus one column containing your predictions. A sample of how you 
+are to submit your data will be supplied with the data diskette.
+The organizers will compare your predictions to the known values of the beam radiation in the 
+testing set and report CV and MBE.
+You are also to prepare and submit with your diskette one graph (often called a "scatterplot" 
+or "crossplot") for the training set data as shown by the example in Fig. 3. Figure 3 is a 
+plot of actual data (abscissa) and prediction (ordinate). You should prepare one such plot 
+that includes all data in the training set. On this graph show the value of CV  and MBE as 
+defined above.
+Summary:  You will submit to the seminar organizers one file on diskette with your 
+predictions for the testing set.  You will also submit a graph, just described, that 
+represents the accuracy of your prediction tool when used on the training set only.
+Questions about these instructions should be addressed to either of the organizers listed 
+above.
+1.6  Deadline and extensions
+The competition ends at midnight on April 30, 1993; to be fair, we cannot accept entries 
+after this time. We will allow two weeks after this deadline (until May 15th) for only the 
+following two exceptions:
+*  Because of computer difficulty you were unable to submit the data in
+time. Send the data before May 15th, along with an explanation of the difficulty.  The 
+organizers must be notified of your need to have this extension by April 30, 1993
+*  You just found out about the competition or just received the data. Submit your 
+entry before May 15th, along with an explanation why this extension is needed.
+	[PB]
+[WS	3.5 in]
+Figure 1.  Example time series plot showing data, prediction and difference between the two.  
+For the competition submittal also affix the values of CV and MBE to each graph.
+[WS 3.5 in]
+Figure 2.  Example plot showing energy consumption (here steam) plotted vs dry bulb 
+temperature.  For the competition submittal also affix the values of CV and MBE to each 
+graph.
+[PB]
+[WS 4 in]
+Figure 3.  Example scatterplot showing data and prediction crossplotted.  For the competition 
+submittal also affix the values of CV and MBE to each graph.
+[SHOOTOUT.DOC] 
+[PB
+]
+		[WS 1 in]
+
+
+M E M O R A N D U M
+TO:          Building Analyst Colleague
+FROM:        Jan F. Kreider
+SUBJECT:     Building Energy Predictor Shootout
+DATE:        November 16, 1992
+In order to facilitate comparisons among the many empirical techniques used to predict 
+building demand and energy use and to foster contact among the relevant disciplines, 
+ASHRAE's TC	4.7 and TC 1.5 have organized a building
+data  analysis and prediction competition in the form of an ASHRAE seminar to be held in 
+Denver in June, 1993. Forecasting or prediction using empirical models will be the goal of 
+the competition.
+
+
+Jeff Haberl and I invite you to participate.  The attached summary explains how you can enter 
+this friendly, no-cost competition.  You have received this mailing because of the known 
+interest of yourself and your colleagues in this area of building science research.  The 
+enclosure should be self explanatory but donot hesitate to call me at the number above if you 
+have questions.  Good luck!
+Enclosure
+			[SHOOTOUT.DOC]
+
+
+For example you might be given a testing set consisting of weather and occupancy data (the independent 
+variables) along with chilled water use (the dependent variable) for a four-month period.  For the fifth 
+month you would only be given the weather and occupancy data but would be asked to predict the chilled water 
+use based on the capability of y
+our method developed with the four months of training data.

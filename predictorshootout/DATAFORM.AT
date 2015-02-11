@@ -1,0 +1,106 @@
+DATA FORMAT AND UNITS
+
+This diskette contains four data sets for which the formats and
+units are given below.  Two of the data sets are training sets
+as described in the rules and the other two are testing sets.
+In the testing sets the independent variables are missing.  Here
+are the formats in each of the four data files.  The numbers
+are shown below in a column for convenience but in the data files
+each of the sets of data given below represents the first ROW of
+data in that file.
+
+ATRAIN.DAT
+	Month			9
+	Day of month		1
+	Year			89
+	Hour 			200 (military numbering)
+	DB Temperature		81.9 (deg F)
+	Humidity ratio		0.0184 (lb water/lb dry air)
+	Solar flux		0 (W/sq meter)
+	Wind speed		7.62 (mi/hr)
+	Whole bldg electric	496.07 (kWh/hr)
+	Whole bldg chil'd water	7.2 (millions of Btu/hr)
+	Whole bldg hot water	0.4 (millions of Btu/hr)
+	(the last three entries are the dependent variables)
+
+ATEST.DAT
+	Month			1
+	Day of month		1
+	Year			90
+	Hour 			0 (military numbering)
+	DB Temperature		43 (deg F)
+	Humidity ratio		0.0031 (lb water/lb dry air)
+	Solar flux		2 (W/sq meter)
+	Wind speed		4.88 (mi/hr)
+	(the three dependent variables are not in the testing set)	
+
+
+BTRAIN.DAT
+	Decimal Date			212.4792 (Julian day + hour/24)
+	Horizontal solar flux			94  (W/sq meter)
+	Tilted surface southeast solar flux	138 (W/sq meter)
+	Tilted surface south solar flux		132 (W/sq meter) 
+	Tilted surface southwest solar flux	139 (W/sq meter) 
+	True beam insolation			122 (W/sq meter)
+	(the last entry is the dependent variable to be predicted from
+	  the five previous independent variables)
+
+BTEST.DAT
+	Decimal Date			217.3125 (Julian day + hour/24)
+	Horizontal solar flux			3  (W/sq meter)
+	Tilted surface southeast solar flux	73 (W/sq meter)
+	Tilted surface south solar flux		64 (W/sq meter) 
+	Tilted surface southwest solar flux	61 (W/sq meter) 
+
+SUBMITTING YOUR PREDICTIONS ON DISKETTE
+
+The only way in which your predictions can be  submitted is in a
+very precise format and on a DOS diskette.  If your predictions are
+not so submitted they cannot be evaluated due to the automated
+methods that the symposium organizers will be using.  Here is
+how to submit your predictions for both data sets.
+
+DATA SET A
+
+You will submit file ATEST.DAT supplied to you with three new
+columns added to the right for each hour.  The first column will contain
+predictions of whole building electric usage.  The second and
+third columns will contain predicted whole building chilled water and
+whole building hot water, respectively.  For example, the first
+row of your file ATEST.DAT that you submit might look like
+this (the last three predicted values are just examples and will not
+necessarily bear any resemblance to your predictions for the
+first hour of the testing data set for data set A)
+
+
+	Month			1
+	Day of month		1
+	Year			90
+	Hour 			0 (military numbering)
+	DB Temperature		43 (deg F)
+	Humidity ratio		0.0031 (lb water/lb dry air)
+	Solar flux		2 (W/sq meter)
+	Wind speed		4.88 (mi/hr)
+	Predicted WBE		450 (kWh/hr, the prediction)
+	Predicted WBCW		6 (millions of Btu/hr, the prediction)
+	Predicted WBHW		4 (millions of Btu/hr, the prediction)
+
+DATA SET B
+
+You will submit file BTEST.DAT supplied to you with one new
+column added to the right for each row of values.  The new
+column will contain your prediction of beam insolation.  For 
+example, the first row of your file BTEST.DAT that you submit 
+might look like this (the last value is just an example and will not
+necessarily bear any resemblance to your prediction for the
+first hour of the testing data set for data set B)
+
+	Decimal Date			217.3125 (Julian day + hour/24)
+	Horizontal solar flux			3  (W/sq meter)
+	Tilted surface southeast solar flux	73 (W/sq meter)
+	Tilted surface south solar flux		64 (W/sq meter) 
+	Tilted surface southwest solar flux	61 (W/sq meter) 
+	Predicted beam insolation		27 (W/sq meter, prediction)		
+
+JFK 12/1/92, Version 1.0
+
