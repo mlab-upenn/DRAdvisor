@@ -1,0 +1,63 @@
+Loading data
+
+	Inputs:  Weather data (from internet)
+		 Schedule data from building (occupancy)
+		 Building data ()
+
+
+	Everything has to be plotted and plot every operation (how many week-end, how many data lost)
+
+		Weather data: humidity, wind speed, wind direction, dry bulb temperature, wet bulb temperature, temperature, solar radiation, cloud cover, other (csv format)
+		Schedule data: Zone air temperature set point, Chilled water temperature setpoint,Hot water, other
+		Building data: Zone temperature, Chilles water temperature, Hot water temperature
+
+% Create data structures from 2012 learning data
+
+
+a=load('large_office_all_data_2k12.mat')
+
+weather_data_2012=struct('DryBulbT',a.outdry,'WetBulbT',a.outwet,'Humidity',a.outhum,...
+          'WindSpeed',a.winspeed,'WindDirection',a.windir);
+save('weather_data_2012','weather_data_2012');
+
+
+building_data_2012=struct('BaseZAT',a.basezat,'CorebZAT',a.corebzat,'CoremZAT',a.coremzat,'CoretZAT',a.coretzat,...
+	  'GfPlenum',a.gfplenum,'MfPlenum',a.mfplenum,'PeriBot1ZAT',a.peribot1zat,'PeriBot2ZAT',a.peribot2zat,...
+          'PeriBot3ZAT',a.peribot3zat,'PeriBot4ZAT',a.peribot4zat,'PeriMid1ZAT',a.perimid1zat,'PeriMid2ZAT',a.perimid2zat,...
+          'PeriMid3ZAT',a.perimid3zat,'PeriMid4ZAT',a.perimid4zat,'PeriTop1ZAT',a.peritop1zat,'PeriTop2ZAT',a.peritop2zat,...
+    	  'PeriTop3ZAT',a.peritop3zat,'PeriTop4ZAT',a.peritop4zat,'TopPlenum',a.topplenum,'TPower',a.tpower,...
+	  'ChWS1',a.chws1,'ChWS2',a.chws2,'boiler1',a.boiler1);
+save('building_data_2012','building_data_2012');
+
+schedule_data_2012=struct('CoolingSP',a.clgsetp,'HeatingSP',a.htgsetp,'ChilWatSP',a.chwsetp,'HotWatSP',a.hwsetp,...
+			  'DayofMonth',a.dom,'DayofWeek',a.dow,'TimeofDay',a.tod);
+save('schedule_data_2012','schedule_data_2012');
+
+DateTime_data_2012=struct('DateTime',a.DateTime);
+save('DateTime_data_2012','DateTime_data_2012');
+
+
+
+
+
+a=load('large_office_all_data_2k13.mat')
+
+weather_data_2013=struct('DryBulbT',a.outdry,'WetBulbT',a.outwet,'Humidity',a.outhum,...
+          'WindSpeed',a.winspeed,'WindDirection',a.windir);
+save('weather_data_2013','weather_data_2013');
+
+
+building_data_2013=struct('BaseZAT',a.basezat,'CorebZAT',a.corebzat,'CoremZAT',a.coremzat,'CoretZAT',a.coretzat,...
+	  'GfPlenum',a.gfplenum,'MfPlenum',a.mfplenum,'PeriBot1ZAT',a.peribot1zat,'PeriBot2ZAT',a.peribot2zat,...
+          'PeriBot3ZAT',a.peribot3zat,'PeriBot4ZAT',a.peribot4zat,'PeriMid1ZAT',a.perimid1zat,'PeriMid2ZAT',a.perimid2zat,...
+          'PeriMid3ZAT',a.perimid3zat,'PeriMid4ZAT',a.perimid4zat,'PeriTop1ZAT',a.peritop1zat,'PeriTop2ZAT',a.peritop2zat,...
+    	  'PeriTop3ZAT',a.peritop3zat,'PeriTop4ZAT',a.peritop4zat,'TopPlenum',a.topplenum,'TPower',a.tpower,...
+	  'ChWS1',a.chws1,'ChWS2',a.chws2,'boiler1',a.boiler1);
+save('building_data_2013','building_data_2013');
+
+schedule_data_2013=struct('CoolingSP',a.clgsetp,'HeatingSP',a.htgsetp,'ChilWatSP',a.chwsetp,'HotWatSP',a.hwsetp,...
+			  'DayofMonth',a.dom,'DayofWeek',a.dow,'TimeofDay',a.tod);
+save('schedule_data_2013','schedule_data_2013');
+
+DateTime_data_2013=struct('DateTime',a.DateTime);
+save('DateTime_data_2013','DateTime_data_2013');
