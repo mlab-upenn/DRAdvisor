@@ -59,5 +59,7 @@ schedule_data_2013=struct('CoolingSP',a.clgsetp,'HeatingSP',a.htgsetp,'ChilWatSP
 			  'DayofMonth',a.dom,'DayofWeek',a.dow,'TimeofDay',a.tod);
 save('schedule_data_2013','schedule_data_2013');
 
-DateTime_data_2013=struct('DateTime',a.DateTime);
+DateTime_data_2013_struct=struct('DateTime',a.DateTime);
+save('DateTime_data_2013_struct','DateTime_data_2013_struct');
+DateTime_data_2013=datenum(a.DateTime(2:end));
 save('DateTime_data_2013','DateTime_data_2013');
