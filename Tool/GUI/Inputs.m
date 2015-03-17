@@ -31,12 +31,42 @@ handles.output = hObject;
 % Console position
 
     set(handles.console_panel,'Position',[7   0.62 226.6 9.92]);
-    set(handles.console,      'Position',[9.8 1.69 220.2 7.54]);
+    set(handles.console,      'Position',[2.6 1    220.2 7.54]);
 
 % Inputs position
 
-    set(handles.training,'Position',[7 34.154 30.2 3.923]);
-    set(handles.testing, 'Position',[7 23.308 30.2 3.923]);
+    set(handles.training,'Position',[7 42.5 30.2 3.923]);
+        set(handles.training_sd,  'Position',[7    40.3  14   1.62]);
+        set(handles.training_sdm, 'Position',[16.2 38.69 5.2  1.62]);
+        set(handles.training_sdd, 'Position',[22.8 38.69 5.2  1.62]);
+        set(handles.training_sdy, 'Position',[29.2 38.69 8    1.62]);
+        set(handles.training_sdb1,'Position',[21.4 38.54 1    1.62]);
+        set(handles.training_sdb2,'Position',[28   38.54 1    1.62]);
+        set(handles.training_ed,  'Position',[7    36.92 14   1.62]);
+        set(handles.training_edm, 'Position',[16.2 35.3  5.2  1.62]);
+        set(handles.training_edd, 'Position',[22.8 35.3  5.2  1.62]);
+        set(handles.training_edy, 'Position',[29.2 35.3  5.2  1.62]);
+        set(handles.training_edb1,'Position',[21.4 35.15 1    1.62]);
+        set(handles.training_edb2,'Position',[28   35.15 1    1.62]);
+        set(handles.training_st,  'Position',[7    33.3  18.2 1.62]);
+        set(handles.training_stn, 'Position',[23.6 31.69 6.4  1.62]);
+        set(handles.training_stm, 'Position',[31.6 31.54 5.6  1.62]);
+    set(handles.testing, 'Position',[7 26.3 30.2 3.923]);
+        set(handles.testing_sd,  'Position',[7    23.85  14   1.62]);
+        set(handles.testing_sdm, 'Position',[16.2 22.23 5.2  1.62]);
+        set(handles.testing_sdd, 'Position',[22.8 22.23 5.2  1.62]);
+        set(handles.testing_sdy, 'Position',[29.2 22.23 8    1.62]);
+        set(handles.testing_sdb1,'Position',[21.4 22.07 1    1.62]);
+        set(handles.testing_sdb2,'Position',[28   22.07 1    1.62]);
+        set(handles.testing_ed,  'Position',[7    20.46 14   1.62]);
+        set(handles.testing_edm, 'Position',[16.2 18.85  5.2  1.62]);
+        set(handles.testing_edd, 'Position',[22.8 18.85  5.2  1.62]);
+        set(handles.testing_edy, 'Position',[29.2 18.85  5.2  1.62]);
+        set(handles.testing_edb1,'Position',[21.4 18.69 1    1.62]);
+        set(handles.testing_edb2,'Position',[28   18.69 1    1.62]);
+        set(handles.testing_st,  'Position',[7    16.85  18.2 1.62]);
+        set(handles.testing_stn, 'Position',[23.6 15.23 6.4  1.62]);
+        set(handles.testing_stm, 'Position',[31.6 15.08 5.6  1.62]);
 
     % Training_inputs position
     
@@ -55,6 +85,9 @@ handles.output = hObject;
         % Load data panel
         
         set(handles.wd,'Position',[5.4 22.846 30.2 3.923]);
+            set(handles.training_wds,   'Position',[5.4  20.7 22.6 1.62]);
+            set(handles.training_wdbox, 'Position',[11.2 19   14   1.62]);
+            set(handles.training_wdload,'Position',[25.6 19   10   1.7]);
         set(handles.sd,'Position',[5.4 12     30.2 3.923]);
         set(handles.bd,'Position',[5.4 1.154  30.2 3.923]);
         
@@ -88,6 +121,9 @@ handles.output = hObject;
             % Load data panel
 
             set(handles.wd_test,'Position',[5.4 22.846 30.2 3.923]);
+                set(handles.testing_wds,   'Position',[5.4  20.7 22.6 1.62]);
+                set(handles.testing_wdbox, 'Position',[11.2 19   14   1.62]);
+                set(handles.testing_wdload,'Position',[25.6 19   10   1.7]);
             set(handles.sd_test,'Position',[5.4 12     30.2 3.923]);
             set(handles.bd_test,'Position',[5.4 1.154  30.2 3.923]);
 
@@ -114,7 +150,6 @@ handles.output = hObject;
     set(handles.res_panel, 'Position',[52.6  3.92   22.6  32   ]);
     set(handles.test_panel,'Position',[81.2  3.92   22.6  32   ]);
     set(handles.ep_panel,  'Position',[119.8 11.308 113.8 37.77]);
-    set(handles.pc_panel,  'Position',[5.8   28.08  104.2 7.769]);
 
     % Plots position
 
@@ -122,10 +157,10 @@ handles.output = hObject;
 
     % Buttons position
 
-    set(handles.train,          'Position',[4.4  1.15  45   1.85]);
-    set(handles.stop,           'Position',[58.8 1.15  45   1.85]);
-    set(handles.def_value,      'Position',[8    1     25   1.85]);
-    set(handles.err_plot_button,'Position',[32.8 1.385 37.4 1.692]);
+    set(handles.train,          'Position',[4.4  1.15   45   1.85]);
+    set(handles.stop,           'Position',[58.8 1.15   45   1.85]);
+    set(handles.def_value,      'Position',[8    1      25   1.85]);
+    set(handles.err_plot_button,'Position',[39.8 27.923 37.4 1.692]);
 
     % Learning method panel
 
@@ -192,31 +227,98 @@ handles.output = hObject;
 
     % Plot buttons
 
-    set(handles.testing_fit, 'Position',[49.2 3.846 38.8 2.077]);
-    set(handles.training_fit,'Position',[7.2  3.846 38.8 2.077]);
+    set(handles.testing_fit,  'Position',[2.8  34 38.8 2.08]);
+    set(handles.training_fit, 'Position',[2.8  31 38.8 2.08]);
+    set(handles.brt_rmse,     'Position',[44.6 34 28.2 2.08]);
+    set(handles.rf_rmse,      'Position',[44.6 31 31.6 2.08]);
+    set(handles.var_brt,      'Position',[78.2 34 30.8 2.08]);
+    set(handles.var_rf,       'Position',[78.2 31 34.2 2.08]);
+    
+% DR Baseline Psition
+
+    % Panels position
+    
+    set(handles.ce_panel, 'Position',[7 11.85 226.6 11.54]);
+    set(handles.dre_panel,'Position',[7 24.77 226.6 24.31]);
+
+    % Cost and energy panel
+    
+    set(handles.ces,    'Position',[16.2 6.62 17.4  1.62]);
+    set(handles.cec,    'Position',[41.2 6.62 2.4   1.62]);
+    set(handles.ce_box, 'Position',[35 6.77   5.2   1.62]);
+    set(handles.ce_load,'Position',[20.6 2.46 15    1.69]);
+    set(handles.ce_plot,'Position',[84.4 1.69 136.4 7.85]);
+    
+    % DR event panel
+    
+    set(handles.dre_d,  'Position',[5.8  19.9   7   1.62]);
+    set(handles.dre_dm, 'Position',[15   16.77  5.2 1.62]);
+    set(handles.dre_dd, 'Position',[21.6 16.77  5.2 1.62]);
+    set(handles.dre_dy, 'Position',[28   16.77  8   1.62]);
+    set(handles.dre_db1,'Position',[19.6 16.615 2.6 1.62]);
+    set(handles.dre_db2,'Position',[26.8 16.615 1   1.62]);
+    
+    set(handles.dre_sh, 'Position',[5.8 13.62 14 1.62]);
+    set(handles.dre_shm,'Position',[15  10.46 21 1.62]);
+    
+    set(handles.dre_eh, 'Position',[5.8 7.3  14 1.62]);
+    set(handles.dre_ehm,'Position',[15  4.15 21 1.62]);
+    
+    set(handles.dre_w, 'Position',[47.4 16.77 14.8 1.62]);
+    set(handles.dre_ws,'Position',[47.4 10.46 30   1.62]);
+    
+    set(handles.dre_predict,'Position',[47.4 4.15 27.8  1.69]);
+    set(handles.dre_plot,   'Position',[84.4 2.08 136.4 20.38]);
+    
 
 
-
-handles.inputs_tab=[handles.inputs_tab, handles.training, handles.testing,... % starting training handles
+handles.tabs=[handles.inputs_tab, handles.mi_tab, handles.drb_tab, handles.dre_tab, handles.drs_tab, handles.report_tab];
+    
+handles.inputs_training_tabcontent=[handles.training,...% Under the button
+                    handles.training_sd, handles.training_sdm, handles.training_sdd, handles.training_sdy, handles.training_sdb1,...
+                    handles.training_sdb2, handles.training_ed, handles.training_edm, handles.training_edd, handles.training_edy,...
+                    handles.training_edb1, handles.training_edb2, handles.training_st, handles.training_stn, handles.training_stm,...% Inside the panel
                     handles.wd, handles.sd, handles.bd, handles.wd_menu, handles.sd_menu, handles.bd_menu, handles.wd_plot, handles.sd_plot,...
                     handles.bd_plot, handles.view_wd, handles.view_sd, handles.view_bd, handles.create_structure, handles.ti_panel,...
-                    handles.inputs_ld_panel, handles.inputs_pd_panel,...% starting testing handles
+                    handles.inputs_ld_panel, handles.inputs_pd_panel];
+                
+handles.inputs_testing_tabcontent=[handles.testing,...% Under the button
+                    handles.testing_sd, handles.testing_sdm, handles.testing_sdd, handles.testing_sdy, handles.testing_sdb1,...
+                    handles.testing_sdb2, handles.testing_ed, handles.testing_edm, handles.testing_edd, handles.testing_edy,...
+                    handles.testing_edb1, handles.testing_edb2, handles.testing_st, handles.testing_stn, handles.testing_stm,...% Inside the panel
                     handles.wd_test, handles.sd_test, handles.bd_test, handles.wd_menu_test, handles.sd_menu_test, handles.bd_menu_test,...
                     handles.wd_plot_test, handles.sd_plot_test, handles.bd_plot_test, handles.view_wd_test, handles.view_sd_test,...
                     handles.view_bd_test, handles.create_structure_test, handles.ti_panel_test, handles.inputs_ld_panel_test, handles.inputs_pd_panel_test];
                 
-handles.mi_tab=[handles.mi_tab, handles.imp_panel, handles.lm_panel, handles.res_panel, handles.test_panel, handles.ep_panel, handles.pc_panel,...
+handles.mi_tabcontent=[handles.imp_panel, handles.lm_panel, handles.res_panel, handles.test_panel, handles.ep_panel,...
                 handles.mi_plot, handles.train, handles.stop, handles.def_value, handles.srt,handles.cvt,handles.brt,handles.rf, handles.mbt,...
                 handles.srt_ml_box, handles.cvt_ml_box, handles.cvt_k_box, handles.brt_ml_box, handles.brt_nt_box, handles.rf_ml_box, handles.rf_nt_box,...
                 handles.srt_ml, handles.cvt_ml, handles.cvt_k, handles.brt_ml, handles.brt_nt, handles.rf_ml, handles.rf_nt,handles.lm_info,...
                 handles.srt_e, handles.cvt_e, handles.brt_e, handles.rf_e, handles.mbt_e, handles.srt_ep,  handles.cvt_ep,  handles.brt_ep,...
                 handles.rf_ep,  handles.mbt_ep, handles.res_info, handles.srt_et,handles.cvt_et,handles.brt_et,handles.rf_et, handles.mbt_et,...
-                handles.srt_etp,  handles.cvt_etp,handles.brt_etp,  handles.rf_etp,  handles.mbt_etp,  handles.test_info];
+                handles.srt_etp,  handles.cvt_etp,handles.brt_etp,  handles.rf_etp,  handles.mbt_etp,  handles.test_info, handles.brt_rmse,...
+                handles.rf_rmse, handles.var_brt, handles.var_rf];
+            
+handles.drb_tabcontent=[handles.ces, handles.cec, handles.ce_box, handles.ce_load, handles.ce_plot, handles.ce_panel...% Costs and energy_panel
+                        handles.dre_d, handles.dre_dm, handles.dre_dd, handles.dre_dy, handles.dre_db1, handles.dre_db2,...
+                        handles.dre_sh, handles.dre_shm, handles.dre_eh, handles.dre_ehm, handles.dre_w, handles.dre_ws,...
+                        handles.dre_predict, handles.dre_plot, handles.dre_panel];
 
-set(handles.inputs_tab(1),'Value',1);
-set(handles.inputs_tab(2),'Value',1);
-set(handles.mi_tab(2:end),'Visible','off');
-set(handles.inputs_tab(20:end),'Visible','off');
+handles.dre_tabcontent=[];
+
+handles.drs_tabcontent=[];
+
+handles.report_tabcontent=[];
+
+set(handles.tabs(1),'Value',1);
+set(handles.inputs_training_tabcontent(1),'Value',1);
+set(handles.inputs_testing_tabcontent(2:end),'Visible','off');
+set(handles.mi_tabcontent(1:end),'Visible','off');
+set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+set(handles.report_tabcontent(1:end), 'Visible', 'off');
+
 
 guidata(hObject, handles);
 
@@ -231,21 +333,30 @@ varargout{1} = handles.output;
 % Inputs tab
 function inputs_tab_Callback(hObject, eventdata, handles)
 
-    state=get(handles.mi_tab(1),'Value');
-    if state==1
+    state=[get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
+    if sum(state)==1
         set(handles.training,'Value',1);
         set(handles.testing,'Value',0);
         set(handles.wd_menu,'Value',1);
         set(handles.sd_menu,'Value',1);
         set(handles.bd_menu,'Value',1);
-        set(handles.mi_tab(1),'Value',0);
-        set(handles.mi_tab(2:end), 'Visible', 'off');
-        set(handles.inputs_tab(2:19), 'Visible', 'on');
-        set(handles.inputs_tab(20:end), 'Visible', 'off');
+        set(handles.tabs(2:end),'Value',0);
+        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'on');
+        set(handles.inputs_testing_tabcontent(1), 'Visible', 'on');
+        set(handles.inputs_testing_tabcontent(2:end), 'Visible', 'off');
+        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+        set(handles.report_tabcontent(1:end), 'Visible', 'off');
         axes(handles.mi_plot);
         plot(NaN);
+        axes(handles.dre_plot);
+        plot(NaN);
+        axes(handles.ce_plot);
+        plot(NaN);
     else
-        set(handles.inputs_tab(1),'Value',1);
+        set(handles.tabs(1),'Value',1);
     end
 
  % Training sub-tab
@@ -256,8 +367,8 @@ function inputs_tab_Callback(hObject, eventdata, handles)
             set(handles.wd_menu,'Value',1);
             set(handles.sd_menu,'Value',1);
             set(handles.bd_menu,'Value',1);
-            set(handles.inputs_tab(4:19), 'Visible', 'on');
-            set(handles.inputs_tab(20:end), 'Visible', 'off');
+            set(handles.inputs_training_tabcontent(2:end), 'Visible', 'on');
+            set(handles.inputs_testing_tabcontent(2:end), 'Visible', 'off');
             axes(handles.wd_plot_test);
             plot(NaN);
             axes(handles.sd_plot_test);
@@ -276,8 +387,8 @@ function inputs_tab_Callback(hObject, eventdata, handles)
             set(handles.wd_menu_test,'Value',1);
             set(handles.sd_menu_test,'Value',1);
             set(handles.bd_menu_test,'Value',1);
-            set(handles.inputs_tab(4:19), 'Visible', 'off');
-            set(handles.inputs_tab(20:end), 'Visible', 'on');
+            set(handles.inputs_training_tabcontent(2:end), 'Visible', 'off');
+            set(handles.inputs_testing_tabcontent(2:end), 'Visible', 'on');
             axes(handles.wd_plot);
             plot(NaN);
             axes(handles.sd_plot);
@@ -291,30 +402,186 @@ function inputs_tab_Callback(hObject, eventdata, handles)
 % Model identification tab
 function mi_tab_Callback(hObject, eventdata, handles)
 
-    state=get(handles.inputs_tab(1),'Value');
-    if state==1
-        set(handles.inputs_tab(1),'Value',0);
-        set(handles.mi_tab(2:end), 'Visible', 'on');
-        set(handles.inputs_tab(2:end), 'Visible', 'off');
+    state=[get(handles.inputs_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
+    if sum(state)==1
+        set(handles.tabs(1),'Value',0);
+        set(handles.tabs(3:end),'Value',0);
+        set(handles.mi_tabcontent(1:end), 'Visible', 'on');
+        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+        set(handles.report_tabcontent(1:end), 'Visible', 'off');
         axes(handles.wd_plot);
         plot(NaN);
         axes(handles.sd_plot);
         plot(NaN);
         axes(handles.bd_plot);
         plot(NaN);
+        axes(handles.wd_plot_test);
+        plot(NaN);
+        axes(handles.sd_plot_test);
+        plot(NaN);
+        axes(handles.bd_plot_test);
+        plot(NaN);
+        axes(handles.dre_plot);
+        plot(NaN);
+        axes(handles.ce_plot);
+        plot(NaN);
     else
-        set(handles.mi_tab(1),'Value',1);
+        set(handles.mi_tab,'Value',1);
     end
     
     % --- Executes on button press in drb_tab.
 function drb_tab_Callback(hObject, eventdata, handles)
+    
+    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
+    if sum(state)==1
+        set(handles.tabs(1:2),'Value',0);
+        set(handles.tabs(4:end),'Value',0);
+        set(handles.drb_tabcontent(1:end), 'Visible', 'on');
+        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+        set(handles.report_tabcontent(1:end), 'Visible', 'off');
+        axes(handles.wd_plot);
+        plot(NaN);
+        axes(handles.sd_plot);
+        plot(NaN);
+        axes(handles.bd_plot);
+        plot(NaN);
+        axes(handles.wd_plot_test);
+        plot(NaN);
+        axes(handles.sd_plot_test);
+        plot(NaN);
+        axes(handles.bd_plot_test);
+        plot(NaN);
+        axes(handles.mi_plot);
+        plot(NaN);
+        
+    else
+        set(handles.drb_tab,'Value',1);
+    end
 
 % --- Executes on button press in dre_tab.
 function dre_tab_Callback(hObject, eventdata, handles)
+    
+    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
+    if sum(state)==1
+        set(handles.tabs(1:3),'Value',0);
+        set(handles.tabs(5:end),'Value',0);
+        set(handles.dre_tabcontent(1:end), 'Visible', 'on');
+        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+        set(handles.report_tabcontent(1:end), 'Visible', 'off');
+        axes(handles.wd_plot);
+        plot(NaN);
+        axes(handles.sd_plot);
+        plot(NaN);
+        axes(handles.bd_plot);
+        plot(NaN);
+        axes(handles.wd_plot_test);
+        plot(NaN);
+        axes(handles.sd_plot_test);
+        plot(NaN);
+        axes(handles.bd_plot_test);
+        plot(NaN);
+        axes(handles.mi_plot);
+        plot(NaN);
+        axes(handles.dre_plot);
+        plot(NaN);
+        axes(handles.ce_plot);
+        plot(NaN);
+        
+    else
+        set(handles.dre_tab,'Value',1);
+    end
 
 % --- Executes on button press in drs_tab.
 function drs_tab_Callback(hObject, eventdata, handles)
+    
+    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.report_tab,'Value')];
+    if sum(state)==1
+        set(handles.tabs(1:4),'Value',0);
+        set(handles.tabs(6),'Value',0);
+        set(handles.drs_tabcontent(1:end), 'Visible', 'on');
+        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+        set(handles.report_tabcontent(1:end), 'Visible', 'off');
+        axes(handles.wd_plot);
+        plot(NaN);
+        axes(handles.sd_plot);
+        plot(NaN);
+        axes(handles.bd_plot);
+        plot(NaN);
+        axes(handles.wd_plot_test);
+        plot(NaN);
+        axes(handles.sd_plot_test);
+        plot(NaN);
+        axes(handles.bd_plot_test);
+        plot(NaN);
+        axes(handles.mi_plot);
+        plot(NaN);
+        axes(handles.dre_plot);
+        plot(NaN);
+        axes(handles.ce_plot);
+        plot(NaN);
+        
+    else
+        set(handles.drs_tab,'Value',1);
+    end
 
+% --- Executes on button press in report_tab.
+function report_tab_Callback(hObject, eventdata, handles)
+    
+    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value')];
+    if sum(state)==1
+        set(handles.tabs(1:5),'Value',0);
+        set(handles.drs_tabcontent(1:end), 'Visible', 'on');
+        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+        axes(handles.wd_plot);
+        plot(NaN);
+        axes(handles.sd_plot);
+        plot(NaN);
+        axes(handles.bd_plot);
+        plot(NaN);
+        axes(handles.wd_plot_test);
+        plot(NaN);
+        axes(handles.sd_plot_test);
+        plot(NaN);
+        axes(handles.bd_plot_test);
+        plot(NaN);
+        axes(handles.mi_plot);
+        plot(NaN);
+        axes(handles.dre_plot);
+        plot(NaN);
+        axes(handles.ce_plot);
+        plot(NaN);
+        
+    else
+        set(handles.report_tab,'Value',1);
+    end
+
+    
+    
+    
+    
+    
+    
 % --- Console
 function console_Callback(hObject, eventdata, handles)
 
@@ -1213,3 +1480,573 @@ function err_plot_button_Callback(hObject, eventdata, handles)
 
 
 
+
+
+% --- Executes on button press in brt_rmse.
+function brt_rmse_Callback(hObject, eventdata, handles)
+% hObject    handle to brt_rmse (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of brt_rmse
+
+
+% --- Executes on button press in rf_rmse.
+function rf_rmse_Callback(hObject, eventdata, handles)
+% hObject    handle to rf_rmse (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of rf_rmse
+
+
+% --- Executes on button press in var_brt.
+function var_brt_Callback(hObject, eventdata, handles)
+% hObject    handle to var_brt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of var_brt
+
+
+% --- Executes on button press in var_rf.
+function var_rf_Callback(hObject, eventdata, handles)
+% hObject    handle to var_rf (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of var_rf
+
+
+
+function training_sdm_Callback(hObject, eventdata, handles)
+% hObject    handle to training_sdm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_sdm as text
+%        str2double(get(hObject,'String')) returns contents of training_sdm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_sdm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_sdm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_sdd_Callback(hObject, eventdata, handles)
+% hObject    handle to training_sdd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_sdd as text
+%        str2double(get(hObject,'String')) returns contents of training_sdd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_sdd_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_sdd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_sdy_Callback(hObject, eventdata, handles)
+% hObject    handle to training_sdy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_sdy as text
+%        str2double(get(hObject,'String')) returns contents of training_sdy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_sdy_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_sdy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_edm_Callback(hObject, eventdata, handles)
+% hObject    handle to training_edm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_edm as text
+%        str2double(get(hObject,'String')) returns contents of training_edm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_edm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_edm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_edd_Callback(hObject, eventdata, handles)
+% hObject    handle to training_edd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_edd as text
+%        str2double(get(hObject,'String')) returns contents of training_edd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_edd_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_edd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_edy_Callback(hObject, eventdata, handles)
+% hObject    handle to training_edy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_edy as text
+%        str2double(get(hObject,'String')) returns contents of training_edy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_edy_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_edy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_stn_Callback(hObject, eventdata, handles)
+% hObject    handle to training_stn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_stn as text
+%        str2double(get(hObject,'String')) returns contents of training_stn as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_stn_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_stn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_sdm_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_sdm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_sdm as text
+%        str2double(get(hObject,'String')) returns contents of testing_sdm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_sdm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_sdm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_sdd_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_sdd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_sdd as text
+%        str2double(get(hObject,'String')) returns contents of testing_sdd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_sdd_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_sdd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_sdy_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_sdy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_sdy as text
+%        str2double(get(hObject,'String')) returns contents of testing_sdy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_sdy_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_sdy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_edm_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_edm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_edm as text
+%        str2double(get(hObject,'String')) returns contents of testing_edm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_edm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_edm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_edd_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_edd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_edd as text
+%        str2double(get(hObject,'String')) returns contents of testing_edd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_edd_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_edd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_edy_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_edy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_edy as text
+%        str2double(get(hObject,'String')) returns contents of testing_edy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_edy_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_edy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_stn_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_stn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_stn as text
+%        str2double(get(hObject,'String')) returns contents of testing_stn as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_stn_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_stn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_wdbox_Callback(hObject, eventdata, handles)
+% hObject    handle to training_wdbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of training_wdbox as text
+%        str2double(get(hObject,'String')) returns contents of training_wdbox as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_wdbox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to training_wdbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in training_wdload.
+function training_wdload_Callback(hObject, eventdata, handles)
+% hObject    handle to training_wdload (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function testing_wdbox_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_wdbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of testing_wdbox as text
+%        str2double(get(hObject,'String')) returns contents of testing_wdbox as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_wdbox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to testing_wdbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in testing_wdload.
+function testing_wdload_Callback(hObject, eventdata, handles)
+% hObject    handle to testing_wdload (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function ce_box_Callback(hObject, eventdata, handles)
+% hObject    handle to ce_box (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of ce_box as text
+%        str2double(get(hObject,'String')) returns contents of ce_box as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function ce_box_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ce_box (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in ce_load.
+function ce_load_Callback(hObject, eventdata, handles)
+% hObject    handle to ce_load (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function dre_dm_Callback(hObject, eventdata, handles)
+% hObject    handle to dre_dm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of dre_dm as text
+%        str2double(get(hObject,'String')) returns contents of dre_dm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function dre_dm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dre_dm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function dre_dd_Callback(hObject, eventdata, handles)
+% hObject    handle to dre_dd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of dre_dd as text
+%        str2double(get(hObject,'String')) returns contents of dre_dd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function dre_dd_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dre_dd (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function dre_dy_Callback(hObject, eventdata, handles)
+% hObject    handle to dre_dy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of dre_dy as text
+%        str2double(get(hObject,'String')) returns contents of dre_dy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function dre_dy_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dre_dy (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in dre_shm.
+function dre_shm_Callback(hObject, eventdata, handles)
+% hObject    handle to dre_shm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns dre_shm contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from dre_shm
+
+
+% --- Executes during object creation, after setting all properties.
+function dre_shm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dre_shm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in dre_ehm.
+function dre_ehm_Callback(hObject, eventdata, handles)
+% hObject    handle to dre_ehm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns dre_ehm contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from dre_ehm
+
+
+% --- Executes during object creation, after setting all properties.
+function dre_ehm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dre_ehm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in dre_predict.
+function dre_predict_Callback(hObject, eventdata, handles)
+% hObject    handle to dre_predict (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
