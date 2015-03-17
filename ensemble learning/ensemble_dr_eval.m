@@ -408,7 +408,7 @@ date12num = date12num(56736:57023);
 
 
 figure();
-plot(date12num,Ytest(192:217)/1e6,'k');`
+plot(date12num,Ytest(192:217)/1e6,'k');
 title('Total Power Fit for Testing Data (2013)');
 hold on;
 plot(date12num,Ypredict(192:217)/1e6);
