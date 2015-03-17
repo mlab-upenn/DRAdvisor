@@ -99,6 +99,7 @@ function train_Callback(hObject, eventdata, handles)
         % Output vector
         Ytrain = tpower;
         Ytrain(1,:)=[];
+        handles.Ytrain=Ytrain;
         colnames={'chwsetp','clgsetp','dom','dow','htgsetp','hwsetp','outdry','outhum'...
         ,'outwet','tod','windir','winspeed'};
         catcol = [3,4,10];
@@ -115,13 +116,16 @@ function train_Callback(hObject, eventdata, handles)
         %Output vector
         Ytrain = tpower;
         Ytrain(1,:)=[];
+        handles.Ytrain=Ytrain;
 
         colnames={'dom','dow','outdry','outhum'...
         ,'outwet','tod','windir','winspeed'};
         catcol = [1,2,6];
     end
 
-    load date12num.mat
+    date12=load('date12num.mat');
+    
+    handles.date12num=date12.date12num;
 
     % Column names and indicies of the columns which are categorical
 
@@ -151,6 +155,7 @@ function train_Callback(hObject, eventdata, handles)
             % Output vector
             Ytest = tpower;
             Ytest(1,:)=[];
+            handles.Ytest=Ytest;
         else
             Xtest = [dom,dow,outdry,outhum...
                 ,outwet,tod,windir,winspeed];
@@ -158,6 +163,7 @@ function train_Callback(hObject, eventdata, handles)
             % Output vector
             Ytest = tpower;
             Ytest(1,:)=[];
+            handles.Ytest=Ytest;
         end
         
     st='Done.';
@@ -185,6 +191,7 @@ function train_Callback(hObject, eventdata, handles)
 
         % predict on training and testing data and plot the fits
         Yfit = predict(largetree12,Xtrain);
+        handles.Yfit=Yfit;
 
         % RMSE
         [a,b]=rsquare(Ytrain,Yfit);
@@ -194,7 +201,8 @@ function train_Callback(hObject, eventdata, handles)
         
 
         % Ontain Predictions for the entire year and for just july
-        Ypredict = predict(largetree12,Xtest);  
+        Ypredict = predict(largetree12,Xtest);
+        handles.Ypredict=Ypredict;
         % RMSE
         [a,b]=rsquare(Ytest,Ypredict);
         fprintf('2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n'...
@@ -228,6 +236,7 @@ function train_Callback(hObject, eventdata, handles)
         toc
 
         YfitCV = kfoldPredict(largetreeCV);
+        handles.YfitCV=YfitCV;
 
         % RMSE
         [a,b]=rsquare(Ytrain,YfitCV);
@@ -242,6 +251,7 @@ function train_Callback(hObject, eventdata, handles)
             YpredictCVk(:,ii)=predict(largetreeCV.Trained{ii,1},Xtest);
         end
         YpredictCV = sum(YpredictCVk,2)/kf;
+        handles.YpredictCV=YpredictCV;
 
         % RMSE
         [a,b]=rsquare(Ytest,YpredictCV);
@@ -284,6 +294,16 @@ function train_Callback(hObject, eventdata, handles)
         ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
     
         set(handles.brt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
+        
+        Ypreden = predict(mdl,Xtrain);
+
+        %Ypreden = kfoldPredict(mdl);
+        
+        [a,b]=rsquare(Ytrain,Ypreden);
+        fprintf('Boosted Tree 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+        ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
+    
+        set(handles.brt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
 
         st='Boosted Regression Tree training and testing process complete!';
         contents_console = cellstr(get(handles.console,'String'));
@@ -337,6 +357,14 @@ function train_Callback(hObject, eventdata, handles)
         
         set(handles.rf_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
         
+        Ybag = predict(B,Xtrain);
+
+        [a,b]=rsquare(Ytrain,Ybag);
+        fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+            ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
+        
+        set(handles.rf_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
+        
         
         st='Random Forest training and testing process complete!';
         contents_console = cellstr(get(handles.console,'String'));
@@ -378,6 +406,14 @@ function train_Callback(hObject, eventdata, handles)
         
         set(handles.mbt,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
         
+        Ypredm5 = m5ppredict(model,Xtrain);
+
+        [a,b]=rsquare(Ytrain,Ypredm5);
+        fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+            ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
+        
+        set(handles.mbt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
+        
         st='Model Based Random Tree training and testing process complete!';
         contents_console = cellstr(get(handles.console,'String'));
         set(handles.console,'String',[contents_console;st]);
@@ -386,11 +422,11 @@ function train_Callback(hObject, eventdata, handles)
     end
 
 
-
+    guidata(hObject,handles);
 % --- Executes on button press in stop.
 function stop_Callback(hObject, eventdata, handles)
 
-   return
+   handles.date12num
 
 function rf_ml_box_Callback(hObject, eventdata, handles)
 
@@ -548,29 +584,26 @@ function def_value_Callback(hObject, eventdata, handles)
     set(handles.rf_ml_box,'String','5');
     set(handles.rf_nt_box,'String','100');
 
-% --- Executes on selection change in console.
-function console_Callback(hObject, eventdata, handles)
-
-
-% Hints: contents = cellstr(get(hObject,'String')) returns console contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from console
-
-
-% --- Executes during object creation, after setting all properties.
-function console_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
 % --- Executes on button press in err_plot_button.
 function err_plot_button_Callback(hObject, eventdata, handles)
     
     axes(handles.mi_plot);
     plot(NaN);
     
-    hold on
-    
-    
-    hold off
+    if get(handles.training_fit,'Value')
+        plot(handles.date12num,handles.Ytrain/1e6);
+        hold on;
+        plot(handles.date12num,handles.Yfit/1e6);
+        plot(handles.date12num,handles.YfitCV/1e6);        
+        hold off;
+        datetick('x','mmm','keepticks')
+        legend('Ground Truth','Single Tree','CV Tree');
+    elseif get(handles.testing_fit,'Value')
+        plot(handles.date12num,handles.Ytest/1e6);
+        hold on;
+        plot(handles.date12num,handles.Ypredict/1e6);
+        plot(handles.date12num,handles.YpredictCV/1e6);
+        hold off;
+        datetick('x','mmm','keepticks')
+        legend('Ground Truth','Single Tree','CV Tree');
+    end
