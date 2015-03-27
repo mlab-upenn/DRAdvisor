@@ -45,7 +45,7 @@ handles.output = hObject;
         set(handles.training_ed,  'Position',[7    36.92 14   1.62]);
         set(handles.training_edm, 'Position',[16.2 35.3  5.2  1.62]);
         set(handles.training_edd, 'Position',[22.8 35.3  5.2  1.62]);
-        set(handles.training_edy, 'Position',[29.2 35.3  5.2  1.62]);
+        set(handles.training_edy, 'Position',[29.2 35.3  8    1.62]);
         set(handles.training_edb1,'Position',[21.4 35.15 1    1.62]);
         set(handles.training_edb2,'Position',[28   35.15 1    1.62]);
         set(handles.training_st,  'Position',[7    33.3  18.2 1.62]);
@@ -61,7 +61,7 @@ handles.output = hObject;
         set(handles.testing_ed,  'Position',[7    20.46 14   1.62]);
         set(handles.testing_edm, 'Position',[16.2 18.85  5.2  1.62]);
         set(handles.testing_edd, 'Position',[22.8 18.85  5.2  1.62]);
-        set(handles.testing_edy, 'Position',[29.2 18.85  5.2  1.62]);
+        set(handles.testing_edy, 'Position',[29.2 18.85  8    1.62]);
         set(handles.testing_edb1,'Position',[21.4 18.69 1    1.62]);
         set(handles.testing_edb2,'Position',[28   18.69 1    1.62]);
         set(handles.testing_st,  'Position',[7    16.85  18.2 1.62]);
@@ -231,8 +231,8 @@ handles.output = hObject;
     set(handles.training_fit, 'Position',[2.8  31 38.8 2.08]);
     set(handles.brt_rmse,     'Position',[44.6 34 28.2 2.08]);
     set(handles.rf_rmse,      'Position',[44.6 31 31.6 2.08]);
-    set(handles.var_brt,      'Position',[78.2 34 30.8 2.08]);
-    set(handles.var_rf,       'Position',[78.2 31 34.2 2.08]);
+    set(handles.brt_fi,      'Position',[78.2 34 30.8 2.08]);
+    set(handles.rf_fi,       'Position',[78.2 31 34.2 2.08]);
     
 % DR Baseline Psition
 
@@ -297,7 +297,7 @@ handles.mi_tabcontent=[handles.imp_panel, handles.lm_panel, handles.res_panel, h
                 handles.srt_e, handles.cvt_e, handles.brt_e, handles.rf_e, handles.mbt_e, handles.srt_ep,  handles.cvt_ep,  handles.brt_ep,...
                 handles.rf_ep,  handles.mbt_ep, handles.res_info, handles.srt_et,handles.cvt_et,handles.brt_et,handles.rf_et, handles.mbt_et,...
                 handles.srt_etp,  handles.cvt_etp,handles.brt_etp,  handles.rf_etp,  handles.mbt_etp,  handles.test_info, handles.brt_rmse,...
-                handles.rf_rmse, handles.var_brt, handles.var_rf];
+                handles.rf_rmse, handles.brt_fi, handles.rf_fi];
             
 handles.drb_tabcontent=[handles.ces, handles.cec, handles.ce_box, handles.ce_load, handles.ce_plot, handles.ce_panel...% Costs and energy_panel
                         handles.dre_d, handles.dre_dm, handles.dre_dd, handles.dre_dy, handles.dre_db1, handles.dre_db2,...
@@ -603,27 +603,29 @@ end
 %%%%%%%%%                                                             Training                                                           %%%%%%%
 
 
+
 % --- Weather data button
 function wd_Callback(hObject, eventdata, handles)
     
+    [filename pathname ]=uigetfile({'*.mat','Matlab Data Files(*.mat)';'(*.*)','All Files(*.*)'},'Select Data File');
     h=waitbar(0,'Loading data...');
     st='Loading weather data...';
     contents_console = cellstr(get(handles.console,'String'));
     set(handles.console,'String',[contents_console;st]);
     len=length(contents_console);
     set(handles.console,'Value',len+1);
-    
-    data_wd=load('weather_data_2012.mat');
-    time_wd=load('DateTime_data_2012.mat');
+    path=strcat(pathname,filename);
+    data_wd=load(path);
+    time_wd=load('C:\Users\utente\Desktop\PostDoc\UPenn\Buildings\DRAdvisor\GUI\DateTime_data_2012.mat');
     waitbar(0.33);
-    data_wd=data_wd.weather_data_2012;
+    [pathstr, fname, ext] = fileparts(filename);
+    data_wd=data_wd.(fname);
     time_wd=time_wd.DateTime_data_2012;
     names=['Select...' fieldnames(data_wd)'];
     set(handles.wd_menu,'String',names);
     waitbar(0.66);
     handles.data_wd=data_wd;
     handles.time_wd=time_wd;
-    handles.time_wd
     guidata(hObject,handles);
     st='Done!';
     contents_console = cellstr(get(handles.console,'String'));
@@ -632,6 +634,36 @@ function wd_Callback(hObject, eventdata, handles)
     set(handles.console,'Value',len+1);
     waitbar(1);
     close(h);
+
+% --- Weather automatic load
+function training_wdload_Callback(hObject, eventdata, handles)
+
+    h=waitbar(0,'Loading data...');
+    st='Loading weather data...';
+    contents_console = cellstr(get(handles.console,'String'));
+    set(handles.console,'String',[contents_console;st]);
+    len=length(contents_console);
+    set(handles.console,'Value',len+1);
+    
+    data_wd=load('C:\Users\utente\Desktop\PostDoc\UPenn\Buildings\DRAdvisor\GUI\weather_data_2012.mat');
+    time_wd=load('C:\Users\utente\Desktop\PostDoc\UPenn\Buildings\DRAdvisor\GUI\DateTime_data_2012.mat');
+    waitbar(0.33);
+    data_wd=data_wd.weather_data_2012;
+    time_wd=time_wd.DateTime_data_2012;
+    names=['Select...' fieldnames(data_wd)'];
+    set(handles.wd_menu,'String',names);
+    waitbar(0.66);
+    handles.data_wd=data_wd;
+    handles.time_wd=time_wd;
+    guidata(hObject,handles);
+    st='Done!';
+    contents_console = cellstr(get(handles.console,'String'));
+    set(handles.console,'String',[contents_console;st]);
+    len=length(contents_console);
+    set(handles.console,'Value',len+1);
+    waitbar(1);
+    close(h);
+
 
 % --- Schedule data button
 function sd_Callback(hObject, eventdata, handles)
@@ -764,6 +796,137 @@ function create_structure_Callback(hObject, eventdata, handles)
     end
     close(h)
 
+function training_sdm_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_sdm as text
+%        str2double(get(hObject,'String')) returns contents of training_sdm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_sdm_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_sdd_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_sdd as text
+%        str2double(get(hObject,'String')) returns contents of training_sdd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_sdd_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_sdy_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_sdy as text
+%        str2double(get(hObject,'String')) returns contents of training_sdy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_sdy_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_edm_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_edm as text
+%        str2double(get(hObject,'String')) returns contents of training_edm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_edm_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_edd_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_edd as text
+%        str2double(get(hObject,'String')) returns contents of training_edd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_edd_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_edy_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_edy as text
+%        str2double(get(hObject,'String')) returns contents of training_edy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_edy_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function training_stn_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_stn as text
+%        str2double(get(hObject,'String')) returns contents of training_stn as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_stn_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function training_wdbox_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of training_wdbox as text
+%        str2double(get(hObject,'String')) returns contents of training_wdbox as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function training_wdbox_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
 
 
 
@@ -772,6 +935,37 @@ function create_structure_Callback(hObject, eventdata, handles)
 % --- Weather data button
 function wd_test_Callback(hObject, eventdata, handles)
     
+    [filename pathname ]=uigetfile({'*.mat','Matlab Data Files(*.mat)';'(*.*)','All Files(*.*)'},'Select Data File');
+    h=waitbar(0,'Loading data...');
+    st='Loading weather data for testing...';
+    contents_console = cellstr(get(handles.console,'String'));
+    set(handles.console,'String',[contents_console;st]);
+    len=length(contents_console);
+    set(handles.console,'Value',len+1);
+    path=strcat(pathname,filename);
+    data_wd_test=load(path);
+    time_wd_test=load('DateTime_data_2013.mat');
+    waitbar(0.33);
+    [pathstr, fname, ext] = fileparts(filename);
+    data_wd_test=data_wd_test.(fname);
+    time_wd_test=time_wd_test.DateTime_data_2013;
+    names=['Select...' fieldnames(data_wd_test)'];
+    set(handles.wd_menu_test,'String',names);
+    waitbar(0.66);
+    handles.data_wd_test=data_wd_test;
+    handles.time_wd_test=time_wd_test;
+    guidata(hObject,handles);
+    st='Done!';
+    contents_console = cellstr(get(handles.console,'String'));
+    set(handles.console,'String',[contents_console;st]);
+    len=length(contents_console);
+    set(handles.console,'Value',len+1);
+    waitbar(1);
+    close(h);
+    
+% --- Weather automatic load
+function testing_wdload_Callback(hObject, eventdata, handles)
+
     h=waitbar(0,'Loading data...');
     st='Loading weather data for testing...';
     contents_console = cellstr(get(handles.console,'String'));
@@ -932,6 +1126,136 @@ function create_structure_test_Callback(hObject, eventdata, handles)
     end
     close(h)
 
+    
+function testing_sdm_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of testing_sdm as text
+%        str2double(get(hObject,'String')) returns contents of testing_sdm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_sdm_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function testing_sdd_Callback(hObject, eventdata, handles)
+% Hints: get(hObject,'String') returns contents of testing_sdd as text
+%        str2double(get(hObject,'String')) returns contents of testing_sdd as a double
+
+% --- Executes during object creation, after setting all properties.
+function testing_sdd_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_sdy_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of testing_sdy as text
+%        str2double(get(hObject,'String')) returns contents of testing_sdy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_sdy_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_edm_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of testing_edm as text
+%        str2double(get(hObject,'String')) returns contents of testing_edm as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_edm_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_edd_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of testing_edd as text
+%        str2double(get(hObject,'String')) returns contents of testing_edd as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_edd_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_edy_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of testing_edy as text
+%        str2double(get(hObject,'String')) returns contents of testing_edy as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_edy_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function testing_stn_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of testing_stn as text
+%        str2double(get(hObject,'String')) returns contents of testing_stn as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_stn_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function testing_wdbox_Callback(hObject, eventdata, handles)
+
+% Hints: get(hObject,'String') returns contents of testing_wdbox as text
+%        str2double(get(hObject,'String')) returns contents of testing_wdbox as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function testing_wdbox_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -972,6 +1296,7 @@ function train_Callback(hObject, eventdata, handles)
         handles.Ytrain=Ytrain;
         colnames={'chwsetp','clgsetp','dom','dow','htgsetp','hwsetp','outdry','outhum'...
         ,'outwet','tod','windir','winspeed'};
+        handles.colnames=colnames;
         catcol = [3,4,10];
     else
         st='Schedule Assist OFF';
@@ -998,8 +1323,6 @@ function train_Callback(hObject, eventdata, handles)
     handles.date12num=date12.date12num;
 
     % Column names and indicies of the columns which are categorical
-
-
 
     st='Done.';
     contents_console = cellstr(get(handles.console,'String'));
@@ -1035,7 +1358,10 @@ function train_Callback(hObject, eventdata, handles)
             Ytest(1,:)=[];
             handles.Ytest=Ytest;
         end
-        
+    handles.Xtrain=Xtrain;
+    handles.Ytrain=Ytrain;
+    handles.Xtest=Xtest;
+    handles.Ytest=Ytest;
     st='Done.';
     contents_console = cellstr(get(handles.console,'String'));
     set(handles.console,'String',[contents_console;st]);
@@ -1152,9 +1478,10 @@ function train_Callback(hObject, eventdata, handles)
         mdl = fitensemble(Xtrain,Ytrain,'LSBoost',num_trees,t,'PredictorNames',...
             colnames,'ResponseName','Total Power','CategoricalPredictors',catcol,...
            'LearnRate',0.01);
+       handles.mdl=mdl;
 
         Ypreden = predict(mdl,Xtest);
-
+        handles.YfitBRT=Ypreden;
         %Ypreden = kfoldPredict(mdl);
         
         
@@ -1166,7 +1493,7 @@ function train_Callback(hObject, eventdata, handles)
         set(handles.brt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
         
         Ypreden = predict(mdl,Xtrain);
-
+        handles.YpredictBRT=Ypreden;
         %Ypreden = kfoldPredict(mdl);
         
         [a,b]=rsquare(Ytrain,Ypreden);
@@ -1216,10 +1543,12 @@ function train_Callback(hObject, eventdata, handles)
 
         B = TreeBagger(num_trees,Xtrain,Ytrain,'Method','regression','OOBPred','On','OOBVarImp','on',...
                 'CategoricalPredictors',catcol,'MinLeaf',minleaf);
+        handles.B=B;
 %         figure();
 %         plot(sqrt(oobError(B)));
 
         Ybag = predict(B,Xtest);
+        handles.YfitRF=Ybag;
 
         [a,b]=rsquare(Ytest,Ybag);
         fprintf('Random Forests 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
@@ -1228,7 +1557,7 @@ function train_Callback(hObject, eventdata, handles)
         set(handles.rf_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
         
         Ybag = predict(B,Xtrain);
-
+        handles.YpredictRF=Ybag;
         [a,b]=rsquare(Ytrain,Ybag);
         fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
             ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
@@ -1269,15 +1598,15 @@ function train_Callback(hObject, eventdata, handles)
         model = m5pbuild(Xtrain, Ytrain,trainParams, binCat,true);
 
         Ypredm5 = m5ppredict(model,Xtest);
-
+        handles.YfitMBT=Ypredm5;
         [a,b]=rsquare(Ytest,Ypredm5);
         fprintf('Random Forests 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
             ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
         
-        set(handles.mbt,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
+        set(handles.mbt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
         
         Ypredm5 = m5ppredict(model,Xtrain);
-
+        handles.YpredictMBT=Ypredm5;
         [a,b]=rsquare(Ytrain,Ypredm5);
         fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
             ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
@@ -1459,462 +1788,133 @@ function err_plot_button_Callback(hObject, eventdata, handles)
     
     axes(handles.mi_plot);
     plot(NaN);
+    axis normal
     
     if get(handles.training_fit,'Value')
         plot(handles.date12num,handles.Ytrain/1e6);
+        leg=char('Ground Truth');
         hold on;
-        plot(handles.date12num,handles.Yfit/1e6);
-        plot(handles.date12num,handles.YfitCV/1e6);        
+        if get(handles.srt,'Value')
+            plot(handles.date12num,handles.Yfit/1e6);
+            leg=char(leg,'Single Tree');
+        end
+        if get(handles.cvt,'Value')
+            plot(handles.date12num,handles.YfitCV/1e6);
+            leg=char(leg,'CV Tree');
+        end
+        if get(handles.brt,'Value')
+            plot(handles.date12num,handles.YfitBRT/1e6);
+            leg=char(leg,'BR Tree');
+        end
+        if get(handles.rf,'Value')
+            plot(handles.date12num,handles.YfitRF/1e6);
+            leg=char(leg,'Random Forest');
+        end
+        if get(handles.mbt,'Value')
+            plot(handles.date12num,handles.YfitMBT/1e6);
+            leg=char(leg,'MBR Tree');
+        end
         hold off;
         datetick('x','mmm','keepticks')
-        legend('Ground Truth','Single Tree','CV Tree');
+        legend(leg);
     elseif get(handles.testing_fit,'Value')
         plot(handles.date12num,handles.Ytest/1e6);
+        leg=char('Ground Truth');
         hold on;
-        plot(handles.date12num,handles.Ypredict/1e6);
-        plot(handles.date12num,handles.YpredictCV/1e6);
+        if get(handles.srt,'Value')
+            plot(handles.date12num,handles.Ypredict/1e6);
+            leg=char(leg,'Single Tree');
+        end
+        if get(handles.cvt,'Value')
+            plot(handles.date12num,handles.YpredictCV/1e6);
+            leg=char(leg,'CV Tree');
+        end
+        if get(handles.brt,'Value')
+            plot(handles.date12num,handles.YpredictBRT/1e6);
+            leg=char(leg,'BR Tree');
+        end
+        if get(handles.rf,'Value')
+            plot(handles.date12num,handles.YpredictRF/1e6);
+            leg=char(leg,'Random Forest');
+        end
+        if get(handles.mbt,'Value')
+            plot(handles.date12num,handles.YpredictMBT/1e6);
+            leg=char(leg,'MBR Tree');
+        end
         hold off;
         datetick('x','mmm','keepticks')
-        legend('Ground Truth','Single Tree','CV Tree');
+        legend(leg);
+    elseif get(handles.brt_rmse,'Value')
+        
+        mdl=handles.mdl;
+        [predictorImportance,sortedIndex] = sort(mdl.predictorImportance);
+        barh(predictorImportance/1e6)
+        set(gca,'ytickLabel',handles.colnames(sortedIndex))
+        xlabel('Relative Predictor Importance')
+    
+    elseif get(handles.rf_rmse,'Value')
+        
+        B=handles.B;
+        plot(sqrt(oobError(B)));
+        xlabel 'Number of Grown Trees';
+        ylabel 'Root Mean Squared Error' ;
+    
+    elseif get(handles.brt_fi,'Value')
+        
+        mdl=handles.mdl;
+        trainingLoss = resubLoss(mdl,'mode','cumulative');
+        testLoss = loss(mdl,handles.Xtest,handles.Ytest,'mode','cumulative');
+        plot(sqrt(trainingLoss)), hold on
+        plot(sqrt(testLoss),'r')
+        legend({'Training Set Loss','Test Set Loss'})
+        xlabel('Number of trees');
+        ylabel('Mean Squared Error');
+    
+    elseif get(handles.rf_fi,'Value')
+        
+        B=handles.B;
+        bar(B.OOBPermutedVarDeltaError);
+        xlabel 'Feature' ;
+        ylabel 'Out-of-Bag Feature Importance';
+        set(gca,'XTickLabel',handles.colnames);
     end
-
-
-
-
 
 % --- Executes on button press in brt_rmse.
 function brt_rmse_Callback(hObject, eventdata, handles)
-% hObject    handle to brt_rmse (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of brt_rmse
 
 
 % --- Executes on button press in rf_rmse.
 function rf_rmse_Callback(hObject, eventdata, handles)
-% hObject    handle to rf_rmse (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of rf_rmse
 
 
-% --- Executes on button press in var_brt.
-function var_brt_Callback(hObject, eventdata, handles)
-% hObject    handle to var_brt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+% --- Executes on button press in brt_fi.
+function brt_fi_Callback(hObject, eventdata, handles)
 
-% Hint: get(hObject,'Value') returns toggle state of var_brt
+% Hint: get(hObject,'Value') returns toggle state of brt_fi
 
 
-% --- Executes on button press in var_rf.
-function var_rf_Callback(hObject, eventdata, handles)
-% hObject    handle to var_rf (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+% --- Executes on button press in rf_fi.
+function rf_fi_Callback(hObject, eventdata, handles)
 
-% Hint: get(hObject,'Value') returns toggle state of var_rf
+% Hint: get(hObject,'Value') returns toggle state of rf_fi
 
 
-
-function training_sdm_Callback(hObject, eventdata, handles)
-% hObject    handle to training_sdm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_sdm as text
-%        str2double(get(hObject,'String')) returns contents of training_sdm as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_sdm_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_sdm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function training_sdd_Callback(hObject, eventdata, handles)
-% hObject    handle to training_sdd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_sdd as text
-%        str2double(get(hObject,'String')) returns contents of training_sdd as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_sdd_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_sdd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function training_sdy_Callback(hObject, eventdata, handles)
-% hObject    handle to training_sdy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_sdy as text
-%        str2double(get(hObject,'String')) returns contents of training_sdy as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_sdy_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_sdy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function training_edm_Callback(hObject, eventdata, handles)
-% hObject    handle to training_edm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_edm as text
-%        str2double(get(hObject,'String')) returns contents of training_edm as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_edm_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_edm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function training_edd_Callback(hObject, eventdata, handles)
-% hObject    handle to training_edd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_edd as text
-%        str2double(get(hObject,'String')) returns contents of training_edd as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_edd_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_edd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function training_edy_Callback(hObject, eventdata, handles)
-% hObject    handle to training_edy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_edy as text
-%        str2double(get(hObject,'String')) returns contents of training_edy as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_edy_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_edy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function training_stn_Callback(hObject, eventdata, handles)
-% hObject    handle to training_stn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_stn as text
-%        str2double(get(hObject,'String')) returns contents of training_stn as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_stn_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_stn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function testing_sdm_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_sdm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_sdm as text
-%        str2double(get(hObject,'String')) returns contents of testing_sdm as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_sdm_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_sdm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function testing_sdd_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_sdd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_sdd as text
-%        str2double(get(hObject,'String')) returns contents of testing_sdd as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_sdd_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_sdd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function testing_sdy_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_sdy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_sdy as text
-%        str2double(get(hObject,'String')) returns contents of testing_sdy as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_sdy_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_sdy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function testing_edm_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_edm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_edm as text
-%        str2double(get(hObject,'String')) returns contents of testing_edm as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_edm_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_edm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function testing_edd_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_edd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_edd as text
-%        str2double(get(hObject,'String')) returns contents of testing_edd as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_edd_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_edd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function testing_edy_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_edy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_edy as text
-%        str2double(get(hObject,'String')) returns contents of testing_edy as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_edy_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_edy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function testing_stn_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_stn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_stn as text
-%        str2double(get(hObject,'String')) returns contents of testing_stn as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_stn_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_stn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function training_wdbox_Callback(hObject, eventdata, handles)
-% hObject    handle to training_wdbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of training_wdbox as text
-%        str2double(get(hObject,'String')) returns contents of training_wdbox as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function training_wdbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to training_wdbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes on button press in training_wdload.
-function training_wdload_Callback(hObject, eventdata, handles)
-% hObject    handle to training_wdload (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-
-function testing_wdbox_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_wdbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of testing_wdbox as text
-%        str2double(get(hObject,'String')) returns contents of testing_wdbox as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function testing_wdbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to testing_wdbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes on button press in testing_wdload.
-function testing_wdload_Callback(hObject, eventdata, handles)
-% hObject    handle to testing_wdload (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%                                                        DR BASELINE                                                             %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 function ce_box_Callback(hObject, eventdata, handles)
-% hObject    handle to ce_box (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of ce_box as text
 %        str2double(get(hObject,'String')) returns contents of ce_box as a double
 
-
 % --- Executes during object creation, after setting all properties.
 function ce_box_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to ce_box (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
@@ -1922,29 +1922,16 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
 % --- Executes on button press in ce_load.
 function ce_load_Callback(hObject, eventdata, handles)
-% hObject    handle to ce_load (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
 
 function dre_dm_Callback(hObject, eventdata, handles)
-% hObject    handle to dre_dm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of dre_dm as text
 %        str2double(get(hObject,'String')) returns contents of dre_dm as a double
 
-
 % --- Executes during object creation, after setting all properties.
 function dre_dm_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to dre_dm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
@@ -1952,22 +1939,13 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-
 function dre_dd_Callback(hObject, eventdata, handles)
-% hObject    handle to dre_dd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of dre_dd as text
 %        str2double(get(hObject,'String')) returns contents of dre_dd as a double
 
-
 % --- Executes during object creation, after setting all properties.
 function dre_dd_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to dre_dd (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
@@ -1975,22 +1953,13 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-
 function dre_dy_Callback(hObject, eventdata, handles)
-% hObject    handle to dre_dy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of dre_dy as text
 %        str2double(get(hObject,'String')) returns contents of dre_dy as a double
 
-
 % --- Executes during object creation, after setting all properties.
 function dre_dy_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to dre_dy (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
@@ -1998,22 +1967,14 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
 % --- Executes on selection change in dre_shm.
 function dre_shm_Callback(hObject, eventdata, handles)
-% hObject    handle to dre_shm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns dre_shm contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from dre_shm
 
-
 % --- Executes during object creation, after setting all properties.
 function dre_shm_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to dre_shm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 % Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
@@ -2021,22 +1982,14 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
 % --- Executes on selection change in dre_ehm.
 function dre_ehm_Callback(hObject, eventdata, handles)
-% hObject    handle to dre_ehm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns dre_ehm contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from dre_ehm
 
-
 % --- Executes during object creation, after setting all properties.
 function dre_ehm_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to dre_ehm (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 % Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
@@ -2044,9 +1997,5 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
 % --- Executes on button press in dre_predict.
 function dre_predict_Callback(hObject, eventdata, handles)
-% hObject    handle to dre_predict (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)

@@ -31,6 +31,33 @@ varargout{1} = handles.output;
 % --- Weather data button
 function wd_Callback(hObject, eventdata, handles)
     
+    [filename pathname ]=uigetfile({'*.mat','Matlab Data Files(*.mat)';'(*.*)','All Files(*.*)'},'Select Data File');
+    h=waitbar(0,'Loading data...');
+    st='Loading weather data...';
+    contents_console = cellstr(get(handles.console,'String'));
+    set(handles.console,'String',[contents_console;st]);
+    path=strcat(pathname,filename);
+    data_wd=load(path);
+    time_wd=load('C:\Users\utente\Desktop\PostDoc\UPenn\Buildings\DRAdvisor\GUI\DateTime_data_2012.mat');
+    waitbar(0.33);
+    [pathstr, fname, ext] = fileparts(filename);
+    data_wd=data_wd.(fname);
+    time_wd=time_wd.DateTime_data_2012;
+    names=['Select...' fieldnames(data_wd)'];
+    set(handles.wd_menu,'String',names);
+    waitbar(0.66);
+    handles.data_wd=data_wd;
+    handles.time_wd=time_wd;
+    guidata(hObject,handles);
+    st='Done!';
+    contents_console = cellstr(get(handles.console,'String'));
+    set(handles.console,'String',[contents_console;st]);
+    waitbar(1);
+    close(h);
+
+% --- Weather automatic load
+function training_wdload_Callback(hObject, eventdata, handles)
+
     h=waitbar(0,'Loading data...');
     st='Loading weather data...';
     contents_console = cellstr(get(handles.console,'String'));
@@ -681,10 +708,3 @@ function training_wdbox_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
-
-% --- Executes on button press in training_wdload.
-function training_wdload_Callback(hObject, eventdata, handles)
-% hObject    handle to training_wdload (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
