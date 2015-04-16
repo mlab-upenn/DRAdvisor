@@ -1321,6 +1321,10 @@ function train_Callback(hObject, eventdata, handles)
     date12=load('date12num.mat');
     
     handles.date12num=date12.date12num;
+    
+    date13=load('DateTime_data_2013.mat');
+    
+    handles.date13num=date13.DateTime_data_2013;
 
     % Column names and indicies of the columns which are categorical
 
@@ -1818,27 +1822,27 @@ function err_plot_button_Callback(hObject, eventdata, handles)
         datetick('x','mmm','keepticks')
         legend(leg);
     elseif get(handles.testing_fit,'Value')
-        plot(handles.date12num,handles.Ytest/1e6);
+        plot(handles.date13num,handles.Ytest/1e6);
         leg=char('Ground Truth');
         hold on;
         if get(handles.srt,'Value')
-            plot(handles.date12num,handles.Ypredict/1e6);
+            plot(handles.date13num,handles.Ypredict/1e6);
             leg=char(leg,'Single Tree');
         end
         if get(handles.cvt,'Value')
-            plot(handles.date12num,handles.YpredictCV/1e6);
+            plot(handles.date13num,handles.YpredictCV/1e6);
             leg=char(leg,'CV Tree');
         end
         if get(handles.brt,'Value')
-            plot(handles.date12num,handles.YpredictBRT/1e6);
+            plot(handles.date13num,handles.YpredictBRT/1e6);
             leg=char(leg,'BR Tree');
         end
         if get(handles.rf,'Value')
-            plot(handles.date12num,handles.YpredictRF/1e6);
+            plot(handles.date13num,handles.YpredictRF/1e6);
             leg=char(leg,'Random Forest');
         end
         if get(handles.mbt,'Value')
-            plot(handles.date12num,handles.YpredictMBT/1e6);
+            plot(handles.date13num,handles.YpredictMBT/1e6);
             leg=char(leg,'MBR Tree');
         end
         hold off;
@@ -1999,3 +2003,122 @@ end
 
 % --- Executes on button press in dre_predict.
 function dre_predict_Callback(hObject, eventdata, handles)
+    
+    % Get date numbers for baseline 
+    yy=str2num(get(handles.dre_dy,'String'));
+    mm=str2num(get(handles.dre_dm,'String'));
+    dd=str2num(get(handles.dre_dd,'String'));
+    % Get start hour for baseline
+    contents_shm = cellstr(get(handles.dre_shm,'String'));
+    element_shm = contents_shm{get(handles.dre_shm,'Value')};
+    sh=str2num(element_shm);
+    % Get end hour for baseline
+    contents_ehm = cellstr(get(handles.dre_ehm,'String'));
+    element_ehm = contents_ehm{get(handles.dre_ehm,'Value')};
+    eh=str2num(element_ehm);
+    % Create Start Date and End Date to select baseline period
+    baseline_sd=datenum([yy,mm,dd,sh,00,00]);
+    baseline_ed=datenum([yy,mm,dd,eh,00,00]);
+    % Baseline period selection
+    
+    check=0; % boolean variable we will use to check if we found the baseline stard date in the date vector
+    date_temp=handles.date13num; % Date temporary vector
+    lc=length(date_temp);
+    gap=3; % Random number greater than 2 to start the while cycle
+    while ((gap > 2) && (check == 0)) % Binary search starting point
+        lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
+        if baseline_sd<date_temp(end-lc)
+            date_temp=date_temp(1:end-lc);
+            lc=length(date_temp);
+        elseif baseline_sd>date_temp(end-lc)
+            gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
+        elseif baseline_sd==date_temp(end-lc)
+            date_temp=date_temp(1:end-lc);
+            check=1;
+        else
+            disp('Something went wrong');
+            break;
+        end
+    end
+    if check == 1 % If we found the desired date in the vector
+        baseline_sd_index = numel(date_temp);
+    else % If the desired date is between two close elements in the date vector
+        baseline_sd_index = numel(date_temp)-1;
+    end
+    
+    check=0; % boolean variable we will use to check if we found the baseline end date in the date vector
+    date_temp=handles.date13num; % Date temporary vector
+    lc=length(date_temp);
+    gap=3; % Random number greater than 2 to start the while cycle
+    while ((gap > 2) && (check == 0)) % Binary search starting point
+        lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
+        if baseline_ed<date_temp(end-lc)
+            date_temp=date_temp(1:end-lc);
+            lc=length(date_temp);
+        elseif baseline_ed>date_temp(end-lc)
+            gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
+        elseif baseline_ed==date_temp(end-lc)
+            date_temp=date_temp(1:end-lc);
+            check=1;
+        else
+            disp('Something went wrong');
+            break;
+        end
+    end
+    % In this case the variable assigned is the same
+    
+%     if check == 1 % If we found the desired date in the vector
+%         baseline_ed_index = numel(date_temp);
+%     else % If the desired date is between two close elements in the date vector
+%         baseline_ed_index = numel(date_temp);
+%     end
+    baseline_ed_index = numel(date_temp);
+            
+    axes(handles.dre_plot);
+    plot(NaN);
+    time = handles.date13num(baseline_sd_index:baseline_ed_index);
+    plot(time,handles.Ytest(baseline_sd_index:baseline_ed_index)/1e6);
+    leg=char('Ground Truth');
+    hold on;
+    if get(handles.srt,'Value')
+        plot(time,handles.Ypredict(baseline_sd_index:baseline_ed_index)/1e6);
+        leg=char(leg,'Single Tree');
+    end
+    if get(handles.cvt,'Value')
+        plot(time,handles.YpredictCV(baseline_sd_index:baseline_ed_index)/1e6);
+        leg=char(leg,'CV Tree');
+    end
+    if get(handles.brt,'Value')
+        plot(time,handles.YpredictBRT(baseline_sd_index:baseline_ed_index)/1e6);
+        leg=char(leg,'BR Tree');
+    end
+    if get(handles.rf,'Value')
+        plot(time,handles.YpredictRF(baseline_sd_index:baseline_ed_index)/1e6);
+        leg=char(leg,'Random Forest');
+    end
+    if get(handles.mbt,'Value')
+        plot(time,handles.YpredictMBT(baseline_sd_index:baseline_ed_index)/1e6);
+        leg=char(leg,'MBR Tree');
+    end
+    hold off;
+    datetick('x','HH:MM','keeplimits')
+    legend(leg);
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
