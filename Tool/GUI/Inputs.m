@@ -234,7 +234,7 @@ handles.output = hObject;
     set(handles.brt_fi,      'Position',[78.2 34 30.8 2.08]);
     set(handles.rf_fi,       'Position',[78.2 31 34.2 2.08]);
     
-% DR Baseline Psition
+% DR Baseline Position
 
     % Panels position
     
@@ -269,7 +269,34 @@ handles.output = hObject;
     
     set(handles.dre_predict,'Position',[47.4 4.15 27.8  1.69]);
     set(handles.dre_plot,   'Position',[84.4 2.08 136.4 20.38]);
-    
+ 
+% DR Evaluation position
+
+    set(handles.drev_sn,       'Position',[7     47.3   18.2  1.385]);
+    set(handles.drev_sn_box,   'Position',[29    47.153 24.2  1.615]);
+    set(handles.drev_des,      'Position',[57    47.308 14.4  1.385]);
+    set(handles.drev_des_box,  'Position',[75.2  47.154 158.4 1.615]);
+    set(handles.drev_spec,     'Position',[14.2  43.69  35    1.385]);
+    set(handles.drev_spec_box, 'Position',[7     34.77  49.4  8    ]);
+    set(handles.drev_show_sp,  'Position',[7     32.077 24    1.77 ]);
+    set(handles.drev_save_str, 'Position',[32.4  32.077 24    1.77 ]);
+    set(handles.drev_str,      'Position',[26    29.77  12.2  1.385]);
+    set(handles.drev_str_box,  'Position',[7     14.385 50.2  14.46]);
+    set(handles.drev_show_str, 'Position',[7     11.769 24    1.77 ]);
+    set(handles.drev_del_str,  'Position',[33.2  11.769 24    1.77 ]);
+    set(handles.drev_sh,       'Position',[64.2  43.46  14    1.615]);
+    set(handles.drev_sh_hh,    'Position',[79.2  43.69  10.6  1.615]);
+    set(handles.drev_sh_dots,  'Position',[90.8  43.46  1.6   1.615]);
+    set(handles.drev_sh_mm,    'Position',[93.4  43.69  10.6  1.615]);
+    set(handles.drev_eh,       'Position',[113.4 43.46  14    1.615]);
+    set(handles.drev_eh_hh,    'Position',[128.4 43.69  10.6  1.615]);
+    set(handles.drev_eh_dots,  'Position',[140   43.46  1.6   1.615]);
+    set(handles.drev_eh_mm,    'Position',[142.6 43.69  10.6  1.615]);
+    set(handles.drev_val,      'Position',[162.8 43.69  8     1.385]);
+    set(handles.drev_val_box,  'Position',[172.8 43.615 24.2  1.615]);
+    set(handles.drev_enter,    'Position',[205.8 43.46  27.8  1.769]);
+    set(handles.drev_plot,     'Position',[64    15.769 169   27   ]);
+    set(handles.drev_run,      'Position',[64    11.769 169   1.769]);
 
 
 handles.tabs=[handles.inputs_tab, handles.mi_tab, handles.drb_tab, handles.dre_tab, handles.drs_tab, handles.report_tab];
@@ -304,7 +331,11 @@ handles.drb_tabcontent=[handles.ces, handles.cec, handles.ce_box, handles.ce_loa
                         handles.dre_sh, handles.dre_shm, handles.dre_eh, handles.dre_ehm, handles.dre_w, handles.dre_ws,...
                         handles.dre_predict, handles.dre_plot, handles.dre_panel];
 
-handles.dre_tabcontent=[];
+handles.dre_tabcontent=[handles.drev_sn, handles.drev_sn_box, handles.drev_des, handles.drev_des_box, handles.drev_spec, handles.drev_spec_box,...
+                        handles.drev_show_sp, handles.drev_save_str, handles.drev_str, handles.drev_str_box, handles.drev_show_str, handles.drev_del_str,...
+                        handles.drev_sh, handles.drev_sh_hh, handles.drev_sh_dots, handles.drev_sh_mm,...
+                        handles.drev_eh, handles.drev_eh_hh, handles.drev_eh_dots, handles.drev_eh_mm,...
+                        handles.drev_val, handles.drev_val_box, handles.drev_enter, handles.drev_plot, handles.drev_run];
 
 handles.drs_tabcontent=[];
 
@@ -354,6 +385,8 @@ function inputs_tab_Callback(hObject, eventdata, handles)
         axes(handles.dre_plot);
         plot(NaN);
         axes(handles.ce_plot);
+        plot(NaN);
+        axes(handles.drev_plot);
         plot(NaN);
     else
         set(handles.tabs(1),'Value',1);
@@ -429,6 +462,8 @@ function mi_tab_Callback(hObject, eventdata, handles)
         plot(NaN);
         axes(handles.ce_plot);
         plot(NaN);
+        axes(handles.drev_plot);
+        plot(NaN);
     else
         set(handles.mi_tab,'Value',1);
     end
@@ -461,7 +496,8 @@ function drb_tab_Callback(hObject, eventdata, handles)
         plot(NaN);
         axes(handles.mi_plot);
         plot(NaN);
-        
+        axes(handles.drev_plot);
+        plot(NaN);
     else
         set(handles.drb_tab,'Value',1);
     end
@@ -480,6 +516,24 @@ function dre_tab_Callback(hObject, eventdata, handles)
         set(handles.drb_tabcontent(1:end), 'Visible', 'off');
         set(handles.drs_tabcontent(1:end), 'Visible', 'off');
         set(handles.report_tabcontent(1:end), 'Visible', 'off');
+        
+        handles.drev_strategy_Default={'Default' 'Default strategy'};
+        % Importing Schedule variables from Testing schedule data to Control setpoint specification box
+
+        ScheduleList = get(handles.sd_menu_test,'String');
+        set(handles.drev_spec_box,'String',ScheduleList(2:end-3)); % (2:end-3) because we don't want to take "Select..." and month,day,hour from the list
+        
+        % Assigning default value to setpoints (80°F) 
+        
+        for ii=2:(length(ScheduleList)-3) % Except last three items that represent the time
+            handles.(ScheduleList{ii}) = 80*ones(length(handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index)),1);
+            handles.drev_strategy_Default{ii+1} = handles.(ScheduleList{ii});
+        end
+        handles.time_dre=handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index);
+        
+        
+        guidata(hObject, handles);
+        
         axes(handles.wd_plot);
         plot(NaN);
         axes(handles.sd_plot);
@@ -502,6 +556,7 @@ function dre_tab_Callback(hObject, eventdata, handles)
     else
         set(handles.dre_tab,'Value',1);
     end
+
 
 % --- Executes on button press in drs_tab.
 function drs_tab_Callback(hObject, eventdata, handles)
@@ -535,7 +590,8 @@ function drs_tab_Callback(hObject, eventdata, handles)
         plot(NaN);
         axes(handles.ce_plot);
         plot(NaN);
-        
+        axes(handles.drev_plot);
+        plot(NaN);
     else
         set(handles.drs_tab,'Value',1);
     end
@@ -571,7 +627,8 @@ function report_tab_Callback(hObject, eventdata, handles)
         plot(NaN);
         axes(handles.ce_plot);
         plot(NaN);
-        
+        axes(handles.drev_plot);
+        plot(NaN);
     else
         set(handles.report_tab,'Value',1);
     end
@@ -1278,7 +1335,7 @@ function train_Callback(hObject, eventdata, handles)
     load large_office_all_data_2k12.mat
 
     assisted = 1;
-
+    handles.assisted = assisted;
     if(assisted)
         st='Schedule Assist ON';
         contents_console = cellstr(get(handles.console,'String'));
@@ -1385,6 +1442,7 @@ function train_Callback(hObject, eventdata, handles)
         minleaf=str2num(get(handles.srt_ml_box,'String'))
         tic
         largetree12 = fitrtree(Xtrain,Ytrain,'PredictorNames',colnames,'ResponseName','Total Power','CategoricalPredictors',catcol,'MinLeafSize',minleaf);
+        handles.largetree12 = largetree12;
         toc
         % view the tree view(rtree);
         %view(largetree12,'mode','graph');
@@ -1433,6 +1491,7 @@ function train_Callback(hObject, eventdata, handles)
         largetreeCV = fitrtree(Xtrain,Ytrain,'PredictorNames',colnames,...
             'ResponseName','Total Power','CategoricalPredictors',catcol,...
             'MinLeafSize',minleaf,'CrossVal','on','KFold',kf); % default is 10-fold
+        handles.largetreeCV = largetreeCV;
         toc
 
         YfitCV = kfoldPredict(largetreeCV);
@@ -1600,7 +1659,7 @@ function train_Callback(hObject, eventdata, handles)
         trainParams = m5pparams(false,4,true);
 
         model = m5pbuild(Xtrain, Ytrain,trainParams, binCat,true);
-
+        handles.model = model;
         Ypredm5 = m5ppredict(model,Xtest);
         handles.YfitMBT=Ypredm5;
         [a,b]=rsquare(Ytest,Ypredm5);
@@ -2017,63 +2076,70 @@ function dre_predict_Callback(hObject, eventdata, handles)
     element_ehm = contents_ehm{get(handles.dre_ehm,'Value')};
     eh=str2num(element_ehm);
     % Create Start Date and End Date to select baseline period
-    baseline_sd=datenum([yy,mm,dd,sh,00,00]);
-    baseline_ed=datenum([yy,mm,dd,eh,00,00]);
-    % Baseline period selection
-    
-    check=0; % boolean variable we will use to check if we found the baseline stard date in the date vector
-    date_temp=handles.date13num; % Date temporary vector
-    lc=length(date_temp);
-    gap=3; % Random number greater than 2 to start the while cycle
-    while ((gap > 2) && (check == 0)) % Binary search starting point
-        lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
-        if baseline_sd<date_temp(end-lc)
-            date_temp=date_temp(1:end-lc);
-            lc=length(date_temp);
-        elseif baseline_sd>date_temp(end-lc)
-            gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
-        elseif baseline_sd==date_temp(end-lc)
-            date_temp=date_temp(1:end-lc);
-            check=1;
-        else
-            disp('Something went wrong');
-            break;
-        end
-    end
-    if check == 1 % If we found the desired date in the vector
-        baseline_sd_index = numel(date_temp);
-    else % If the desired date is between two close elements in the date vector
-        baseline_sd_index = numel(date_temp)-1;
-    end
-    
-    check=0; % boolean variable we will use to check if we found the baseline end date in the date vector
-    date_temp=handles.date13num; % Date temporary vector
-    lc=length(date_temp);
-    gap=3; % Random number greater than 2 to start the while cycle
-    while ((gap > 2) && (check == 0)) % Binary search starting point
-        lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
-        if baseline_ed<date_temp(end-lc)
-            date_temp=date_temp(1:end-lc);
-            lc=length(date_temp);
-        elseif baseline_ed>date_temp(end-lc)
-            gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
-        elseif baseline_ed==date_temp(end-lc)
-            date_temp=date_temp(1:end-lc);
-            check=1;
-        else
-            disp('Something went wrong');
-            break;
-        end
-    end
-    % In this case the variable assigned is the same
-    
-%     if check == 1 % If we found the desired date in the vector
-%         baseline_ed_index = numel(date_temp);
-%     else % If the desired date is between two close elements in the date vector
-%         baseline_ed_index = numel(date_temp);
+%     baseline_sd=datenum([yy,mm,dd,sh,00,00]);
+%     baseline_ed=datenum([yy,mm,dd,eh,00,00]);
+%     % Baseline period selection
+%     
+%     check=0; % boolean variable we will use to check if we found the baseline start date in the date vector
+%     date_temp=handles.date13num; % Date temporary vector
+%     lc=length(date_temp);
+%     gap=3; % Random number greater than 2 to start the while cycle
+%     while ((gap > 2) && (check == 0)) % Binary search starting point
+%         lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
+%         if baseline_sd<date_temp(end-lc)
+%             date_temp=date_temp(1:end-lc);
+%             lc=length(date_temp);
+%         elseif baseline_sd>date_temp(end-lc)
+%             gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
+%         elseif baseline_sd==date_temp(end-lc)
+%             date_temp=date_temp(1:end-lc);
+%             check=1;
+%         else
+%             disp('Something went wrong');
+%             break;
+%         end
 %     end
-    baseline_ed_index = numel(date_temp);
-            
+%     if check == 1 % If we found the desired date in the vector
+%         baseline_sd_index = numel(date_temp);
+%     else % If the desired date is between two close elements in the date vector
+%         baseline_sd_index = numel(date_temp)-1;
+%     end
+%     
+%     check=0; % boolean variable we will use to check if we found the baseline end date in the date vector
+%     date_temp=handles.date13num; % Date temporary vector
+%     lc=length(date_temp);
+%     gap=3; % Random number greater than 2 to start the while cycle
+%     while ((gap > 2) && (check == 0)) % Binary search starting point
+%         lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
+%         if baseline_ed<date_temp(end-lc)
+%             date_temp=date_temp(1:end-lc);
+%             lc=length(date_temp);
+%         elseif baseline_ed>date_temp(end-lc)
+%             gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
+%         elseif baseline_ed==date_temp(end-lc)
+%             date_temp=date_temp(1:end-lc);
+%             check=1;
+%         else
+%             disp('Something went wrong');
+%             break;
+%         end
+%     end
+%     % In this case the variable assigned is the same
+%     
+% %     if check == 1 % If we found the desired date in the vector
+% %         baseline_ed_index = numel(date_temp);
+% %     else % If the desired date is between two close elements in the date vector
+% %         baseline_ed_index = numel(date_temp);
+% %     end
+%     baseline_ed_index = numel(date_temp);
+
+    date_temp_ref=handles.date13num; % Date temporary vector
+    sm=0;
+    em=0;
+    [baseline_sd_index,baseline_ed_index] = find_date_index(yy,mm,dd,sh,sm,eh,em,date_temp_ref);
+    baseline_sd_index
+    baseline_ed_index
+    
     axes(handles.dre_plot);
     plot(NaN);
     time = handles.date13num(baseline_sd_index:baseline_ed_index);
@@ -2103,22 +2169,431 @@ function dre_predict_Callback(hObject, eventdata, handles)
     hold off;
     datetick('x','HH:MM','keeplimits')
     legend(leg);
+    
+    handles.baseline_sd_index=baseline_sd_index;
+    handles.baseline_ed_index=baseline_ed_index;
+    guidata(hObject, handles); % needed to have handles available in the other functions
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%                                                        DR EVALUATION                                                           %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+
+function drev_sn_box_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_sn_box_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function drev_des_box_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_des_box_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on selection change in drev_spec_box.
+function drev_spec_box_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_spec_box_CreateFcn(hObject, eventdata, handles)
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on button press in drev_show_sp.
+function drev_show_sp_Callback(hObject, eventdata, handles)
+    
+%     spec_list = cellstr(get(handles.drev_spec_box,'String'));
+%     spec = spec_list{get(handles.drev_spec_box,'Value')};
+    spec = get(handles.drev_spec_box,'Value');
+    str_list = cellstr(get(handles.drev_str_box,'String'));
+    str = str_list{get(handles.drev_str_box,'Value')};
+    string = ['drev_strategy_' str];
+    
+    data=handles.(string){2+spec};
+    
+    % Reassigning data to plot
+%     data=handles.(spec);
+    time=handles.time_dre;
+    axes(handles.drev_plot);
+    plot(time,data);
+    datetick('x','HH:MM','keeplimits')
+    
+% --- Executes on button press in drev_save_str.
+function drev_save_str_Callback(hObject, eventdata, handles)
+    
+    string = ['drev_strategy_' get(handles.drev_sn_box,'String')]; % Just the composition of the name
+    handles.(string)={get(handles.drev_sn_box,'String') get(handles.drev_des_box,'String')};
+    
+    contents_str_box = cellstr(get(handles.drev_str_box,'String'));
+    set(handles.drev_str_box,'String',[contents_str_box;get(handles.drev_sn_box,'String')]);
+    len=length(contents_str_box);
+    set(handles.drev_str_box,'Value',len+1);
 
     
+    spec_list = cellstr(get(handles.drev_spec_box,'String'));
+    for ii = 1:length(spec_list)
+        handles.(string){ii+2} = handles.(spec_list{ii});
+    end
+        
+    guidata(hObject, handles); % needed to have handles available in the other functions
+ 
+% --- Executes on selection change in drev__str_box.
+function drev_str_box_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_str_box_CreateFcn(hObject, eventdata, handles)
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on button press in drev__show_str.
+function drev_show_str_Callback(hObject, eventdata, handles)
+    
+    axes(handles.drev_plot);
+    plot(NaN);
+%     time = handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index);
+%     str_list = cellstr(get(handles.drev_str_box,'String'));
+%     str = str_list{get(handles.drev_str_box,'Value')};
+%     string = ['drev_strategy_' str];
+%     plot_string = ['Ypredict_' string];
+%     plot(time,handles.(plot_string)/1e6);
+    leg=char('');
+    axis normal
+    
+    time = handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index);
+    
+    str_list = cellstr(get(handles.drev_str_box,'String'));
+    str = str_list{get(handles.drev_str_box,'Value')};
+    string = ['drev_strategy_' str];
+
+        hold on;
+        if get(handles.srt,'Value')
+            plot_string = ['Ypredict_' string];
+            plot(time,handles.(plot_string)/1e6);
+            leg=char(leg,'Single Tree');
+        end
+        if get(handles.cvt,'Value')
+            plot_string = ['YpredictCV_' string];
+            plot(time,handles.(plot_string)/1e6);
+            leg=char(leg,'CV Tree');
+        end
+        if get(handles.brt,'Value')
+            plot_string = ['YpredictBRT_' string];
+            plot(time,handles.(plot_string)/1e6);
+            leg=char(leg,'BR Tree');
+        end
+        if get(handles.rf,'Value')
+            plot_string = ['YpredictRF_' string];
+            plot(time,handles.(plot_string)/1e6);
+            leg=char(leg,'Random Forest');
+        end
+        if get(handles.mbt,'Value')
+            plot_string = ['YpredictMBT_' string];
+            plot(time,handles.(plot_string)/1e6);
+            leg=char(leg,'MBR Tree');
+        end
+        hold off;
+        datetick('x','HH:MM','keeplimits')
+        legend(leg);
+3
+% --- Executes on button press in drev_del_str.
+function drev_del_str_Callback(hObject, eventdata, handles)
+
+% --- Executes on selection change in drev_sh_hh.
+function drev_sh_hh_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_sh_hh_CreateFcn(hObject, eventdata, handles)
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on selection change in drev_sh_mm.
+function drev_sh_mm_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_sh_mm_CreateFcn(hObject, eventdata, handles)
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on selection change in drev_eh_hh.
+function drev_eh_hh_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_eh_hh_CreateFcn(hObject, eventdata, handles)
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on selection change in drev_eh_mm.
+function drev_eh_mm_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_eh_mm_CreateFcn(hObject, eventdata, handles)
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function drev_val_box_Callback(hObject, eventdata, handles)
+
+% --- Executes during object creation, after setting all properties.
+function drev_val_box_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on button press in drev_enter.
+function drev_enter_Callback(hObject, eventdata, handles)
+    
+    % Get date numbers for setpoints 
+    yy=str2num(get(handles.dre_dy,'String'));
+    mm=str2num(get(handles.dre_dm,'String'));
+    dd=str2num(get(handles.dre_dd,'String'));
+    % Get start hour for setpoints
+    contents_sh = cellstr(get(handles.drev_sh_hh,'String'));
+    element_sh = contents_sh{get(handles.drev_sh_hh,'Value')};
+    sh=str2num(element_sh);
+    % Get start minute for setpoints
+    contents_sm = cellstr(get(handles.drev_sh_mm,'String'));
+    element_sm = contents_sm{get(handles.drev_sh_mm,'Value')};
+    sm=str2num(element_sm);
+    % Get end hour for setpoints
+    contents_eh = cellstr(get(handles.drev_eh_hh,'String'));
+    element_eh = contents_eh{get(handles.drev_eh_hh,'Value')};
+    eh=str2num(element_eh);
+    % Get end minute for setpoints
+    contents_em = cellstr(get(handles.drev_eh_mm,'String'));
+    element_em = contents_em{get(handles.drev_eh_mm,'Value')};
+    em=str2num(element_em);
+    
+    date_temp_ref=handles.time_dre; % Date temporary vector
+    [setpoint_sd_index,setpoint_ed_index] = find_date_index(yy,mm,dd,sh,sm,eh,em,date_temp_ref);
+
+    spec_list = cellstr(get(handles.drev_spec_box,'String'));
+    spec = spec_list{get(handles.drev_spec_box,'Value')};
+    temp=handles.(spec);
+    temp(setpoint_sd_index:setpoint_ed_index) = str2num(get(handles.drev_val_box,'String'));
+    handles.(spec) = temp;
     
     
+    axes(handles.drev_plot);
+    plot(date_temp_ref,handles.(spec));
+    datetick('x','HH:MM','keeplimits')
     
+    guidata(hObject, handles);
+
+% --- Executes on button press in drev_run.
+function drev_run_Callback(hObject, eventdata, handles)
+    %% CAMBIARE NOME AGLI HANDLES PER NON CONFONDERLI CON QUELLI DEL MODEL IDENTIFICATION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
+    str_list = cellstr(get(handles.drev_str_box,'String'));
+    str = str_list{get(handles.drev_str_box,'Value')};
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    for ii = 1:length(str_list)
+        
+        str = str_list{ii};
+        
+        %% Prepare Training data, i.e from 2012
+
+
+    %     st='Preparing data..';
+    %     contents_console = cellstr(get(handles.console,'String'));
+    %     set(handles.console,'String',[contents_console;st]);
+    %     len=length(contents_console);
+    %     set(handles.console,'Value',len+1);
+
+      % Column names and indicies of the columns which are categorical
+
+%         st='Done.';
+%         contents_console = cellstr(get(handles.console,'String'));
+%         set(handles.console,'String',[contents_console;st]);
+%         len=length(contents_console);
+%         set(handles.console,'Value',len+1);
+
+            % Now prepare testing data, i.e from 2013.
+%             st='Evaluating on 2013 Testing Data';
+%             contents_console = cellstr(get(handles.console,'String'));
+%             set(handles.console,'String',[contents_console;st]);
+%             len=length(contents_console);
+%             set(handles.console,'Value',len+1);
+
+            load large_office_all_data_2k13.mat
+
+                
+                % Feature matrix with all 34 features as columns
+                
+                string = ['drev_strategy_' str];
+                
+                chwsetp = handles.(string){5};
+                clgsetp = handles.(string){3};
+                htgsetp = handles.(string){4};
+                hwsetp  = handles.(string){6};
+
+                Xtest = [chwsetp,...
+                         clgsetp,...
+                         dom(handles.baseline_sd_index:handles.baseline_ed_index),...
+                         dow(handles.baseline_sd_index:handles.baseline_ed_index),...
+                         htgsetp,...
+                         hwsetp,...
+                         outdry(handles.baseline_sd_index:handles.baseline_ed_index),...
+                         outhum(handles.baseline_sd_index:handles.baseline_ed_index),...
+                         outwet(handles.baseline_sd_index:handles.baseline_ed_index),...
+                         tod(handles.baseline_sd_index:handles.baseline_ed_index),...
+                         windir(handles.baseline_sd_index:handles.baseline_ed_index),...
+                         winspeed(handles.baseline_sd_index:handles.baseline_ed_index)];
+%                 Xtest(1,:)=[]; % To insert if you want to remove the first item of the vector that is a name
+
+%         st='Done.';
+%         contents_console = cellstr(get(handles.console,'String'));
+%         set(handles.console,'String',[contents_console;st]);
+%         len=length(contents_console);
+%         set(handles.console,'Value',len+1);
+
+
+        if get(handles.srt,'Value')
+            % Start Tree Regression
+            st='Learning Regression Tree on 2012 Annual Data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+            % Ontain Predictions for the entire year and for just july
+            Ypredict = predict(handles.largetree12,Xtest);
+            string_predict = ['Ypredict_' string];
+            handles.(string_predict)=Ypredict;
+
+            st='Single Regression Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+
+
+        if get(handles.cvt,'Value')
+            % Improve the tree by using k-fold cross validation
+            st='Learning a cross validated tree for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+            largetreeCV = handles.largetreeCV;
+            kf=str2num(get(handles.cvt_k_box,'String'))
+            YpredictCVk=zeros(length(Xtest),kf);
+            for ii=1:kf
+                YpredictCVk(:,ii)=predict(largetreeCV.Trained{ii,1},Xtest);
+            end
+            YpredictCV = sum(YpredictCVk,2)/kf;
+            
+            string_predict = ['YpredictCV_' string];
+            handles.(string_predict) = YpredictCV;
+
+            st='Cross-Validation Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+
+
+        if get(handles.brt,'Value')
+            % Boosted Regression trees
+
+            st='Learning a boosted regression tree for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+            Ypreden = predict(handles.mdl,Xtest);
+            string_predict = ['YpredictBRT_' string];
+            handles.(string_predict) = Ypreden;
+ 
+            st='Boosted Regression Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+
+
+        if get(handles.rf,'Value')
+
+            st='Learning a random forest for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+             Ybag = predict(handles.B,Xtest);
+            string_predict = ['YpredictRF_' string];
+            handles.(string_predict) = Ybag;
+
+            st='Random Forest training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+
+
+        if get(handles.mbt,'Value')
+            % Model Based RT
+
+            st='Learning a model based random tree for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+            Ypredm5 = m5ppredict(handles.model,Xtest);
+            string_predict = ['YpredictMBT_' string];
+            handles.(string_predict) = Ypredm5;
+            
+            st='Model Based Random Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+        
+        guidata(hObject,handles);
+    end
+
+
+
+
