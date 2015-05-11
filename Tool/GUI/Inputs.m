@@ -2276,8 +2276,6 @@ function drev_show_str_Callback(hObject, eventdata, handles)
     leg=char('');
     axis normal
     
-    time = handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index);
-    
     str_list = cellstr(get(handles.drev_str_box,'String'));
     str = str_list{get(handles.drev_str_box,'Value')};
     string = ['drev_strategy_' str];
@@ -2285,33 +2283,33 @@ function drev_show_str_Callback(hObject, eventdata, handles)
         hold on;
         if get(handles.srt,'Value')
             plot_string = ['Ypredict_' string];
-            plot(time,handles.(plot_string)/1e6);
+            plot(handles.time_drev,handles.(plot_string)/1e6);
             leg=char(leg,'Single Tree');
         end
         if get(handles.cvt,'Value')
             plot_string = ['YpredictCV_' string];
-            plot(time,handles.(plot_string)/1e6);
+            plot(handles.time_drev,handles.(plot_string)/1e6);
             leg=char(leg,'CV Tree');
         end
         if get(handles.brt,'Value')
             plot_string = ['YpredictBRT_' string];
-            plot(time,handles.(plot_string)/1e6);
+            plot(handles.time_drev,handles.(plot_string)/1e6);
             leg=char(leg,'BR Tree');
         end
         if get(handles.rf,'Value')
             plot_string = ['YpredictRF_' string];
-            plot(time,handles.(plot_string)/1e6);
+            plot(handles.time_drev,handles.(plot_string)/1e6);
             leg=char(leg,'Random Forest');
         end
         if get(handles.mbt,'Value')
             plot_string = ['YpredictMBT_' string];
-            plot(time,handles.(plot_string)/1e6);
+            plot(handles.time_drev,handles.(plot_string)/1e6);
             leg=char(leg,'MBR Tree');
         end
         hold off;
         datetick('x','HH:MM','keeplimits')
         legend(leg);
-3
+        
 % --- Executes on button press in drev_del_str.
 function drev_del_str_Callback(hObject, eventdata, handles)
 
@@ -2449,7 +2447,36 @@ function drev_run_Callback(hObject, eventdata, handles)
 %             len=length(contents_console);
 %             set(handles.console,'Value',len+1);
 
-            load large_office_all_data_2k13.mat
+
+            load dateJul16.mat
+            
+            load largetree12.mat
+            load largetreeCV.mat
+            load model.mat
+            load mdl.mat
+            load B.mat
+            
+            % Get date numbers for baseline 
+            yy=str2num(get(handles.dre_dy,'String'));
+            mm=str2num(get(handles.dre_dm,'String'));
+            dd=str2num(get(handles.dre_dd,'String'));
+            % Get start hour for baseline
+            contents_shm = cellstr(get(handles.dre_shm,'String'));
+            element_shm = contents_shm{get(handles.dre_shm,'Value')};
+            sh=str2num(element_shm);
+            % Get end hour for baseline
+            contents_ehm = cellstr(get(handles.dre_ehm,'String'));
+            element_ehm = contents_ehm{get(handles.dre_ehm,'Value')};
+            eh=str2num(element_ehm);
+
+            sm=0;
+            em=0;
+
+            date_temp_ref=dateJul16; % Date temporary vector
+            [drev_sd_index,drev_ed_index] = find_date_index(yy,mm,dd,sh,sm,eh,em,date_temp_ref);
+            
+            time_drev = dateJul16(drev_sd_index:drev_ed_index);
+            handles.time_drev = time_drev;
 
                 
                 % Feature matrix with all 34 features as columns
@@ -2460,19 +2487,43 @@ function drev_run_Callback(hObject, eventdata, handles)
                 clgsetp = handles.(string){3};
                 htgsetp = handles.(string){4};
                 hwsetp  = handles.(string){6};
+                
+                load jul16.mat
+                Xtest = [BASEMENTZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        HEATSYS1BOILERBoilerOutletTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        COOLSYS1CHILLER1ChillerEvaporatorOutletTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        COOLSYS1CHILLER2ChillerEvaporatorOutletTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        chwsetp,...   % CWLOOPTEMPSCHEDULEScheduleValueTimeStep1(drev_sd_index:drev_ed_index),...
+                        clgsetp,...   % CLGSETP_SCHScheduleValueTimeStep1(drev_sd_index:drev_ed_index),...
+                        CORE_BOTTOMZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        CORE_MIDZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        CORE_TOPZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        EMScurrentDayOfMonthTimeStep1(drev_sd_index:drev_ed_index),...
+                        EMScurrentDayOfWeekTimeStep1(drev_sd_index:drev_ed_index),...
+                        GROUNDFLOOR_PLENUMZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        htgsetp,...   % HTGSETP_SCHScheduleValueTimeStep1(drev_sd_index:drev_ed_index),...
+                        hwsetp,...    % HWLOOPTEMPSCHEDULEScheduleValueTimeStep1(drev_sd_index:drev_ed_index),...
+                        MIDFLOOR_PLENUMZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        EnvironmentSiteOutdoorAirDrybulbTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        EnvironmentSiteOutdoorAirRelativeHumidityTimeStep1(drev_sd_index:drev_ed_index),...
+                        EnvironmentSiteOutdoorAirWetbulbTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        PERIMETER_BOT_ZN_1ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        PERIMETER_BOT_ZN_2ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_BOT_ZN_3ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_BOT_ZN_4ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_MID_ZN_1ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_MID_ZN_2ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_MID_ZN_3ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_MID_ZN_4ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_TOP_ZN_1ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_TOP_ZN_2ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_TOP_ZN_3ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...                   
+                        PERIMETER_TOP_ZN_4ZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),... 
+                        EMScurrentTimeOfDayTimeStep1(drev_sd_index:drev_ed_index),...
+                        TOPFLOOR_PLENUMZoneAirTemperatureCTimeStep1(drev_sd_index:drev_ed_index),...
+                        EnvironmentSiteWindDirectiondegTimeStep1(drev_sd_index:drev_ed_index),...
+                        EnvironmentSiteWindSpeedmsTimeStep1(drev_sd_index:drev_ed_index)];
 
-                Xtest = [chwsetp,...
-                         clgsetp,...
-                         dom(handles.baseline_sd_index:handles.baseline_ed_index),...
-                         dow(handles.baseline_sd_index:handles.baseline_ed_index),...
-                         htgsetp,...
-                         hwsetp,...
-                         outdry(handles.baseline_sd_index:handles.baseline_ed_index),...
-                         outhum(handles.baseline_sd_index:handles.baseline_ed_index),...
-                         outwet(handles.baseline_sd_index:handles.baseline_ed_index),...
-                         tod(handles.baseline_sd_index:handles.baseline_ed_index),...
-                         windir(handles.baseline_sd_index:handles.baseline_ed_index),...
-                         winspeed(handles.baseline_sd_index:handles.baseline_ed_index)];
 %                 Xtest(1,:)=[]; % To insert if you want to remove the first item of the vector that is a name
 
 %         st='Done.';
@@ -2491,7 +2542,7 @@ function drev_run_Callback(hObject, eventdata, handles)
             set(handles.console,'Value',len+1);
 
             % Ontain Predictions for the entire year and for just july
-            Ypredict = predict(handles.largetree12,Xtest);
+            Ypredict = predict(largetree12,Xtest);
             string_predict = ['Ypredict_' string];
             handles.(string_predict)=Ypredict;
 
@@ -2511,7 +2562,6 @@ function drev_run_Callback(hObject, eventdata, handles)
             len=length(contents_console);
             set(handles.console,'Value',len+1);
 
-            largetreeCV = handles.largetreeCV;
             kf=str2num(get(handles.cvt_k_box,'String'))
             YpredictCVk=zeros(length(Xtest),kf);
             for ii=1:kf
@@ -2539,7 +2589,7 @@ function drev_run_Callback(hObject, eventdata, handles)
             len=length(contents_console);
             set(handles.console,'Value',len+1);
 
-            Ypreden = predict(handles.mdl,Xtest);
+            Ypreden = predict(mdl,Xtest);
             string_predict = ['YpredictBRT_' string];
             handles.(string_predict) = Ypreden;
  
@@ -2559,7 +2609,7 @@ function drev_run_Callback(hObject, eventdata, handles)
             len=length(contents_console);
             set(handles.console,'Value',len+1);
 
-             Ybag = predict(handles.B,Xtest);
+             Ybag = predict(B,Xtest);
             string_predict = ['YpredictRF_' string];
             handles.(string_predict) = Ybag;
 
@@ -2580,7 +2630,7 @@ function drev_run_Callback(hObject, eventdata, handles)
             len=length(contents_console);
             set(handles.console,'Value',len+1);
 
-            Ypredm5 = m5ppredict(handles.model,Xtest);
+            Ypredm5 = m5ppredict(model,Xtest);
             string_predict = ['YpredictMBT_' string];
             handles.(string_predict) = Ypredm5;
             
