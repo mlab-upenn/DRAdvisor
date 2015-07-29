@@ -23,281 +23,350 @@ end
 function Inputs_OpeningFcn(hObject, eventdata, handles, varargin)
 
 handles.output = hObject;
+set(0,'units','characters')
+
+scrsz=get(0,'screensize')
+scrsz(1:2)=scrsz(3:4);
 
 % General window
 
-    set(handles.window,'Position',[135.8 1.54 239.8 53]);
+    set(handles.window,'Position',[135.8 1.54 239.8 53].*scrsz./[273.2000 59.0769 273.2000 59.0769]); 
+    % To adapt sizes of the elements in the window to the new window size
+    original_mainw_size = [135.8 1.54 239.8 53];
+    new_mainw_size = [135.8 1.54 239.8 53].*scrsz./[273.2000 59.0769 273.2000 59.0769];
+    
+% Tabs position
+
+    set(handles.inputs_tab,'Position',[7     51.154 35 1.692].*new_mainw_size./original_mainw_size);
+    set(handles.mi_tab,    'Position',[45.2  51.154 35 1.692].*new_mainw_size./original_mainw_size);
+    set(handles.drb_tab,   'Position',[83.4  51.154 35 1.692].*new_mainw_size./original_mainw_size);
+    set(handles.dre_tab,   'Position',[121.6 51.154 35 1.692].*new_mainw_size./original_mainw_size);
+    set(handles.drs_tab,   'Position',[159.8 51.154 35 1.692].*new_mainw_size./original_mainw_size);
+    set(handles.report_tab,'Position',[198.6 51.154 35 1.692].*new_mainw_size./original_mainw_size);
 
 % Console position
 
-    set(handles.console_panel,'Position',[7   0.62 226.6 9.92]);
-    set(handles.console,      'Position',[2.6 1    220.2 7.54]);
+    set(handles.console_panel,'Position',[7   0.62 226.6 9.92].*new_mainw_size./original_mainw_size);
+    % To adapt sizes of the elements in the console panel to the new console panel size
+    original_console_size = [7   0.62 226.6 9.92];
+    new_console_size = [7   0.62 226.6 9.92].*new_mainw_size./original_mainw_size;
+    
+    set(handles.console,      'Position',[2.6 1    220.2 7.54].*new_console_size./original_console_size);
 
 % Inputs position
 
-    set(handles.training,'Position',[7 42.5 30.2 3.923]);
-        set(handles.training_sd,  'Position',[7    40.3  14   1.62]);
-        set(handles.training_sdm, 'Position',[16.2 38.69 5.2  1.62]);
-        set(handles.training_sdd, 'Position',[22.8 38.69 5.2  1.62]);
-        set(handles.training_sdy, 'Position',[29.2 38.69 8    1.62]);
-        set(handles.training_sdb1,'Position',[21.4 38.54 1    1.62]);
-        set(handles.training_sdb2,'Position',[28   38.54 1    1.62]);
-        set(handles.training_ed,  'Position',[7    36.92 14   1.62]);
-        set(handles.training_edm, 'Position',[16.2 35.3  5.2  1.62]);
-        set(handles.training_edd, 'Position',[22.8 35.3  5.2  1.62]);
-        set(handles.training_edy, 'Position',[29.2 35.3  8    1.62]);
-        set(handles.training_edb1,'Position',[21.4 35.15 1    1.62]);
-        set(handles.training_edb2,'Position',[28   35.15 1    1.62]);
-        set(handles.training_st,  'Position',[7    33.3  18.2 1.62]);
-        set(handles.training_stn, 'Position',[23.6 31.69 6.4  1.62]);
-        set(handles.training_stm, 'Position',[31.6 31.54 5.6  1.62]);
-    set(handles.testing, 'Position',[7 26.3 30.2 3.923]);
-        set(handles.testing_sd,  'Position',[7    23.85  14   1.62]);
-        set(handles.testing_sdm, 'Position',[16.2 22.23 5.2  1.62]);
-        set(handles.testing_sdd, 'Position',[22.8 22.23 5.2  1.62]);
-        set(handles.testing_sdy, 'Position',[29.2 22.23 8    1.62]);
-        set(handles.testing_sdb1,'Position',[21.4 22.07 1    1.62]);
-        set(handles.testing_sdb2,'Position',[28   22.07 1    1.62]);
-        set(handles.testing_ed,  'Position',[7    20.46 14   1.62]);
-        set(handles.testing_edm, 'Position',[16.2 18.85  5.2  1.62]);
-        set(handles.testing_edd, 'Position',[22.8 18.85  5.2  1.62]);
-        set(handles.testing_edy, 'Position',[29.2 18.85  8    1.62]);
-        set(handles.testing_edb1,'Position',[21.4 18.69 1    1.62]);
-        set(handles.testing_edb2,'Position',[28   18.69 1    1.62]);
-        set(handles.testing_st,  'Position',[7    16.85  18.2 1.62]);
-        set(handles.testing_stn, 'Position',[23.6 15.23 6.4  1.62]);
-        set(handles.testing_stm, 'Position',[31.6 15.08 5.6  1.62]);
+    set(handles.training,'Position',[7 42.5 30.2 3.923].*new_mainw_size./original_mainw_size);
+        set(handles.training_sd,  'Position',[7    40.3  14   1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_sdm, 'Position',[16.2 38.69 5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_sdd, 'Position',[22.8 38.69 5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_sdy, 'Position',[29.2 38.69 8    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_sdb1,'Position',[21.4 38.54 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_sdb2,'Position',[28   38.54 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_ed,  'Position',[7    36.92 14   1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_edm, 'Position',[16.2 35.3  5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_edd, 'Position',[22.8 35.3  5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_edy, 'Position',[29.2 35.3  8    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_edb1,'Position',[21.4 35.15 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_edb2,'Position',[28   35.15 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_st,  'Position',[7    33.3  18.2 1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_stn, 'Position',[23.6 31.69 6.4  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.training_stm, 'Position',[31.6 31.54 5.6  1.62].*new_mainw_size./original_mainw_size);
+    set(handles.testing, 'Position',[7 26.3 30.2 3.923].*new_mainw_size./original_mainw_size);
+        set(handles.testing_sd,  'Position',[7    23.85  14   1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_sdm, 'Position',[16.2 22.23 5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_sdd, 'Position',[22.8 22.23 5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_sdy, 'Position',[29.2 22.23 8    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_sdb1,'Position',[21.4 22.07 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_sdb2,'Position',[28   22.07 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_ed,  'Position',[7    20.46 14   1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_edm, 'Position',[16.2 18.85  5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_edd, 'Position',[22.8 18.85  5.2  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_edy, 'Position',[29.2 18.85  8    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_edb1,'Position',[21.4 18.69 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_edb2,'Position',[28   18.69 1    1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_st,  'Position',[7    16.85  18.2 1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_stn, 'Position',[23.6 15.23 6.4  1.62].*new_mainw_size./original_mainw_size);
+        set(handles.testing_stm, 'Position',[31.6 15.08 5.6  1.62].*new_mainw_size./original_mainw_size);
 
     % Training_inputs position
     
         % Panels position
         
-        set(handles.ti_panel,       'Position',[39.8 11.3   193.8 37.77]);
-        set(handles.inputs_ld_panel,'Position',[4.4  4.696  40.2  30.154]);
-        set(handles.inputs_pd_panel,'Position',[51.6 4.696  60.2  30.154]);
+        set(handles.ti_panel,       'Position',[39.8 11.3   193.8 37.77].*new_mainw_size./original_mainw_size);
+        % To adapt sizes of the elements in the training inputs panel to the new training inputs panel size
+        original_ti_panel_size = [39.8 11.3   193.8 37.77];
+        new_ti_panel_size = [39.8 11.3   193.8 37.77].*new_mainw_size./original_mainw_size;
+        
+        set(handles.inputs_ld_panel,'Position',[4.4  4.696  40.2  30.154].*new_ti_panel_size./original_ti_panel_size);
+        % To adapt sizes of the elements in the load data panel to the new load data panel size
+        original_inputs_ld_panel_size = [4.4  4.696  40.2  30.154];
+        new_inputs_ld_panel_size = [4.4  4.696  40.2  30.154].*new_ti_panel_size./original_ti_panel_size;
+        
+        set(handles.inputs_pd_panel,'Position',[51.6 4.696  60.2  30.154].*new_ti_panel_size./original_ti_panel_size);
+        % To adapt sizes of the elements in the plot data panel to the new plot data panel size
+        original_inputs_pd_panel_size = [51.6 4.696  60.2  30.154];
+        new_inputs_pd_panel_size = [51.6 4.696  60.2  30.154].*new_ti_panel_size./original_ti_panel_size;
         
         % Plots position
         
-        set(handles.wd_plot,'Position',[118.8 25.696 70.2 10]);
-        set(handles.sd_plot,'Position',[118.8 13.619 70.2 10]);
-        set(handles.bd_plot,'Position',[118.8 1.85   70.2 10]);
+        set(handles.wd_plot,'Position',[118.8 25.696 70.2 10].*new_ti_panel_size./original_ti_panel_size);
+        set(handles.sd_plot,'Position',[118.8 13.619 70.2 10].*new_ti_panel_size./original_ti_panel_size);
+        set(handles.bd_plot,'Position',[118.8 1.85   70.2 10].*new_ti_panel_size./original_ti_panel_size);
         
         % Load data panel
         
-        set(handles.wd,'Position',[5.4 22.846 30.2 3.923]);
-            set(handles.training_wds,   'Position',[5.4  20.7 22.6 1.62]);
-            set(handles.training_wdbox, 'Position',[11.2 19   14   1.62]);
-            set(handles.training_wdload,'Position',[25.6 19   10   1.7]);
-        set(handles.sd,'Position',[5.4 12     30.2 3.923]);
-        set(handles.bd,'Position',[5.4 1.154  30.2 3.923]);
+        set(handles.wd,'Position',[5.4 22.846 30.2 3.923].*new_inputs_ld_panel_size./original_inputs_ld_panel_size);
+            set(handles.training_wds,   'Position',[5.4  20.7 22.6 1.62].*new_inputs_ld_panel_size./original_inputs_ld_panel_size);
+            set(handles.training_wdbox, 'Position',[11.2 19   14   1.62].*new_inputs_ld_panel_size./original_inputs_ld_panel_size);
+            set(handles.training_wdload,'Position',[25.6 19   10   1.7].*new_inputs_ld_panel_size./original_inputs_ld_panel_size);
+        set(handles.sd,'Position',[5.4 12     30.2 3.923].*new_inputs_ld_panel_size./original_inputs_ld_panel_size);
+        set(handles.bd,'Position',[5.4 1.154  30.2 3.923].*new_inputs_ld_panel_size./original_inputs_ld_panel_size);
         
         % Plot data panel
         
-        set(handles.wd_menu,'Position',[6.6 24     30 1.615]);
-        set(handles.sd_menu,'Position',[6.6 13.154 30 1.615]);
-        set(handles.bd_menu,'Position',[6.6 2.308  30 1.615]);
-        set(handles.view_wd,'Position',[39.8 23.923 15 1.692]);
-        set(handles.view_sd,'Position',[39.8 13.077 15 1.692]);
-        set(handles.view_bd,'Position',[39.8 2.231  15 1.692]);
+        set(handles.wd_menu,'Position',[6.6 24     30 1.615].*new_inputs_pd_panel_size./original_inputs_pd_panel_size);
+        set(handles.sd_menu,'Position',[6.6 13.154 30 1.615].*new_inputs_pd_panel_size./original_inputs_pd_panel_size);
+        set(handles.bd_menu,'Position',[6.6 2.308  30 1.615].*new_inputs_pd_panel_size./original_inputs_pd_panel_size);
+        set(handles.view_wd,'Position',[39.8 23.923 15 1.692].*new_inputs_pd_panel_size./original_inputs_pd_panel_size);
+        set(handles.view_sd,'Position',[39.8 13.077 15 1.692].*new_inputs_pd_panel_size./original_inputs_pd_panel_size);
+        set(handles.view_bd,'Position',[39.8 2.231  15 1.692].*new_inputs_pd_panel_size./original_inputs_pd_panel_size);
         
         % Rest
         
-        set(handles.create_structure,'Position',[5.4 1.081 105.2 2.692]);
+        set(handles.create_structure,'Position',[5.4 1.081 105.2 2.692].*new_ti_panel_size./original_ti_panel_size);
     
     % Testing_inputs position
 
             % Panels position
 
-            set(handles.ti_panel_test,       'Position',[39.8 11.3   193.8 37.77]);
-            set(handles.inputs_ld_panel_test,'Position',[4.4  4.696  40.2  30.154]);
-            set(handles.inputs_pd_panel_test,'Position',[51.6 4.696  60.2  30.154]);
+            set(handles.ti_panel_test,       'Position',[39.8 11.3   193.8 37.77].*new_mainw_size./original_mainw_size);
+            % To adapt sizes of the elements in the testing inputs panel to the new testing inputs panel size
+            original_ti_panel_test_size = [39.8 11.3   193.8 37.77];
+            new_ti_panel_test_size = [39.8 11.3   193.8 37.77].*new_mainw_size./original_mainw_size;
+
+            set(handles.inputs_ld_panel_test,'Position',[4.4  4.696  40.2  30.154].*new_ti_panel_test_size./original_ti_panel_test_size);
+            % To adapt sizes of the elements in the load data panel to the new load data panel size
+            original_inputs_ld_panel_test_size = [4.4  4.696  40.2  30.154];
+            new_inputs_ld_panel_test_size = [4.4  4.696  40.2  30.154].*new_ti_panel_test_size./original_ti_panel_test_size;
+        
+            set(handles.inputs_pd_panel_test,'Position',[51.6 4.696  60.2  30.154].*new_ti_panel_test_size./original_ti_panel_test_size);
+            % To adapt sizes of the elements in the plot data panel to the new plot data panel size
+            original_inputs_pd_panel_test_size = [51.6 4.696  60.2  30.154];
+            new_inputs_pd_panel_test_size = [51.6 4.696  60.2  30.154].*new_ti_panel_test_size./original_ti_panel_test_size;
 
             % Plots position
 
-            set(handles.wd_plot_test,'Position',[118.8 25.696 70.2 10]);
-            set(handles.sd_plot_test,'Position',[118.8 13.619 70.2 10]);
-            set(handles.bd_plot_test,'Position',[118.8 1.85   70.2 10]);
+            set(handles.wd_plot_test,'Position',[118.8 25.696 70.2 10].*new_ti_panel_test_size./original_ti_panel_test_size);
+            set(handles.sd_plot_test,'Position',[118.8 13.619 70.2 10].*new_ti_panel_test_size./original_ti_panel_test_size);
+            set(handles.bd_plot_test,'Position',[118.8 1.85   70.2 10].*new_ti_panel_test_size./original_ti_panel_test_size);
 
             % Load data panel
 
-            set(handles.wd_test,'Position',[5.4 22.846 30.2 3.923]);
-                set(handles.testing_wds,   'Position',[5.4  20.7 22.6 1.62]);
-                set(handles.testing_wdbox, 'Position',[11.2 19   14   1.62]);
-                set(handles.testing_wdload,'Position',[25.6 19   10   1.7]);
-            set(handles.sd_test,'Position',[5.4 12     30.2 3.923]);
-            set(handles.bd_test,'Position',[5.4 1.154  30.2 3.923]);
+            set(handles.wd_test,'Position',[5.4 22.846 30.2 3.923].*new_inputs_ld_panel_test_size./original_inputs_ld_panel_test_size);
+                set(handles.testing_wds,   'Position',[5.4  20.7 22.6 1.62].*new_inputs_ld_panel_test_size./original_inputs_ld_panel_test_size);
+                set(handles.testing_wdbox, 'Position',[11.2 19   14   1.62].*new_inputs_ld_panel_test_size./original_inputs_ld_panel_test_size);
+                set(handles.testing_wdload,'Position',[25.6 19   10   1.7].*new_inputs_ld_panel_test_size./original_inputs_ld_panel_test_size);
+            set(handles.sd_test,'Position',[5.4 12     30.2 3.923].*new_inputs_ld_panel_test_size./original_inputs_ld_panel_test_size);
+            set(handles.bd_test,'Position',[5.4 1.154  30.2 3.923].*new_inputs_ld_panel_test_size./original_inputs_ld_panel_test_size);
 
             % Plot data panel
 
-            set(handles.wd_menu_test,'Position',[6.6 24     30 1.615]);
-            set(handles.sd_menu_test,'Position',[6.6 13.154 30 1.615]);
-            set(handles.bd_menu_test,'Position',[6.6 2.308  30 1.615]);
-            set(handles.view_wd_test,'Position',[39.8 23.923 15 1.692]);
-            set(handles.view_sd_test,'Position',[39.8 13.077 15 1.692]);
-            set(handles.view_bd_test,'Position',[39.8 2.231  15 1.692]);
+            set(handles.wd_menu_test,'Position',[6.6 24     30 1.615].*new_inputs_pd_panel_test_size./original_inputs_pd_panel_test_size);
+            set(handles.sd_menu_test,'Position',[6.6 13.154 30 1.615].*new_inputs_pd_panel_test_size./original_inputs_pd_panel_test_size);
+            set(handles.bd_menu_test,'Position',[6.6 2.308  30 1.615].*new_inputs_pd_panel_test_size./original_inputs_pd_panel_test_size);
+            set(handles.view_wd_test,'Position',[39.8 23.923 15 1.692].*new_inputs_pd_panel_test_size./original_inputs_pd_panel_test_size);
+            set(handles.view_sd_test,'Position',[39.8 13.077 15 1.692].*new_inputs_pd_panel_test_size./original_inputs_pd_panel_test_size);
+            set(handles.view_bd_test,'Position',[39.8 2.231  15 1.692].*new_inputs_pd_panel_test_size./original_inputs_pd_panel_test_size);
 
             % Rest
 
-            set(handles.create_structure_test,'Position',[5.4 1.081 105.2 2.692]);
+            set(handles.create_structure_test,'Position',[5.4 1.081 105.2 2.692].*new_ti_panel_test_size./original_ti_panel_test_size);
 
 
 % Model_identification position
 
     % Panels position
 
-    set(handles.imp_panel, 'Position',[7     11.31  108.2 37.77]);
-    set(handles.lm_panel,  'Position',[4.4   3.92   42.2  32   ]);
-    set(handles.res_panel, 'Position',[52.6  3.92   22.6  32   ]);
-    set(handles.test_panel,'Position',[81.2  3.92   22.6  32   ]);
-    set(handles.ep_panel,  'Position',[119.8 11.308 113.8 37.77]);
+    set(handles.imp_panel, 'Position',[7     11.31  108.2 37.77].*new_mainw_size./original_mainw_size);
+    % To adapt sizes of the elements in the identification panel to the new identification panel size
+    original_imp_panel_size = [7     11.31  108.2 37.77];
+    new_imp_panel_size = [7     11.31  108.2 37.77].*new_mainw_size./original_mainw_size;
+
+    set(handles.lm_panel,  'Position',[4.4   3.92   42.2  32   ].*new_imp_panel_size./original_imp_panel_size);
+    % To adapt sizes of the elements in the Learning Methods panel to the new Learning Methods panel size
+    original_lm_panel_size = [4.4   3.92   42.2  32   ];
+    new_lm_panel_size = [4.4   3.92   42.2  32   ].*new_imp_panel_size./original_imp_panel_size;
+    
+    set(handles.res_panel, 'Position',[52.6  3.92   22.6  32   ].*new_imp_panel_size./original_imp_panel_size);
+    % To adapt sizes of the elements in the Training error panel to the new Training error panel size
+    original_res_panel_size = [52.6  3.92   22.6  32   ];
+    new_res_panel_size = [52.6  3.92   22.6  32   ].*new_imp_panel_size./original_imp_panel_size;
+    
+    set(handles.test_panel,'Position',[81.2  3.92   22.6  32   ].*new_imp_panel_size./original_imp_panel_size);
+    % To adapt sizes of the elements in the Testing error panel to the new Testing error panel size
+    original_test_panel_size = [81.2  3.92   22.6  32   ];
+    new_test_panel_size = [81.2  3.92   22.6  32   ].*new_imp_panel_size./original_imp_panel_size;
+    
+    set(handles.ep_panel,  'Position',[119.8 11.308 113.8 37.77].*new_mainw_size./original_mainw_size);
+    % To adapt sizes of the elements in the error plots panel to the new error plots panel size
+    original_ep_panel_size = [119.8 11.308 113.8 37.77];
+    new_ep_panel_size = [119.8 11.308 113.8 37.77].*new_mainw_size./original_mainw_size;
 
     % Plots position
 
-    set(handles.mi_plot,'Position',[5.8 1.77 104.2 25.39]);
+    set(handles.mi_plot,'Position',[5.8 1.77 104.2 25.39].*new_ep_panel_size./original_ep_panel_size);
 
     % Buttons position
 
-    set(handles.train,          'Position',[4.4  1.15   45   1.85]);
-    set(handles.stop,           'Position',[58.8 1.15   45   1.85]);
-    set(handles.def_value,      'Position',[8    1      25   1.85]);
-    set(handles.err_plot_button,'Position',[39.8 27.923 37.4 1.692]);
+    set(handles.train,          'Position',[4.4  1.15   45   1.85].*new_imp_panel_size./original_imp_panel_size);
+    set(handles.stop,           'Position',[58.8 1.15   45   1.85].*new_imp_panel_size./original_imp_panel_size);
+    set(handles.def_value,      'Position',[8    1      25   1.85].*new_lm_panel_size./original_lm_panel_size);
+    set(handles.err_plot_button,'Position',[39.8 27.923 37.4 1.692].*new_ep_panel_size./original_ep_panel_size);
 
     % Learning method panel
 
         % Checkboxes
-        set(handles.srt,'Position',[1.4 28.36  35.8 1.77]);
-        set(handles.cvt,'Position',[1.4 23.692 35.8 1.77]);
-        set(handles.brt,'Position',[1.4 17     35.8 1.77]);
-        set(handles.rf, 'Position',[1.4 10.31  35.8 1.77]);
-        set(handles.mbt,'Position',[1.4 3.62   35.8 1.77]);
+        set(handles.srt,'Position',[1.4 28.36  35.8 1.77].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.cvt,'Position',[1.4 23.692 35.8 1.77].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.brt,'Position',[1.4 17     35.8 1.77].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.rf, 'Position',[1.4 10.31  35.8 1.77].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.mbt,'Position',[1.4 3.62   35.8 1.77].*new_lm_panel_size./original_lm_panel_size);
 
         % Boxes
-        set(handles.srt_ml_box,'Position',[5.2 26.385 10.2 1.385]);
-        set(handles.cvt_ml_box,'Position',[5.2 21.692 10.2 1.385]);
-        set(handles.cvt_k_box, 'Position',[5.2 19.692 10.2 1.385]);
-        set(handles.brt_ml_box,'Position',[5.2 15     10.2 1.385]);
-        set(handles.brt_nt_box,'Position',[5.2 13     10.2 1.385]);
-        set(handles.rf_ml_box, 'Position',[5.2 8.308  10.2 1.385]);
-        set(handles.rf_nt_box, 'Position',[5.2 6.308  10.2 1.385]);
+        set(handles.srt_ml_box,'Position',[5.2 26.385 10.2 1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.cvt_ml_box,'Position',[5.2 21.692 10.2 1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.cvt_k_box, 'Position',[5.2 19.692 10.2 1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.brt_ml_box,'Position',[5.2 15     10.2 1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.brt_nt_box,'Position',[5.2 13     10.2 1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.rf_ml_box, 'Position',[5.2 8.308  10.2 1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.rf_nt_box, 'Position',[5.2 6.308  10.2 1.385].*new_lm_panel_size./original_lm_panel_size);
 
         % Rest
-        set(handles.srt_ml,  'Position',[17.2 26.385 21  1.385]);
-        set(handles.cvt_ml,  'Position',[17.2 21.692 21  1.385]);
-        set(handles.cvt_k,   'Position',[17.2 19.692 21  1.385]);
-        set(handles.brt_ml,  'Position',[17.2 15     21  1.385]);
-        set(handles.brt_nt,  'Position',[17.2 13     21  1.385]);
-        set(handles.rf_ml,   'Position',[17.2 8.308  21  1.385]);
-        set(handles.rf_nt,   'Position',[17.2 6.308  21  1.385]);
-        set(handles.lm_info, 'Position',[38.4 29.6   2.6 1.154]);
+        set(handles.srt_ml,  'Position',[17.2 26.385 21  1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.cvt_ml,  'Position',[17.2 21.692 21  1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.cvt_k,   'Position',[17.2 19.692 21  1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.brt_ml,  'Position',[17.2 15     21  1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.brt_nt,  'Position',[17.2 13     21  1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.rf_ml,   'Position',[17.2 8.308  21  1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.rf_nt,   'Position',[17.2 6.308  21  1.385].*new_lm_panel_size./original_lm_panel_size);
+        set(handles.lm_info, 'Position',[38.4 29.6   2.6 1.154].*new_lm_panel_size./original_lm_panel_size);
 
     % Resubstitution panel
 
         % Boxes
-        set(handles.srt_e,'Position',[3 28.385 10.4 1.385]);
-        set(handles.cvt_e,'Position',[3 23.692 10.4 1.385]);
-        set(handles.brt_e,'Position',[3 17     10.4 1.385]);
-        set(handles.rf_e, 'Position',[3 10.31  10.4 1.385]);
-        set(handles.mbt_e,'Position',[3 3.62   10.4 1.385]);
+        set(handles.srt_e,'Position',[3 28.385 10.4 1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.cvt_e,'Position',[3 23.692 10.4 1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.brt_e,'Position',[3 17     10.4 1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.rf_e, 'Position',[3 10.31  10.4 1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.mbt_e,'Position',[3 3.62   10.4 1.385].*new_res_panel_size./original_res_panel_size);
 
         % Rest
-        set(handles.srt_ep,   'Position',[14.2 28.385 4   1.385]);
-        set(handles.cvt_ep,   'Position',[14.2 23.692 4   1.385]);
-        set(handles.brt_ep,   'Position',[14.2 17     4   1.385]);
-        set(handles.rf_ep,    'Position',[14.2 10.31  4   1.385]);
-        set(handles.mbt_ep,   'Position',[14.2 3.62   4   1.385]);
-        set(handles.res_info, 'Position',[19   29.6   2.6 1.154]);
+        set(handles.srt_ep,   'Position',[14.2 28.385 4   1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.cvt_ep,   'Position',[14.2 23.692 4   1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.brt_ep,   'Position',[14.2 17     4   1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.rf_ep,    'Position',[14.2 10.31  4   1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.mbt_ep,   'Position',[14.2 3.62   4   1.385].*new_res_panel_size./original_res_panel_size);
+        set(handles.res_info, 'Position',[19   29.6   2.6 1.154].*new_res_panel_size./original_res_panel_size);
 
     % Test panel
 
         % Boxes
-        set(handles.srt_et,'Position',[3 28.385 10.4 1.385]);
-        set(handles.cvt_et,'Position',[3 23.692 10.4 1.385]);
-        set(handles.brt_et,'Position',[3 17     10.4 1.385]);
-        set(handles.rf_et, 'Position',[3 10.31  10.4 1.385]);
-        set(handles.mbt_et,'Position',[3 3.62   10.4 1.385]);
+        set(handles.srt_et,'Position',[3 28.385 10.4 1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.cvt_et,'Position',[3 23.692 10.4 1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.brt_et,'Position',[3 17     10.4 1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.rf_et, 'Position',[3 10.31  10.4 1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.mbt_et,'Position',[3 3.62   10.4 1.385].*new_test_panel_size./original_test_panel_size);
 
         % Rest
-        set(handles.srt_etp,   'Position',[14.2 28.385 4   1.385]);
-        set(handles.cvt_etp,   'Position',[14.2 23.692 4   1.385]);
-        set(handles.brt_etp,   'Position',[14.2 17     4   1.385]);
-        set(handles.rf_etp,    'Position',[14.2 10.31  4   1.385]);
-        set(handles.mbt_etp,   'Position',[14.2 3.62   4   1.385]);
-        set(handles.test_info, 'Position',[19   29.6   2.6 1.154]);
+        set(handles.srt_etp,   'Position',[14.2 28.385 4   1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.cvt_etp,   'Position',[14.2 23.692 4   1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.brt_etp,   'Position',[14.2 17     4   1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.rf_etp,    'Position',[14.2 10.31  4   1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.mbt_etp,   'Position',[14.2 3.62   4   1.385].*new_test_panel_size./original_test_panel_size);
+        set(handles.test_info, 'Position',[19   29.6   2.6 1.154].*new_test_panel_size./original_test_panel_size);
 
 
     % Plot buttons
 
-    set(handles.testing_fit,  'Position',[2.8  34 38.8 2.08]);
-    set(handles.training_fit, 'Position',[2.8  31 38.8 2.08]);
-    set(handles.brt_rmse,     'Position',[44.6 34 28.2 2.08]);
-    set(handles.rf_rmse,      'Position',[44.6 31 31.6 2.08]);
-    set(handles.brt_fi,      'Position',[78.2 34 30.8 2.08]);
-    set(handles.rf_fi,       'Position',[78.2 31 34.2 2.08]);
+    set(handles.testing_fit,  'Position',[2.8  34 38.8 2.08].*new_ep_panel_size./original_ep_panel_size);
+    set(handles.training_fit, 'Position',[2.8  31 38.8 2.08].*new_ep_panel_size./original_ep_panel_size);
+    set(handles.brt_rmse,     'Position',[44.6 34 28.2 2.08].*new_ep_panel_size./original_ep_panel_size);
+    set(handles.rf_rmse,      'Position',[44.6 31 31.6 2.08].*new_ep_panel_size./original_ep_panel_size);
+    set(handles.brt_fi,      'Position',[78.2 34 30.8 2.08].*new_ep_panel_size./original_ep_panel_size);
+    set(handles.rf_fi,       'Position',[78.2 31 34.2 2.08].*new_ep_panel_size./original_ep_panel_size);
     
 % DR Baseline Position
 
     % Panels position
+        
+    set(handles.ce_panel, 'Position',[7 11.85 226.6 11.54].*new_mainw_size./original_mainw_size);
+    % To adapt sizes of the elements in the identification panel to the new identification panel size
+    original_ce_panel_size = [7 11.85 226.6 11.54];
+    new_ce_panel_size = [7 11.85 226.6 11.54].*new_mainw_size./original_mainw_size;
     
-    set(handles.ce_panel, 'Position',[7 11.85 226.6 11.54]);
-    set(handles.dre_panel,'Position',[7 24.77 226.6 24.31]);
+    set(handles.dre_panel,'Position',[7 24.77 226.6 24.31].*new_mainw_size./original_mainw_size);
+    % To adapt sizes of the elements in the identification panel to the new identification panel size
+    original_dre_panel_size = [7 24.77 226.6 24.31];
+    new_dre_panel_size = [7 24.77 226.6 24.31].*new_mainw_size./original_mainw_size;
 
     % Cost and energy panel
     
-    set(handles.ces,    'Position',[16.2 6.62 17.4  1.62]);
-    set(handles.cec,    'Position',[41.2 6.62 2.4   1.62]);
-    set(handles.ce_box, 'Position',[35 6.77   5.2   1.62]);
-    set(handles.ce_load,'Position',[20.6 2.46 15    1.69]);
-    set(handles.ce_plot,'Position',[84.4 1.69 136.4 7.85]);
+    set(handles.ces,    'Position',[16.2 6.62 17.4  1.62].*new_ce_panel_size./original_ce_panel_size);
+    set(handles.cec,    'Position',[41.2 6.62 2.4   1.62].*new_ce_panel_size./original_ce_panel_size);
+    set(handles.ce_box, 'Position',[35 6.77   5.2   1.62].*new_ce_panel_size./original_ce_panel_size);
+    set(handles.ce_load,'Position',[20.6 2.46 15    1.69].*new_ce_panel_size./original_ce_panel_size);
+    set(handles.ce_plot,'Position',[84.4 1.69 136.4 7.85].*new_ce_panel_size./original_ce_panel_size);
     
     % DR event panel
     
-    set(handles.dre_d,  'Position',[5.8  19.9   7   1.62]);
-    set(handles.dre_dm, 'Position',[15   16.77  5.2 1.62]);
-    set(handles.dre_dd, 'Position',[21.6 16.77  5.2 1.62]);
-    set(handles.dre_dy, 'Position',[28   16.77  8   1.62]);
-    set(handles.dre_db1,'Position',[19.6 16.615 2.6 1.62]);
-    set(handles.dre_db2,'Position',[26.8 16.615 1   1.62]);
+    set(handles.dre_d,  'Position',[5.8  19.9   7   1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_dm, 'Position',[15   16.77  5.2 1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_dd, 'Position',[21.6 16.77  5.2 1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_dy, 'Position',[28   16.77  8   1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_db1,'Position',[19.6 16.615 2.6 1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_db2,'Position',[26.8 16.615 1   1.62].*new_dre_panel_size./original_dre_panel_size);
     
-    set(handles.dre_sh, 'Position',[5.8 13.62 14 1.62]);
-    set(handles.dre_shm,'Position',[15  10.46 21 1.62]);
+    set(handles.dre_sh, 'Position',[5.8 13.62 14 1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_shm,'Position',[15  10.46 21 1.62].*new_dre_panel_size./original_dre_panel_size);
     
-    set(handles.dre_eh, 'Position',[5.8 7.3  14 1.62]);
-    set(handles.dre_ehm,'Position',[15  4.15 21 1.62]);
+    set(handles.dre_eh, 'Position',[5.8 7.3  14 1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_ehm,'Position',[15  4.15 21 1.62].*new_dre_panel_size./original_dre_panel_size);
     
-    set(handles.dre_w, 'Position',[47.4 16.77 14.8 1.62]);
-    set(handles.dre_ws,'Position',[47.4 10.46 30   1.62]);
+    set(handles.dre_w, 'Position',[47.4 16.77 14.8 1.62].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_ws,'Position',[47.4 10.46 30   1.62].*new_dre_panel_size./original_dre_panel_size);
     
-    set(handles.dre_predict,'Position',[47.4 4.15 27.8  1.69]);
-    set(handles.dre_plot,   'Position',[84.4 2.08 136.4 20.38]);
+    set(handles.dre_predict,'Position',[47.4 4.15 27.8  1.69].*new_dre_panel_size./original_dre_panel_size);
+    set(handles.dre_plot,   'Position',[84.4 2.08 136.4 20.38].*new_dre_panel_size./original_dre_panel_size);
  
 % DR Evaluation position
 
-    set(handles.drev_sn,       'Position',[7     47.3   18.2  1.385]);
-    set(handles.drev_sn_box,   'Position',[29    47.153 24.2  1.615]);
-    set(handles.drev_des,      'Position',[57    47.308 14.4  1.385]);
-    set(handles.drev_des_box,  'Position',[75.2  47.154 158.4 1.615]);
-    set(handles.drev_spec,     'Position',[14.2  43.69  35    1.385]);
-    set(handles.drev_spec_box, 'Position',[7     34.77  49.4  8    ]);
-    set(handles.drev_show_sp,  'Position',[7     32.077 24    1.77 ]);
-    set(handles.drev_save_str, 'Position',[32.4  32.077 24    1.77 ]);
-    set(handles.drev_str,      'Position',[26    29.77  12.2  1.385]);
-    set(handles.drev_str_box,  'Position',[7     14.385 50.2  14.46]);
-    set(handles.drev_show_str, 'Position',[7     11.769 24    1.77 ]);
-    set(handles.drev_del_str,  'Position',[33.2  11.769 24    1.77 ]);
-    set(handles.drev_sh,       'Position',[64.2  43.46  14    1.615]);
-    set(handles.drev_sh_hh,    'Position',[79.2  43.69  10.6  1.615]);
-    set(handles.drev_sh_dots,  'Position',[90.8  43.46  1.6   1.615]);
-    set(handles.drev_sh_mm,    'Position',[93.4  43.69  10.6  1.615]);
-    set(handles.drev_eh,       'Position',[113.4 43.46  14    1.615]);
-    set(handles.drev_eh_hh,    'Position',[128.4 43.69  10.6  1.615]);
-    set(handles.drev_eh_dots,  'Position',[140   43.46  1.6   1.615]);
-    set(handles.drev_eh_mm,    'Position',[142.6 43.69  10.6  1.615]);
-    set(handles.drev_val,      'Position',[162.8 43.69  8     1.385]);
-    set(handles.drev_val_box,  'Position',[172.8 43.615 24.2  1.615]);
-    set(handles.drev_enter,    'Position',[205.8 43.46  27.8  1.769]);
-    set(handles.drev_plot,     'Position',[64    15.769 169   27   ]);
-    set(handles.drev_run,      'Position',[64    11.769 169   1.769]);
+    set(handles.drev_sn,       'Position',[7     47.3   18.2  1.385].*new_mainw_size./original_mainw_size);
+    set(handles.drev_sn_box,   'Position',[29    47.153 24.2  1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_des,      'Position',[57    47.308 14.4  1.385].*new_mainw_size./original_mainw_size);
+    set(handles.drev_des_box,  'Position',[75.2  47.154 158.4 1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_spec,     'Position',[14.2  43.69  35    1.385].*new_mainw_size./original_mainw_size);
+    set(handles.drev_spec_box, 'Position',[7     34.77  49.4  8    ].*new_mainw_size./original_mainw_size);
+    set(handles.drev_show_sp,  'Position',[7     32.077 24    1.77 ].*new_mainw_size./original_mainw_size);
+    set(handles.drev_save_str, 'Position',[32.4  32.077 24    1.77 ].*new_mainw_size./original_mainw_size);
+    set(handles.drev_str,      'Position',[26    29.77  12.2  1.385].*new_mainw_size./original_mainw_size);
+    set(handles.drev_str_box,  'Position',[7     14.385 50.2  14.46].*new_mainw_size./original_mainw_size);
+    set(handles.drev_show_str, 'Position',[7     11.769 24    1.77 ].*new_mainw_size./original_mainw_size);
+    set(handles.drev_del_str,  'Position',[33.2  11.769 24    1.77 ].*new_mainw_size./original_mainw_size);
+    set(handles.drev_sh,       'Position',[64.2  43.46  14    1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_sh_hh,    'Position',[79.2  43.69  10.6  1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_sh_dots,  'Position',[90.8  43.46  1.6   1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_sh_mm,    'Position',[93.4  43.69  10.6  1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_eh,       'Position',[113.4 43.46  14    1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_eh_hh,    'Position',[128.4 43.69  10.6  1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_eh_dots,  'Position',[140   43.46  1.6   1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_eh_mm,    'Position',[142.6 43.69  10.6  1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_val,      'Position',[162.8 43.69  8     1.385].*new_mainw_size./original_mainw_size);
+    set(handles.drev_val_box,  'Position',[172.8 43.615 24.2  1.615].*new_mainw_size./original_mainw_size);
+    set(handles.drev_enter,    'Position',[205.8 43.46  27.8  1.769].*new_mainw_size./original_mainw_size);
+    set(handles.drev_plot,     'Position',[64    15.769 169   27   ].*new_mainw_size./original_mainw_size);
+    set(handles.drev_run,      'Position',[64    11.769 169   1.769].*new_mainw_size./original_mainw_size);
 
+  
 
 handles.tabs=[handles.inputs_tab, handles.mi_tab, handles.drb_tab, handles.dre_tab, handles.drs_tab, handles.report_tab];
     
@@ -2273,7 +2342,7 @@ function drev_show_str_Callback(hObject, eventdata, handles)
 %     string = ['drev_strategy_' str];
 %     plot_string = ['Ypredict_' string];
 %     plot(time,handles.(plot_string)/1e6);
-    leg=char('');
+%     leg=char('');
     axis normal
     
     str_list = cellstr(get(handles.drev_str_box,'String'));
@@ -2281,34 +2350,35 @@ function drev_show_str_Callback(hObject, eventdata, handles)
     string = ['drev_strategy_' str];
 
         hold on;
-        if get(handles.srt,'Value')
+%         if get(handles.srt,'Value')
             plot_string = ['Ypredict_' string];
             plot(handles.time_drev,handles.(plot_string)/1e6);
-            leg=char(leg,'Single Tree');
-        end
-        if get(handles.cvt,'Value')
+%             leg=char('Single Tree');
+%         end
+%         if get(handles.cvt,'Value')
             plot_string = ['YpredictCV_' string];
             plot(handles.time_drev,handles.(plot_string)/1e6);
-            leg=char(leg,'CV Tree');
-        end
-        if get(handles.brt,'Value')
-            plot_string = ['YpredictBRT_' string];
-            plot(handles.time_drev,handles.(plot_string)/1e6);
-            leg=char(leg,'BR Tree');
-        end
-        if get(handles.rf,'Value')
+%             leg=char(leg,'CV Tree');
+%         end
+%         if get(handles.brt,'Value')
+%             plot_string = ['YpredictBRT_' string];
+%             plot(handles.time_drev,handles.(plot_string)/1e6);
+%             leg=char(leg,'BR Tree');
+%         end
+%         if get(handles.rf,'Value')
             plot_string = ['YpredictRF_' string];
             plot(handles.time_drev,handles.(plot_string)/1e6);
-            leg=char(leg,'Random Forest');
-        end
-        if get(handles.mbt,'Value')
-            plot_string = ['YpredictMBT_' string];
-            plot(handles.time_drev,handles.(plot_string)/1e6);
-            leg=char(leg,'MBR Tree');
-        end
+%             leg=char(leg,'Random Forest');
+%         end
+%         if get(handles.mbt,'Value')
+%             plot_string = ['YpredictMBT_' string];
+%             plot(handles.time_drev,handles.(plot_string)/1e6);
+%             leg=char(leg,'MBR Tree');
+%         end
         hold off;
         datetick('x','HH:MM','keeplimits')
-        legend(leg);
+        legend('Single Tree','CV Tree','Random Forest')
+%         legend(leg);
         
 % --- Executes on button press in drev_del_str.
 function drev_del_str_Callback(hObject, eventdata, handles)
@@ -2563,7 +2633,7 @@ function drev_run_Callback(hObject, eventdata, handles)
             set(handles.console,'Value',len+1);
 
             kf=str2num(get(handles.cvt_k_box,'String'))
-            YpredictCVk=zeros(length(Xtest),kf);
+            YpredictCVk=zeros(size(Xtest,1),kf);
             for ii=1:kf
                 YpredictCVk(:,ii)=predict(largetreeCV.Trained{ii,1},Xtest);
             end
