@@ -480,9 +480,14 @@ function inputs_tab_Callback(hObject, eventdata, handles)
         else
             set(handles.training,'Value',1);
         end
+   
 
     % Testing sub-tab
     function testing_Callback(hObject, eventdata, handles)
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        set(handles.testing,'Value',0);
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else
         state=get(handles.training,'Value');
         if state==1
             set(handles.training,'Value',0);
@@ -500,213 +505,248 @@ function inputs_tab_Callback(hObject, eventdata, handles)
         else
             set(handles.testing,'Value',1);
         end
+    end
+   
         
 % Model identification tab
 function mi_tab_Callback(hObject, eventdata, handles)
 
-    state=[get(handles.inputs_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
-    if sum(state)==1
-        set(handles.tabs(1),'Value',0);
-        set(handles.tabs(3:end),'Value',0);
-        set(handles.mi_tabcontent(1:end), 'Visible', 'on');
-        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
-        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
-        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
-        set(handles.report_tabcontent(1:end), 'Visible', 'off');
-        axes(handles.wd_plot);
-        plot(NaN);
-        axes(handles.sd_plot);
-        plot(NaN);
-        axes(handles.bd_plot);
-        plot(NaN);
-        axes(handles.wd_plot_test);
-        plot(NaN);
-        axes(handles.sd_plot_test);
-        plot(NaN);
-        axes(handles.bd_plot_test);
-        plot(NaN);
-        axes(handles.dre_plot);
-        plot(NaN);
-        axes(handles.ce_plot);
-        plot(NaN);
-        axes(handles.drev_plot);
-        plot(NaN);
-    else
-        set(handles.mi_tab,'Value',1);
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        set(handles.mi_tab,'Value',0);
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else   
+        state=[get(handles.inputs_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
+        if sum(state)==1
+            set(handles.tabs(1),'Value',0);
+            set(handles.tabs(3:end),'Value',0);
+            set(handles.mi_tabcontent(1:end), 'Visible', 'on');
+            set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+            set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+            set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+            set(handles.report_tabcontent(1:end), 'Visible', 'off');
+            
+            set(handles.srt_ml_box,'String','10');
+            set(handles.cvt_ml_box,'String','10');
+            set(handles.cvt_k_box,'String','20');
+            set(handles.brt_ml_box,'String','2');
+            set(handles.brt_nt_box,'String','100');
+            set(handles.rf_ml_box,'String','5');
+            set(handles.rf_nt_box,'String','100');
+    
+            axes(handles.wd_plot);
+            plot(NaN);
+            axes(handles.sd_plot);
+            plot(NaN);
+            axes(handles.bd_plot);
+            plot(NaN);
+            axes(handles.wd_plot_test);
+            plot(NaN);
+            axes(handles.sd_plot_test);
+            plot(NaN);
+            axes(handles.bd_plot_test);
+            plot(NaN);
+            axes(handles.dre_plot);
+            plot(NaN);
+            axes(handles.ce_plot);
+            plot(NaN);
+            axes(handles.drev_plot);
+            plot(NaN);
+        else
+            set(handles.mi_tab,'Value',1);
+        end
     end
+   
     
     % --- Executes on button press in drb_tab.
 function drb_tab_Callback(hObject, eventdata, handles)
-    
-    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
-    if sum(state)==1
-        set(handles.tabs(1:2),'Value',0);
-        set(handles.tabs(4:end),'Value',0);
-        set(handles.drb_tabcontent(1:end), 'Visible', 'on');
-        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
-        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
-        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
-        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
-        set(handles.report_tabcontent(1:end), 'Visible', 'off');
-        axes(handles.wd_plot);
-        plot(NaN);
-        axes(handles.sd_plot);
-        plot(NaN);
-        axes(handles.bd_plot);
-        plot(NaN);
-        axes(handles.wd_plot_test);
-        plot(NaN);
-        axes(handles.sd_plot_test);
-        plot(NaN);
-        axes(handles.bd_plot_test);
-        plot(NaN);
-        axes(handles.mi_plot);
-        plot(NaN);
-        axes(handles.drev_plot);
-        plot(NaN);
-    else
-        set(handles.drb_tab,'Value',1);
+
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        set(handles.drb_tab,'Value',0);
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else  
+        state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
+        if sum(state)==1
+            set(handles.tabs(1:2),'Value',0);
+            set(handles.tabs(4:end),'Value',0);
+            set(handles.drb_tabcontent(1:end), 'Visible', 'on');
+            set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+            set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+            set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+            set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+            set(handles.report_tabcontent(1:end), 'Visible', 'off');
+            axes(handles.wd_plot);
+            plot(NaN);
+            axes(handles.sd_plot);
+            plot(NaN);
+            axes(handles.bd_plot);
+            plot(NaN);
+            axes(handles.wd_plot_test);
+            plot(NaN);
+            axes(handles.sd_plot_test);
+            plot(NaN);
+            axes(handles.bd_plot_test);
+            plot(NaN);
+            axes(handles.mi_plot);
+            plot(NaN);
+            axes(handles.drev_plot);
+            plot(NaN);
+        else
+            set(handles.drb_tab,'Value',1);
+        end
     end
+ 
 
 % --- Executes on button press in dre_tab.
 function dre_tab_Callback(hObject, eventdata, handles)
-    
-    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
-    if sum(state)==1
-        set(handles.tabs(1:3),'Value',0);
-        set(handles.tabs(5:end),'Value',0);
-        set(handles.dre_tabcontent(1:end), 'Visible', 'on');
-        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
-        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
-        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
-        set(handles.report_tabcontent(1:end), 'Visible', 'off');
-        
-        handles.drev_strategy_Default={'Default' 'Default strategy'};
-        % Importing Schedule variables from Testing schedule data to Control setpoint specification box
+ 
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        set(handles.dre_tab,'Value',0);
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else 
+        state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
+        if sum(state)==1
+            set(handles.tabs(1:3),'Value',0);
+            set(handles.tabs(5:end),'Value',0);
+            set(handles.dre_tabcontent(1:end), 'Visible', 'on');
+            set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+            set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+            set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+            set(handles.report_tabcontent(1:end), 'Visible', 'off');
 
-        ScheduleList = get(handles.sd_menu_test,'String');
-        set(handles.drev_spec_box,'String',ScheduleList(2:end-3)); % (2:end-3) because we don't want to take "Select..." and month,day,hour from the list
-        
-        % Assigning default value to setpoints (80°F) 
-        
-        for ii=2:(length(ScheduleList)-3) % Except last three items that represent the time
-            handles.(ScheduleList{ii}) = 80*ones(length(handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index)),1);
-            handles.drev_strategy_Default{ii+1} = handles.(ScheduleList{ii});
+            handles.drev_strategy_Default={'Default' 'Default strategy'};
+            % Importing Schedule variables from Testing schedule data to Control setpoint specification box
+
+            ScheduleList = get(handles.sd_menu_test,'String');
+            set(handles.drev_spec_box,'String',ScheduleList(2:end-3)); % (2:end-3) because we don't want to take "Select..." and month,day,hour from the list
+
+            % Assigning default value to setpoints (80°F) 
+
+            for ii=2:(length(ScheduleList)-3) % Except last three items that represent the time
+                handles.(ScheduleList{ii}) = 80*ones(length(handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index)),1);
+                handles.drev_strategy_Default{ii+1} = handles.(ScheduleList{ii});
+            end
+            handles.time_dre=handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index);
+
+
+            guidata(hObject, handles);
+
+            axes(handles.wd_plot);
+            plot(NaN);
+            axes(handles.sd_plot);
+            plot(NaN);
+            axes(handles.bd_plot);
+            plot(NaN);
+            axes(handles.wd_plot_test);
+            plot(NaN);
+            axes(handles.sd_plot_test);
+            plot(NaN);
+            axes(handles.bd_plot_test);
+            plot(NaN);
+            axes(handles.mi_plot);
+            plot(NaN);
+            axes(handles.dre_plot);
+            plot(NaN);
+            axes(handles.ce_plot);
+            plot(NaN);
+
+        else
+            set(handles.dre_tab,'Value',1);
         end
-        handles.time_dre=handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index);
-        
-        
-        guidata(hObject, handles);
-        
-        axes(handles.wd_plot);
-        plot(NaN);
-        axes(handles.sd_plot);
-        plot(NaN);
-        axes(handles.bd_plot);
-        plot(NaN);
-        axes(handles.wd_plot_test);
-        plot(NaN);
-        axes(handles.sd_plot_test);
-        plot(NaN);
-        axes(handles.bd_plot_test);
-        plot(NaN);
-        axes(handles.mi_plot);
-        plot(NaN);
-        axes(handles.dre_plot);
-        plot(NaN);
-        axes(handles.ce_plot);
-        plot(NaN);
-        
-    else
-        set(handles.dre_tab,'Value',1);
     end
+
 
 
 % --- Executes on button press in drs_tab.
 function drs_tab_Callback(hObject, eventdata, handles)
-    
-    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.report_tab,'Value')];
-    if sum(state)==1
-        set(handles.tabs(1:4),'Value',0);
-        set(handles.tabs(6),'Value',0);
-        set(handles.drs_tabcontent(1:end), 'Visible', 'on');
-        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
-        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
-        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
-        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
-        set(handles.report_tabcontent(1:end), 'Visible', 'off');
-        axes(handles.wd_plot);
-        plot(NaN);
-        axes(handles.sd_plot);
-        plot(NaN);
-        axes(handles.bd_plot);
-        plot(NaN);
-        axes(handles.wd_plot_test);
-        plot(NaN);
-        axes(handles.sd_plot_test);
-        plot(NaN);
-        axes(handles.bd_plot_test);
-        plot(NaN);
-        axes(handles.mi_plot);
-        plot(NaN);
-        axes(handles.dre_plot);
-        plot(NaN);
-        axes(handles.ce_plot);
-        plot(NaN);
-        axes(handles.drev_plot);
-        plot(NaN);
-    else
-        set(handles.drs_tab,'Value',1);
+ 
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        set(handles.drs_tab,'Value',0);
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else    
+        state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.report_tab,'Value')];
+        if sum(state)==1
+            set(handles.tabs(1:4),'Value',0);
+            set(handles.tabs(6),'Value',0);
+            set(handles.drs_tabcontent(1:end), 'Visible', 'on');
+            set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+            set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+            set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+            set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+            set(handles.report_tabcontent(1:end), 'Visible', 'off');
+            axes(handles.wd_plot);
+            plot(NaN);
+            axes(handles.sd_plot);
+            plot(NaN);
+            axes(handles.bd_plot);
+            plot(NaN);
+            axes(handles.wd_plot_test);
+            plot(NaN);
+            axes(handles.sd_plot_test);
+            plot(NaN);
+            axes(handles.bd_plot_test);
+            plot(NaN);
+            axes(handles.mi_plot);
+            plot(NaN);
+            axes(handles.dre_plot);
+            plot(NaN);
+            axes(handles.ce_plot);
+            plot(NaN);
+            axes(handles.drev_plot);
+            plot(NaN);
+        else
+            set(handles.drs_tab,'Value',1);
+        end
     end
+ 
 
 % --- Executes on button press in report_tab.
 function report_tab_Callback(hObject, eventdata, handles)
     
-    state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value')];
-    if sum(state)==1
-        set(handles.tabs(1:5),'Value',0);
-        set(handles.drs_tabcontent(1:end), 'Visible', 'on');
-        set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
-        set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
-        set(handles.mi_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drb_tabcontent(1:end), 'Visible', 'off');
-        set(handles.dre_tabcontent(1:end), 'Visible', 'off');
-        set(handles.drs_tabcontent(1:end), 'Visible', 'off');
-        axes(handles.wd_plot);
-        plot(NaN);
-        axes(handles.sd_plot);
-        plot(NaN);
-        axes(handles.bd_plot);
-        plot(NaN);
-        axes(handles.wd_plot_test);
-        plot(NaN);
-        axes(handles.sd_plot_test);
-        plot(NaN);
-        axes(handles.bd_plot_test);
-        plot(NaN);
-        axes(handles.mi_plot);
-        plot(NaN);
-        axes(handles.dre_plot);
-        plot(NaN);
-        axes(handles.ce_plot);
-        plot(NaN);
-        axes(handles.drev_plot);
-        plot(NaN);
-    else
-        set(handles.report_tab,'Value',1);
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        set(handles.report_tab,'Value',0);
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else     
+        state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value')];
+        if sum(state)==1
+            set(handles.tabs(1:5),'Value',0);
+            set(handles.drs_tabcontent(1:end), 'Visible', 'on');
+            set(handles.inputs_training_tabcontent(1:end), 'Visible', 'off');
+            set(handles.inputs_testing_tabcontent(1:end), 'Visible', 'off');
+            set(handles.mi_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drb_tabcontent(1:end), 'Visible', 'off');
+            set(handles.dre_tabcontent(1:end), 'Visible', 'off');
+            set(handles.drs_tabcontent(1:end), 'Visible', 'off');
+            axes(handles.wd_plot);
+            plot(NaN);
+            axes(handles.sd_plot);
+            plot(NaN);
+            axes(handles.bd_plot);
+            plot(NaN);
+            axes(handles.wd_plot_test);
+            plot(NaN);
+            axes(handles.sd_plot_test);
+            plot(NaN);
+            axes(handles.bd_plot_test);
+            plot(NaN);
+            axes(handles.mi_plot);
+            plot(NaN);
+            axes(handles.dre_plot);
+            plot(NaN);
+            axes(handles.ce_plot);
+            plot(NaN);
+            axes(handles.drev_plot);
+            plot(NaN);
+        else
+            set(handles.report_tab,'Value',1);
+        end
     end
 
-    
-    
-    
-    
-    
     
 % --- Console
 function console_Callback(hObject, eventdata, handles)
@@ -892,35 +932,51 @@ end
 
 % --- Weather data view button
 function view_wd_Callback(hObject, eventdata, handles)
-    
-    axes(handles.wd_plot);
-    temp=handles.data_wd.(handles.element_wd);
-    plot(handles.time_wd,temp(1:end-1));
-    datetick('x','mmm','keepticks')
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else    
+        axes(handles.wd_plot);
+        temp=handles.data_wd.(handles.element_wd);
+        plot(handles.time_wd,temp(1:end-1));
+        datetick('x','mmm','keepticks')
+    end
     
 % --- Schedule data view button
 function view_sd_Callback(hObject, eventdata, handles)
-    axes(handles.sd_plot);
-    temp=handles.data_sd.(handles.element_sd);
-    plot(handles.time_sd,temp(1:end-1));
-    datetick('x','mmm','keepticks')
+    if strcmp(get(handles.sd_menu,'String'),'Select...')
+        errordlg('Schedule data must be uploaded','Upload process incomplete');
+    else 
+        axes(handles.sd_plot);
+        temp=handles.data_sd.(handles.element_sd);
+        plot(handles.time_sd,temp(1:end-1));
+        datetick('x','mmm','keepticks')
+    end
 
 % --- Building data view button
 function view_bd_Callback(hObject, eventdata, handles)
-    axes(handles.bd_plot);
-    temp=handles.data_bd.(handles.element_bd);
-    plot(handles.time_bd,temp(1:end-1));
-    datetick('x','mmm','keepticks')
+    if strcmp(get(handles.bd_menu,'String'),'Select...')
+        errordlg('Building data must be uploaded','Upload process incomplete');
+    else    
+        axes(handles.bd_plot);
+        temp=handles.data_bd.(handles.element_bd);
+        plot(handles.time_bd,temp(1:end-1));
+        datetick('x','mmm','keepticks')
+    end
 
 % --- Create structure button (Done)
 function create_structure_Callback(hObject, eventdata, handles)
-    h = waitbar(0,'Creating Proxy Variables and Data Structure');
-    steps = 1000;
-    for step = 1:steps
-        % computations take place here
-        waitbar(step / steps)
+    
+    if strcmp(get(handles.wd_menu,'String'),'Select...')
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else
+        h = waitbar(0,'Creating Proxy Variables and Data Structure');
+        steps = 1000;
+        for step = 1:steps
+            % computations take place here
+            waitbar(step / steps)
+        end
+        close(h)
     end
-    close(h)
 
 function training_sdm_Callback(hObject, eventdata, handles)
 
@@ -1220,27 +1276,41 @@ end
 
 % --- Weather data view button
 function view_wd_test_Callback(hObject, eventdata, handles)
-    
-    axes(handles.wd_plot_test);
-    temp=handles.data_wd_test.(handles.element_wd_test);
-    size(temp)
-    handles.time_wd_test
-    plot(handles.time_wd_test,temp(1:end-1));
-    datetick('x','mmm','keepticks')
+
+    if strcmp(get(handles.wd_menu_test,'String'),'Select...')
+        errordlg('Weather data must be uploaded','Upload process incomplete');
+    else    
+        axes(handles.wd_plot_test);
+        temp=handles.data_wd_test.(handles.element_wd_test);
+        size(temp)
+        handles.time_wd_test
+        plot(handles.time_wd_test,temp(1:end-1));
+        datetick('x','mmm','keepticks')
+    end
     
 % --- Schedule data view button
 function view_sd_test_Callback(hObject, eventdata, handles)
-    axes(handles.sd_plot_test);
-    temp=handles.data_sd_test.(handles.element_sd_test);
-    plot(handles.time_sd_test,temp(1:end-1));
-    datetick('x','mmm','keepticks')
+    
+    if strcmp(get(handles.sd_menu_test,'String'),'Select...')
+        errordlg('Schedule data must be uploaded','Upload process incomplete');
+    else    
+        axes(handles.sd_plot_test);
+        temp=handles.data_sd_test.(handles.element_sd_test);
+        plot(handles.time_sd_test,temp(1:end-1));
+        datetick('x','mmm','keepticks')
+    end
 
 % --- Building data view button
 function view_bd_test_Callback(hObject, eventdata, handles)
-    axes(handles.bd_plot_test);
-    temp=handles.data_bd_test.(handles.element_bd_test);
-    plot(handles.time_bd_test,temp(1:end-1));
-    datetick('x','mmm','keepticks')
+    
+    if strcmp(get(handles.bd_menu_test,'String'),'Select...')
+        errordlg('Building data must be uploaded','Upload process incomplete');
+    else    
+        axes(handles.bd_plot_test);
+        temp=handles.data_bd_test.(handles.element_bd_test);
+        plot(handles.time_bd_test,temp(1:end-1));
+        datetick('x','mmm','keepticks')
+    end
 
 % --- Create structure button (Done)
 function create_structure_test_Callback(hObject, eventdata, handles)
@@ -1391,369 +1461,372 @@ end
 
 % --- Executes on button press in train.
 function train_Callback(hObject, eventdata, handles)
-
     %% Prepare Training data, i.e from 2012
-    
-    
-    st='Preparing data..';
-    contents_console = cellstr(get(handles.console,'String'));
-    set(handles.console,'String',[contents_console;st]);
-    len=length(contents_console);
-    set(handles.console,'Value',len+1);
-    
-    load large_office_all_data_2k12.mat
 
-    assisted = 1;
-    handles.assisted = assisted;
-    if(assisted)
-        st='Schedule Assist ON';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-        %Feature matrix with weather and schelue
-        Xtrain = [chwsetp,clgsetp,...
-           dom,dow,htgsetp,hwsetp,outdry,outhum...
-            ,outwet,tod,windir,winspeed];
-        Xtrain(1,:)=[];
-        % Output vector
-        Ytrain = tpower;
-        Ytrain(1,:)=[];
-        handles.Ytrain=Ytrain;
-        colnames={'chwsetp','clgsetp','dom','dow','htgsetp','hwsetp','outdry','outhum'...
-        ,'outwet','tod','windir','winspeed'};
-        handles.colnames=colnames;
-        catcol = [3,4,10];
-    else
-        st='Schedule Assist OFF';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-        %Feature matrix with only weather
-        Xtrain = [dom,dow,outdry,outhum...
-            ,outwet,tod,windir,winspeed];
-        Xtrain(1,:)=[];
-        %Output vector
-        Ytrain = tpower;
-        Ytrain(1,:)=[];
-        handles.Ytrain=Ytrain;
-
-        colnames={'dom','dow','outdry','outhum'...
-        ,'outwet','tod','windir','winspeed'};
-        catcol = [1,2,6];
-    end
-
-    date12=load('date12num.mat');
+    if sum([get(handles.srt,'Value') get(handles.cvt,'Value') get(handles.brt,'Value') get(handles.rf,'Value') get(handles.mbt,'Value')]) == 0
+        errordlg('At least one method must be selected','Missing method');
+    else     
     
-    handles.date12num=date12.date12num;
-    
-    date13=load('DateTime_data_2013.mat');
-    
-    handles.date13num=date13.DateTime_data_2013;
-
-    % Column names and indicies of the columns which are categorical
-
-    st='Done.';
-    contents_console = cellstr(get(handles.console,'String'));
-    set(handles.console,'String',[contents_console;st]);
-    len=length(contents_console);
-    set(handles.console,'Value',len+1);
-    
-        % Now prepare testing data, i.e from 2013.
-        st='Evaluating on 2013 Testing Data';
+        st='Preparing data..';
         contents_console = cellstr(get(handles.console,'String'));
         set(handles.console,'String',[contents_console;st]);
         len=length(contents_console);
         set(handles.console,'Value',len+1);
 
-        load large_office_all_data_2k13.mat
+        load large_office_all_data_2k12.mat
 
+        assisted = 1;
+        handles.assisted = assisted;
         if(assisted)
-            % Feature matrix with all 34 features as columns
-            Xtest = [chwsetp,clgsetp,...
-                dom,dow,htgsetp,hwsetp,outdry,outhum...
+            st='Schedule Assist ON';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+            %Feature matrix with weather and schelue
+            Xtrain = [chwsetp,clgsetp,...
+               dom,dow,htgsetp,hwsetp,outdry,outhum...
                 ,outwet,tod,windir,winspeed];
-            Xtest(1,:)=[];
+            Xtrain(1,:)=[];
             % Output vector
-            Ytest = tpower;
-            Ytest(1,:)=[];
-            handles.Ytest=Ytest;
+            Ytrain = tpower;
+            Ytrain(1,:)=[];
+            handles.Ytrain=Ytrain;
+            colnames={'chwsetp','clgsetp','dom','dow','htgsetp','hwsetp','outdry','outhum'...
+            ,'outwet','tod','windir','winspeed'};
+            handles.colnames=colnames;
+            catcol = [3,4,10];
         else
-            Xtest = [dom,dow,outdry,outhum...
+            st='Schedule Assist OFF';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+            %Feature matrix with only weather
+            Xtrain = [dom,dow,outdry,outhum...
                 ,outwet,tod,windir,winspeed];
-            Xtest(1,:)=[];
-            % Output vector
-            Ytest = tpower;
-            Ytest(1,:)=[];
-            handles.Ytest=Ytest;
+            Xtrain(1,:)=[];
+            %Output vector
+            Ytrain = tpower;
+            Ytrain(1,:)=[];
+            handles.Ytrain=Ytrain;
+
+            colnames={'dom','dow','outdry','outhum'...
+            ,'outwet','tod','windir','winspeed'};
+            catcol = [1,2,6];
         end
-    handles.Xtrain=Xtrain;
-    handles.Ytrain=Ytrain;
-    handles.Xtest=Xtest;
-    handles.Ytest=Ytest;
-    st='Done.';
-    contents_console = cellstr(get(handles.console,'String'));
-    set(handles.console,'String',[contents_console;st]);
-    len=length(contents_console);
-    set(handles.console,'Value',len+1);
-    
-    
-    if get(handles.srt,'Value')
-        % Start Tree Regression
-        st='Learning Regression Tree on 2012 Annual Data';
+
+        date12=load('date12num.mat');
+
+        handles.date12num=date12.date12num;
+
+        date13=load('DateTime_data_2013.mat');
+
+        handles.date13num=date13.DateTime_data_2013;
+
+        % Column names and indicies of the columns which are categorical
+
+        st='Done.';
         contents_console = cellstr(get(handles.console,'String'));
         set(handles.console,'String',[contents_console;st]);
         len=length(contents_console);
         set(handles.console,'Value',len+1);
 
-%         minleaf = 10;   % minimium number of leaf node observations
-        minleaf=str2num(get(handles.srt_ml_box,'String'))
-        tic
-        largetree12 = fitrtree(Xtrain,Ytrain,'PredictorNames',colnames,'ResponseName','Total Power','CategoricalPredictors',catcol,'MinLeafSize',minleaf);
-        handles.largetree12 = largetree12;
-        toc
-        % view the tree view(rtree);
-        %view(largetree12,'mode','graph');
+            % Now prepare testing data, i.e from 2013.
+            st='Evaluating on 2013 Testing Data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
 
-        % predict on training and testing data and plot the fits
-        Yfit = predict(largetree12,Xtrain);
-        handles.Yfit=Yfit;
+            load large_office_all_data_2k13.mat
 
-        % RMSE
-        [a,b]=rsquare(Ytrain,Yfit);
-        fprintf('2012(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak: %.4f, NRMSD: %.2f \n\n'...
-            ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
-        set(handles.srt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
-        
-
-        % Ontain Predictions for the entire year and for just july
-        Ypredict = predict(largetree12,Xtest);
-        handles.Ypredict=Ypredict;
-        % RMSE
-        [a,b]=rsquare(Ytest,Ypredict);
-        fprintf('2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n'...
-            ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
-        set(handles.srt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
-        
-        st='Single Regression Tree training and testing process complete!';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-    end
-    
-    
-    if get(handles.cvt,'Value')
-        % Improve the tree by using k-fold cross validation
-        st='Learning a cross validated tree for 2012 annual data';
+            if(assisted)
+                % Feature matrix with all 34 features as columns
+                Xtest = [chwsetp,clgsetp,...
+                    dom,dow,htgsetp,hwsetp,outdry,outhum...
+                    ,outwet,tod,windir,winspeed];
+                Xtest(1,:)=[];
+                % Output vector
+                Ytest = tpower;
+                Ytest(1,:)=[];
+                handles.Ytest=Ytest;
+            else
+                Xtest = [dom,dow,outdry,outhum...
+                    ,outwet,tod,windir,winspeed];
+                Xtest(1,:)=[];
+                % Output vector
+                Ytest = tpower;
+                Ytest(1,:)=[];
+                handles.Ytest=Ytest;
+            end
+        handles.Xtrain=Xtrain;
+        handles.Ytrain=Ytrain;
+        handles.Xtest=Xtest;
+        handles.Ytest=Ytest;
+        st='Done.';
         contents_console = cellstr(get(handles.console,'String'));
         set(handles.console,'String',[contents_console;st]);
         len=length(contents_console);
         set(handles.console,'Value',len+1);
 
-        minleaf=str2num(get(handles.cvt_ml_box,'String'))
-%         kf = 20;
-        kf=str2num(get(handles.cvt_k_box,'String'))
 
-        tic
-        largetreeCV = fitrtree(Xtrain,Ytrain,'PredictorNames',colnames,...
-            'ResponseName','Total Power','CategoricalPredictors',catcol,...
-            'MinLeafSize',minleaf,'CrossVal','on','KFold',kf); % default is 10-fold
-        handles.largetreeCV = largetreeCV;
-        toc
+        if get(handles.srt,'Value')
+            % Start Tree Regression
+            st='Learning Regression Tree on 2012 Annual Data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
 
-        YfitCV = kfoldPredict(largetreeCV);
-        handles.YfitCV=YfitCV;
+    %         minleaf = 10;   % minimium number of leaf node observations
+            minleaf=str2num(get(handles.srt_ml_box,'String'))
+            tic
+            largetree12 = fitrtree(Xtrain,Ytrain,'PredictorNames',colnames,'ResponseName','Total Power','CategoricalPredictors',catcol,'MinLeafSize',minleaf);
+            handles.largetree12 = largetree12;
+            toc
+            % view the tree view(rtree);
+            %view(largetree12,'mode','graph');
 
-        % RMSE
-        [a,b]=rsquare(Ytrain,YfitCV);
-        fprintf('Cross Validated 2012(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %.4f, NRMSD: %0.2f \n'...
-            ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
-        set(handles.cvt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
+            % predict on training and testing data and plot the fits
+            Yfit = predict(largetree12,Xtrain);
+            handles.Yfit=Yfit;
 
-        % Now use the cross validated trees to make predictions on the 2013 testing
-        % data
-        YpredictCVk=zeros(length(Xtest),kf);
-        for ii=1:kf
-            YpredictCVk(:,ii)=predict(largetreeCV.Trained{ii,1},Xtest);
+            % RMSE
+            [a,b]=rsquare(Ytrain,Yfit);
+            fprintf('2012(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak: %.4f, NRMSD: %.2f \n\n'...
+                ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
+            set(handles.srt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
+
+
+            % Ontain Predictions for the entire year and for just july
+            Ypredict = predict(largetree12,Xtest);
+            handles.Ypredict=Ypredict;
+            % RMSE
+            [a,b]=rsquare(Ytest,Ypredict);
+            fprintf('2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n'...
+                ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
+            set(handles.srt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
+
+            st='Single Regression Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
         end
-        YpredictCV = sum(YpredictCVk,2)/kf;
-        handles.YpredictCV=YpredictCV;
-
-        % RMSE
-        [a,b]=rsquare(Ytest,YpredictCV);
-        fprintf('Cross Validated 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %.4f, NRMSD: %0.2f \n\n'...
-            ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
-        set(handles.cvt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
-        st='Cross-Validation Tree training and testing process complete!';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-    end
-    
-    
-    if get(handles.brt,'Value')
-        % Boosted Regression trees
-        
-        st='Learning a boosted regression tree for 2012 annual data';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-        
-        minleaf=str2num(get(handles.brt_ml_box,'String'))
-%         num_trees = 500;
-        num_trees=str2num(get(handles.brt_nt_box,'String'))
-        t = RegressionTree.template('MinLeaf',minleaf);
-        mdl = fitensemble(Xtrain,Ytrain,'LSBoost',num_trees,t,'PredictorNames',...
-            colnames,'ResponseName','Total Power','CategoricalPredictors',catcol,...
-           'LearnRate',0.01);
-       handles.mdl=mdl;
-
-        Ypreden = predict(mdl,Xtest);
-        handles.YfitBRT=Ypreden;
-        %Ypreden = kfoldPredict(mdl);
-        
-        
-
-        [a,b]=rsquare(Ytest,Ypreden);
-        fprintf('Boosted Tree 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
-        ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
-    
-        set(handles.brt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
-        
-        Ypreden = predict(mdl,Xtrain);
-        handles.YpredictBRT=Ypreden;
-        %Ypreden = kfoldPredict(mdl);
-        
-        [a,b]=rsquare(Ytrain,Ypreden);
-        fprintf('Boosted Tree 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
-        ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
-    
-        set(handles.brt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
-
-        st='Boosted Regression Tree training and testing process complete!';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-    end
-    
-    
-    if get(handles.rf,'Value')
-        
-        st='Learning a random forest for 2012 annual data';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-        
-        minleaf=str2num(get(handles.rf_ml_box,'String'))
-        num_trees=str2num(get(handles.rf_nt_box,'String'))
-%         leaf = [5 10 50 100];
-%         col = 'rbcmyk';
-        %figure
-%         for i=1:length(leaf)
-%             b = TreeBagger(300,Xtrain,Ytrain,'Method','regression','OOBPred','On','OOBVarImp','on',...
-%                 'CategoricalPredictors',catcol,'MinLeaf',leaf(i));
-         %   plot(sqrt(oobError(b)),col(i));
-          %  hold on;
-%         end
-%         xlabel 'Number of Grown Trees';
-%         ylabel 'Root Mean Squared Error' ;
-%         legend({'5','10' '50' '100' '200'},'Location','NorthEast');
-%         hold off;
-
-%         figure();
-%         bar(b.OOBPermutedVarDeltaError);
-%         xlabel 'Feature' ;
-%         ylabel 'Out-of-Bag Feature Importance';
-%         set(gca,'XTickLabel',colnames);
 
 
-        B = TreeBagger(num_trees,Xtrain,Ytrain,'Method','regression','OOBPred','On','OOBVarImp','on',...
-                'CategoricalPredictors',catcol,'MinLeaf',minleaf);
-        handles.B=B;
-%         figure();
-%         plot(sqrt(oobError(B)));
+        if get(handles.cvt,'Value')
+            % Improve the tree by using k-fold cross validation
+            st='Learning a cross validated tree for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
 
-        Ybag = predict(B,Xtest);
-        handles.YfitRF=Ybag;
+            minleaf=str2num(get(handles.cvt_ml_box,'String'))
+    %         kf = 20;
+            kf=str2num(get(handles.cvt_k_box,'String'))
 
-        [a,b]=rsquare(Ytest,Ybag);
-        fprintf('Random Forests 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
-            ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
-        
-        set(handles.rf_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
-        
-        Ybag = predict(B,Xtrain);
-        handles.YpredictRF=Ybag;
-        [a,b]=rsquare(Ytrain,Ybag);
-        fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
-            ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
-        
-        set(handles.rf_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
-        
-        
-        st='Random Forest training and testing process complete!';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
-    end
-    
-    
-    if get(handles.mbt,'Value')
-        % Model Based RT
-        
-        st='Learning a model based random tree for 2012 annual data';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
+            tic
+            largetreeCV = fitrtree(Xtrain,Ytrain,'PredictorNames',colnames,...
+                'ResponseName','Total Power','CategoricalPredictors',catcol,...
+                'MinLeafSize',minleaf,'CrossVal','on','KFold',kf); % default is 10-fold
+            handles.largetreeCV = largetreeCV;
+            toc
 
-        % Try the M5 method in which leaves of the tree are linear regression
-        % functions
-        if(assisted)
-            binCat = [0,0,3,3,0,0,0,0,0,3,0,0]; % denotes continuous and catergorical
+            YfitCV = kfoldPredict(largetreeCV);
+            handles.YfitCV=YfitCV;
 
-        else
+            % RMSE
+            [a,b]=rsquare(Ytrain,YfitCV);
+            fprintf('Cross Validated 2012(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %.4f, NRMSD: %0.2f \n'...
+                ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
+            set(handles.cvt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
 
-            binCat = [3,3,0,0,0,3,0,0]; % denotes continuous and catergorical
+            % Now use the cross validated trees to make predictions on the 2013 testing
+            % data
+            YpredictCVk=zeros(length(Xtest),kf);
+            for ii=1:kf
+                YpredictCVk(:,ii)=predict(largetreeCV.Trained{ii,1},Xtest);
+            end
+            YpredictCV = sum(YpredictCVk,2)/kf;
+            handles.YpredictCV=YpredictCV;
+
+            % RMSE
+            [a,b]=rsquare(Ytest,YpredictCV);
+            fprintf('Cross Validated 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %.4f, NRMSD: %0.2f \n\n'...
+                ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
+            set(handles.cvt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
+            st='Cross-Validation Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
         end
-        %regresors
 
-        trainParams = m5pparams(false,4,true);
 
-        model = m5pbuild(Xtrain, Ytrain,trainParams, binCat,true);
-        handles.model = model;
-        Ypredm5 = m5ppredict(model,Xtest);
-        handles.YfitMBT=Ypredm5;
-        [a,b]=rsquare(Ytest,Ypredm5);
-        fprintf('Random Forests 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+        if get(handles.brt,'Value')
+            % Boosted Regression trees
+
+            st='Learning a boosted regression tree for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+            minleaf=str2num(get(handles.brt_ml_box,'String'))
+    %         num_trees = 500;
+            num_trees=str2num(get(handles.brt_nt_box,'String'))
+            t = RegressionTree.template('MinLeaf',minleaf);
+            mdl = fitensemble(Xtrain,Ytrain,'LSBoost',num_trees,t,'PredictorNames',...
+                colnames,'ResponseName','Total Power','CategoricalPredictors',catcol,...
+               'LearnRate',0.01);
+           handles.mdl=mdl;
+
+            Ypreden = predict(mdl,Xtest);
+            handles.YfitBRT=Ypreden;
+            %Ypreden = kfoldPredict(mdl);
+
+
+
+            [a,b]=rsquare(Ytest,Ypreden);
+            fprintf('Boosted Tree 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
             ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
-        
-        set(handles.mbt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
-        
-        Ypredm5 = m5ppredict(model,Xtrain);
-        handles.YpredictMBT=Ypredm5;
-        [a,b]=rsquare(Ytrain,Ypredm5);
-        fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+
+            set(handles.brt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
+
+            Ypreden = predict(mdl,Xtrain);
+            handles.YpredictBRT=Ypreden;
+            %Ypreden = kfoldPredict(mdl);
+
+            [a,b]=rsquare(Ytrain,Ypreden);
+            fprintf('Boosted Tree 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
             ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
-        
-        set(handles.mbt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
-        
-        st='Model Based Random Tree training and testing process complete!';
-        contents_console = cellstr(get(handles.console,'String'));
-        set(handles.console,'String',[contents_console;st]);
-        len=length(contents_console);
-        set(handles.console,'Value',len+1);
+
+            set(handles.brt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
+
+            st='Boosted Regression Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+
+
+        if get(handles.rf,'Value')
+
+            st='Learning a random forest for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+            minleaf=str2num(get(handles.rf_ml_box,'String'))
+            num_trees=str2num(get(handles.rf_nt_box,'String'))
+    %         leaf = [5 10 50 100];
+    %         col = 'rbcmyk';
+            %figure
+    %         for i=1:length(leaf)
+    %             b = TreeBagger(300,Xtrain,Ytrain,'Method','regression','OOBPred','On','OOBVarImp','on',...
+    %                 'CategoricalPredictors',catcol,'MinLeaf',leaf(i));
+             %   plot(sqrt(oobError(b)),col(i));
+              %  hold on;
+    %         end
+    %         xlabel 'Number of Grown Trees';
+    %         ylabel 'Root Mean Squared Error' ;
+    %         legend({'5','10' '50' '100' '200'},'Location','NorthEast');
+    %         hold off;
+
+    %         figure();
+    %         bar(b.OOBPermutedVarDeltaError);
+    %         xlabel 'Feature' ;
+    %         ylabel 'Out-of-Bag Feature Importance';
+    %         set(gca,'XTickLabel',colnames);
+
+
+            B = TreeBagger(num_trees,Xtrain,Ytrain,'Method','regression','OOBPred','On','OOBVarImp','on',...
+                    'CategoricalPredictors',catcol,'MinLeaf',minleaf);
+            handles.B=B;
+    %         figure();
+    %         plot(sqrt(oobError(B)));
+
+            Ybag = predict(B,Xtest);
+            handles.YfitRF=Ybag;
+
+            [a,b]=rsquare(Ytest,Ybag);
+            fprintf('Random Forests 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+                ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
+
+            set(handles.rf_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
+
+            Ybag = predict(B,Xtrain);
+            handles.YpredictRF=Ybag;
+            [a,b]=rsquare(Ytrain,Ybag);
+            fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+                ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
+
+            set(handles.rf_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
+
+
+            st='Random Forest training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+
+
+        if get(handles.mbt,'Value')
+            % Model Based RT
+
+            st='Learning a model based random tree for 2012 annual data';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+
+            % Try the M5 method in which leaves of the tree are linear regression
+            % functions
+            if(assisted)
+                binCat = [0,0,3,3,0,0,0,0,0,3,0,0]; % denotes continuous and catergorical
+
+            else
+
+                binCat = [3,3,0,0,0,3,0,0]; % denotes continuous and catergorical
+            end
+            %regresors
+
+            trainParams = m5pparams(false,4,true);
+
+            model = m5pbuild(Xtrain, Ytrain,trainParams, binCat,true);
+            handles.model = model;
+            Ypredm5 = m5ppredict(model,Xtest);
+            handles.YfitMBT=Ypredm5;
+            [a,b]=rsquare(Ytest,Ypredm5);
+            fprintf('Random Forests 2013(Testing) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+                ,b,a,(b/max(Ytest)),(100*b/(max(Ytest)-min(Ytest))));
+
+            set(handles.mbt_et,'String',num2str((100*b/(max(Ytest)-min(Ytest)))));
+
+            Ypredm5 = m5ppredict(model,Xtrain);
+            handles.YpredictMBT=Ypredm5;
+            [a,b]=rsquare(Ytrain,Ypredm5);
+            fprintf('Random Forests 2013(Training) RMSE(W): %.2f, R2: %.3f, RMSE/peak %0.4f, NRMSD: %0.2f \n\n'...
+                ,b,a,(b/max(Ytrain)),(100*b/(max(Ytrain)-min(Ytrain))));
+
+            set(handles.mbt_e,'String',num2str((100*b/(max(Ytrain)-min(Ytrain)))));
+
+            st='Model Based Random Tree training and testing process complete!';
+            contents_console = cellstr(get(handles.console,'String'));
+            set(handles.console,'String',[contents_console;st]);
+            len=length(contents_console);
+            set(handles.console,'Value',len+1);
+        end
+
+
+        guidata(hObject,handles);
     end
-
-
-    guidata(hObject,handles);
 % --- Executes on button press in stop.
 function stop_Callback(hObject, eventdata, handles)
 
