@@ -410,6 +410,9 @@ handles.drs_tabcontent=[];
 
 handles.report_tabcontent=[];
 
+handles.baseline_done = 0; % Used to have access to DR Evaluation tab because it is based on the baseline period.
+                           % 0 deny the access. It will be set up to 1 in the DR baseline tab once the baseline prediction will be done
+
 set(handles.tabs(1),'Value',1);
 set(handles.inputs_training_tabcontent(1),'Value',1);
 set(handles.inputs_testing_tabcontent(2:end),'Visible','off');
@@ -565,7 +568,11 @@ function drb_tab_Callback(hObject, eventdata, handles)
     if strcmp(get(handles.wd_menu,'String'),'Select...')
         set(handles.drb_tab,'Value',0);
         errordlg('Weather data must be uploaded','Upload process incomplete');
-    else  
+    elseif sum([str2num(get(handles.srt_e,'String')),str2num(get(handles.cvt_e,'String')),str2num(get(handles.brt_e,'String')),...
+               str2num(get(handles.rf_e,'String')),str2num(get(handles.mbt_e,'String'))])==0
+        set(handles.drb_tab,'Value',0);
+        errordlg('At least one tree must be grown','Regression Tree missing');
+    else
         state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.dre_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
         if sum(state)==1
             set(handles.tabs(1:2),'Value',0);
@@ -605,6 +612,9 @@ function dre_tab_Callback(hObject, eventdata, handles)
     if strcmp(get(handles.wd_menu,'String'),'Select...')
         set(handles.dre_tab,'Value',0);
         errordlg('Weather data must be uploaded','Upload process incomplete');
+    elseif handles.baseline_done == 0
+        set(handles.dre_tab,'Value',0);
+        errordlg('Baseline must be predicted','Baseline period mising');
     else 
         state=[get(handles.inputs_tab,'Value') get(handles.mi_tab,'Value') get(handles.drb_tab,'Value') get(handles.drs_tab,'Value') get(handles.report_tab,'Value')];
         if sum(state)==1
@@ -632,7 +642,7 @@ function dre_tab_Callback(hObject, eventdata, handles)
             end
             handles.time_dre=handles.date13num(handles.baseline_sd_index:handles.baseline_ed_index);
 
-
+            set(handles.drev_val_box,'String','0')
             guidata(hObject, handles);
 
             axes(handles.wd_plot);
@@ -1996,92 +2006,114 @@ function err_plot_button_Callback(hObject, eventdata, handles)
     axis normal
     
     if get(handles.training_fit,'Value')
-        plot(handles.date12num,handles.Ytrain/1e6);
-        leg=char('Ground Truth');
-        hold on;
-        if get(handles.srt,'Value')
-            plot(handles.date12num,handles.Yfit/1e6);
-            leg=char(leg,'Single Tree');
+        if sum([str2num(get(handles.srt_e,'String')),str2num(get(handles.cvt_e,'String')),str2num(get(handles.brt_e,'String')),...
+               str2num(get(handles.rf_e,'String')),str2num(get(handles.mbt_e,'String'))]) == 0
+            errordlg('At least one tree must be grown','Regression Tree missing');
+        else
+            plot(handles.date12num,handles.Ytrain/1e6);
+            leg=char('Ground Truth');
+            hold on;
+            if get(handles.srt,'Value')
+                plot(handles.date12num,handles.Yfit/1e6);
+                leg=char(leg,'Single Tree');
+            end
+            if get(handles.cvt,'Value')
+                plot(handles.date12num,handles.YfitCV/1e6);
+                leg=char(leg,'CV Tree');
+            end
+            if get(handles.brt,'Value')
+                plot(handles.date12num,handles.YfitBRT/1e6);
+                leg=char(leg,'BR Tree');
+            end
+            if get(handles.rf,'Value')
+                plot(handles.date12num,handles.YfitRF/1e6);
+                leg=char(leg,'Random Forest');
+            end
+            if get(handles.mbt,'Value')
+                plot(handles.date12num,handles.YfitMBT/1e6);
+                leg=char(leg,'MBR Tree');
+            end
+            hold off;
+            datetick('x','mmm','keepticks')
+            legend(leg);
         end
-        if get(handles.cvt,'Value')
-            plot(handles.date12num,handles.YfitCV/1e6);
-            leg=char(leg,'CV Tree');
-        end
-        if get(handles.brt,'Value')
-            plot(handles.date12num,handles.YfitBRT/1e6);
-            leg=char(leg,'BR Tree');
-        end
-        if get(handles.rf,'Value')
-            plot(handles.date12num,handles.YfitRF/1e6);
-            leg=char(leg,'Random Forest');
-        end
-        if get(handles.mbt,'Value')
-            plot(handles.date12num,handles.YfitMBT/1e6);
-            leg=char(leg,'MBR Tree');
-        end
-        hold off;
-        datetick('x','mmm','keepticks')
-        legend(leg);
     elseif get(handles.testing_fit,'Value')
-        plot(handles.date13num,handles.Ytest/1e6);
-        leg=char('Ground Truth');
-        hold on;
-        if get(handles.srt,'Value')
-            plot(handles.date13num,handles.Ypredict/1e6);
-            leg=char(leg,'Single Tree');
+        if sum([str2num(get(handles.srt_e,'String')),str2num(get(handles.cvt_e,'String')),str2num(get(handles.brt_e,'String')),...
+               str2num(get(handles.rf_e,'String')),str2num(get(handles.mbt_e,'String'))]) == 0
+            errordlg('At least one tree must be grown','Regression Tree missing');
+        else
+            plot(handles.date13num,handles.Ytest/1e6);
+            leg=char('Ground Truth');
+            hold on;
+            if get(handles.srt,'Value')
+                plot(handles.date13num,handles.Ypredict/1e6);
+                leg=char(leg,'Single Tree');
+            end
+            if get(handles.cvt,'Value')
+                plot(handles.date13num,handles.YpredictCV/1e6);
+                leg=char(leg,'CV Tree');
+            end
+            if get(handles.brt,'Value')
+                plot(handles.date13num,handles.YpredictBRT/1e6);
+                leg=char(leg,'BR Tree');
+            end
+            if get(handles.rf,'Value')
+                plot(handles.date13num,handles.YpredictRF/1e6);
+                leg=char(leg,'Random Forest');
+            end
+            if get(handles.mbt,'Value')
+                plot(handles.date13num,handles.YpredictMBT/1e6);
+                leg=char(leg,'MBR Tree');
+            end
+            hold off;
+            datetick('x','mmm','keepticks')
+            legend(leg);
         end
-        if get(handles.cvt,'Value')
-            plot(handles.date13num,handles.YpredictCV/1e6);
-            leg=char(leg,'CV Tree');
-        end
-        if get(handles.brt,'Value')
-            plot(handles.date13num,handles.YpredictBRT/1e6);
-            leg=char(leg,'BR Tree');
-        end
-        if get(handles.rf,'Value')
-            plot(handles.date13num,handles.YpredictRF/1e6);
-            leg=char(leg,'Random Forest');
-        end
-        if get(handles.mbt,'Value')
-            plot(handles.date13num,handles.YpredictMBT/1e6);
-            leg=char(leg,'MBR Tree');
-        end
-        hold off;
-        datetick('x','mmm','keepticks')
-        legend(leg);
     elseif get(handles.brt_rmse,'Value')
-        
-        mdl=handles.mdl;
-        [predictorImportance,sortedIndex] = sort(mdl.predictorImportance);
-        barh(predictorImportance/1e6)
-        set(gca,'ytickLabel',handles.colnames(sortedIndex))
-        xlabel('Relative Predictor Importance')
+        if sum (str2num(get(handles.brt_e,'String')) ) == 0
+            errordlg('Boosted Regression tree must be grown','Regression Tree missing');
+        else        
+            mdl=handles.mdl;
+            [predictorImportance,sortedIndex] = sort(mdl.predictorImportance);
+            barh(predictorImportance/1e6)
+            set(gca,'ytickLabel',handles.colnames(sortedIndex))
+            xlabel('Relative Predictor Importance')
+        end
     
     elseif get(handles.rf_rmse,'Value')
-        
-        B=handles.B;
-        plot(sqrt(oobError(B)));
-        xlabel 'Number of Grown Trees';
-        ylabel 'Root Mean Squared Error' ;
+        if sum( str2num(get(handles.rf_e,'String')) ) == 0
+            errordlg('Random Forest must be grown','Regression Tree missing');
+        else
+            B=handles.B;
+            plot(sqrt(oobError(B)));
+            xlabel 'Number of Grown Trees';
+            ylabel 'Root Mean Squared Error' ;
+        end
     
     elseif get(handles.brt_fi,'Value')
-        
-        mdl=handles.mdl;
-        trainingLoss = resubLoss(mdl,'mode','cumulative');
-        testLoss = loss(mdl,handles.Xtest,handles.Ytest,'mode','cumulative');
-        plot(sqrt(trainingLoss)), hold on
-        plot(sqrt(testLoss),'r')
-        legend({'Training Set Loss','Test Set Loss'})
-        xlabel('Number of trees');
-        ylabel('Mean Squared Error');
+        if sum( str2num(get(handles.brt_e,'String')) ) == 0
+            errordlg('Boosted Regression tree must be grown','Regression Tree missing');
+        else
+            mdl=handles.mdl;
+            trainingLoss = resubLoss(mdl,'mode','cumulative');
+            testLoss = loss(mdl,handles.Xtest,handles.Ytest,'mode','cumulative');
+            plot(sqrt(trainingLoss)), hold on
+            plot(sqrt(testLoss),'r')
+            legend({'Training Set Loss','Test Set Loss'})
+            xlabel('Number of trees');
+            ylabel('Mean Squared Error');
+        end
     
     elseif get(handles.rf_fi,'Value')
-        
-        B=handles.B;
-        bar(B.OOBPermutedVarDeltaError);
-        xlabel 'Feature' ;
-        ylabel 'Out-of-Bag Feature Importance';
-        set(gca,'XTickLabel',handles.colnames);
+        if sum( str2num(get(handles.rf_e,'String')) ) == 0
+            errordlg('Random Forest must be grown','Regression Tree missing');
+        else
+            B=handles.B;
+            bar(B.OOBPermutedVarDeltaError);
+            xlabel 'Feature' ;
+            ylabel 'Out-of-Bag Feature Importance';
+            set(gca,'XTickLabel',handles.colnames);
+        end
     end
 
 % --- Executes on button press in brt_rmse.
@@ -2207,114 +2239,140 @@ function dre_predict_Callback(hObject, eventdata, handles)
     
     % Get date numbers for baseline 
     yy=str2num(get(handles.dre_dy,'String'));
+    handles.yy = yy;
     mm=str2num(get(handles.dre_dm,'String'));
+    handles.mm = mm;
     dd=str2num(get(handles.dre_dd,'String'));
+    handles.dd = dd;
     % Get start hour for baseline
     contents_shm = cellstr(get(handles.dre_shm,'String'));
     element_shm = contents_shm{get(handles.dre_shm,'Value')};
-    sh=str2num(element_shm);
+    sh=str2num(element_shm); % Start hour
+    sm=0; % Start minute
     % Get end hour for baseline
     contents_ehm = cellstr(get(handles.dre_ehm,'String'));
     element_ehm = contents_ehm{get(handles.dre_ehm,'Value')};
-    eh=str2num(element_ehm);
-    % Create Start Date and End Date to select baseline period
-%     baseline_sd=datenum([yy,mm,dd,sh,00,00]);
-%     baseline_ed=datenum([yy,mm,dd,eh,00,00]);
-%     % Baseline period selection
-%     
-%     check=0; % boolean variable we will use to check if we found the baseline start date in the date vector
-%     date_temp=handles.date13num; % Date temporary vector
-%     lc=length(date_temp);
-%     gap=3; % Random number greater than 2 to start the while cycle
-%     while ((gap > 2) && (check == 0)) % Binary search starting point
-%         lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
-%         if baseline_sd<date_temp(end-lc)
-%             date_temp=date_temp(1:end-lc);
-%             lc=length(date_temp);
-%         elseif baseline_sd>date_temp(end-lc)
-%             gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
-%         elseif baseline_sd==date_temp(end-lc)
-%             date_temp=date_temp(1:end-lc);
-%             check=1;
-%         else
-%             disp('Something went wrong');
-%             break;
-%         end
-%     end
-%     if check == 1 % If we found the desired date in the vector
-%         baseline_sd_index = numel(date_temp);
-%     else % If the desired date is between two close elements in the date vector
-%         baseline_sd_index = numel(date_temp)-1;
-%     end
-%     
-%     check=0; % boolean variable we will use to check if we found the baseline end date in the date vector
-%     date_temp=handles.date13num; % Date temporary vector
-%     lc=length(date_temp);
-%     gap=3; % Random number greater than 2 to start the while cycle
-%     while ((gap > 2) && (check == 0)) % Binary search starting point
-%         lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
-%         if baseline_ed<date_temp(end-lc)
-%             date_temp=date_temp(1:end-lc);
-%             lc=length(date_temp);
-%         elseif baseline_ed>date_temp(end-lc)
-%             gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
-%         elseif baseline_ed==date_temp(end-lc)
-%             date_temp=date_temp(1:end-lc);
-%             check=1;
-%         else
-%             disp('Something went wrong');
-%             break;
-%         end
-%     end
-%     % In this case the variable assigned is the same
-%     
-% %     if check == 1 % If we found the desired date in the vector
-% %         baseline_ed_index = numel(date_temp);
-% %     else % If the desired date is between two close elements in the date vector
-% %         baseline_ed_index = numel(date_temp);
-% %     end
-%     baseline_ed_index = numel(date_temp);
+    eh=str2num(element_ehm); % End hour
+    em=0; % End minute
+    
+    check_start_date = datenum([yy,mm,dd,sh,sm,00]);
+    handles.check_start_date = check_start_date; % Will be used also in DR Evaluation to check that the scheduling is defined within the baseline range
+    check_end_date   = datenum([yy,mm,dd,eh,em,00]);
+    handles.check_end_date = check_end_date; % Will be used also in DR Evaluation to check that the scheduling is defined within the baseline range
+    start_date = handles.date13num(1);
+    end_date   = handles.date13num(end);
+    
+    if sh >= eh
+        
+        errordlg('Start hour must be lower than end hour','Baseline hour error');
+            
+    elseif ( (check_start_date <= start_date) || (check_end_date >= end_date) )
+        
+        errordlg('The baseline date is out of the date vector','Baseline date error');
+        
+    else
+            
+        % Create Start Date and End Date to select baseline period
+    %     baseline_sd=datenum([yy,mm,dd,sh,00,00]);
+    %     baseline_ed=datenum([yy,mm,dd,eh,00,00]);
+    %     % Baseline period selection
+    %     
+    %     check=0; % boolean variable we will use to check if we found the baseline start date in the date vector
+    %     date_temp=handles.date13num; % Date temporary vector
+    %     lc=length(date_temp);
+    %     gap=3; % Random number greater than 2 to start the while cycle
+    %     while ((gap > 2) && (check == 0)) % Binary search starting point
+    %         lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
+    %         if baseline_sd<date_temp(end-lc)
+    %             date_temp=date_temp(1:end-lc);
+    %             lc=length(date_temp);
+    %         elseif baseline_sd>date_temp(end-lc)
+    %             gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
+    %         elseif baseline_sd==date_temp(end-lc)
+    %             date_temp=date_temp(1:end-lc);
+    %             check=1;
+    %         else
+    %             disp('Something went wrong');
+    %             break;
+    %         end
+    %     end
+    %     if check == 1 % If we found the desired date in the vector
+    %         baseline_sd_index = numel(date_temp);
+    %     else % If the desired date is between two close elements in the date vector
+    %         baseline_sd_index = numel(date_temp)-1;
+    %     end
+    %     
+    %     check=0; % boolean variable we will use to check if we found the baseline end date in the date vector
+    %     date_temp=handles.date13num; % Date temporary vector
+    %     lc=length(date_temp);
+    %     gap=3; % Random number greater than 2 to start the while cycle
+    %     while ((gap > 2) && (check == 0)) % Binary search starting point
+    %         lc = ceil(lc/2); % Temporary index variable we need to divide the date temporary vector in two parts
+    %         if baseline_ed<date_temp(end-lc)
+    %             date_temp=date_temp(1:end-lc);
+    %             lc=length(date_temp);
+    %         elseif baseline_ed>date_temp(end-lc)
+    %             gap=numel(date_temp(end-lc:end)); % Number of points between data(lc) and the end of the date vector
+    %         elseif baseline_ed==date_temp(end-lc)
+    %             date_temp=date_temp(1:end-lc);
+    %             check=1;
+    %         else
+    %             disp('Something went wrong');
+    %             break;
+    %         end
+    %     end
+    %     % In this case the variable assigned is the same
+    %     
+    % %     if check == 1 % If we found the desired date in the vector
+    % %         baseline_ed_index = numel(date_temp);
+    % %     else % If the desired date is between two close elements in the date vector
+    % %         baseline_ed_index = numel(date_temp);
+    % %     end
+    %     baseline_ed_index = numel(date_temp);
 
-    date_temp_ref=handles.date13num; % Date temporary vector
-    sm=0;
-    em=0;
-    [baseline_sd_index,baseline_ed_index] = find_date_index(yy,mm,dd,sh,sm,eh,em,date_temp_ref);
-    baseline_sd_index
-    baseline_ed_index
-    
-    axes(handles.dre_plot);
-    plot(NaN);
-    time = handles.date13num(baseline_sd_index:baseline_ed_index);
-    plot(time,handles.Ytest(baseline_sd_index:baseline_ed_index)/1e6);
-    leg=char('Ground Truth');
-    hold on;
-    if get(handles.srt,'Value')
-        plot(time,handles.Ypredict(baseline_sd_index:baseline_ed_index)/1e6);
-        leg=char(leg,'Single Tree');
+        date_temp_ref=handles.date13num; % Date temporary vector
+        
+        [baseline_sd_index,baseline_ed_index] = find_date_index(yy,mm,dd,sh,sm,eh,em,date_temp_ref);
+        baseline_sd_index
+        baseline_ed_index
+
+        axes(handles.dre_plot);
+        plot(NaN);
+        time = handles.date13num(baseline_sd_index:baseline_ed_index);
+        plot(time,handles.Ytest(baseline_sd_index:baseline_ed_index)/1e6);
+        leg=char('Ground Truth');
+        hold on;
+        if get(handles.srt,'Value')
+            plot(time,handles.Ypredict(baseline_sd_index:baseline_ed_index)/1e6);
+            leg=char(leg,'Single Tree');
+        end
+        if get(handles.cvt,'Value')
+            plot(time,handles.YpredictCV(baseline_sd_index:baseline_ed_index)/1e6);
+            leg=char(leg,'CV Tree');
+        end
+        if get(handles.brt,'Value')
+            plot(time,handles.YpredictBRT(baseline_sd_index:baseline_ed_index)/1e6);
+            leg=char(leg,'BR Tree');
+        end
+        if get(handles.rf,'Value')
+            plot(time,handles.YpredictRF(baseline_sd_index:baseline_ed_index)/1e6);
+            leg=char(leg,'Random Forest');
+        end
+        if get(handles.mbt,'Value')
+            plot(time,handles.YpredictMBT(baseline_sd_index:baseline_ed_index)/1e6);
+            leg=char(leg,'MBR Tree');
+        end
+        hold off;
+        datetick('x','HH:MM','keeplimits')
+        legend(leg);
+
+        handles.baseline_sd_index=baseline_sd_index;
+        handles.baseline_ed_index=baseline_ed_index;
+        handles.baseline_done = 1; % Used to have access to DR Evaluation tab because it is based on the baseline period.
+                                   % It means that a period has been created
+                                   
+        guidata(hObject, handles); % needed to have handles available in the other functions
     end
-    if get(handles.cvt,'Value')
-        plot(time,handles.YpredictCV(baseline_sd_index:baseline_ed_index)/1e6);
-        leg=char(leg,'CV Tree');
-    end
-    if get(handles.brt,'Value')
-        plot(time,handles.YpredictBRT(baseline_sd_index:baseline_ed_index)/1e6);
-        leg=char(leg,'BR Tree');
-    end
-    if get(handles.rf,'Value')
-        plot(time,handles.YpredictRF(baseline_sd_index:baseline_ed_index)/1e6);
-        leg=char(leg,'Random Forest');
-    end
-    if get(handles.mbt,'Value')
-        plot(time,handles.YpredictMBT(baseline_sd_index:baseline_ed_index)/1e6);
-        leg=char(leg,'MBR Tree');
-    end
-    hold off;
-    datetick('x','HH:MM','keeplimits')
-    legend(leg);
-    
-    handles.baseline_sd_index=baseline_sd_index;
-    handles.baseline_ed_index=baseline_ed_index;
-    guidata(hObject, handles); % needed to have handles available in the other functions
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%                                                        DR EVALUATION                                                           %%%%%%%
@@ -2376,21 +2434,34 @@ function drev_show_sp_Callback(hObject, eventdata, handles)
 % --- Executes on button press in drev_save_str.
 function drev_save_str_Callback(hObject, eventdata, handles)
     
-    string = ['drev_strategy_' get(handles.drev_sn_box,'String')]; % Just the composition of the name
-    handles.(string)={get(handles.drev_sn_box,'String') get(handles.drev_des_box,'String')};
-    
-    contents_str_box = cellstr(get(handles.drev_str_box,'String'));
-    set(handles.drev_str_box,'String',[contents_str_box;get(handles.drev_sn_box,'String')]);
-    len=length(contents_str_box);
-    set(handles.drev_str_box,'Value',len+1);
+    if isempty(get(handles.drev_sn_box,'String')) % Check if strategy name field is non empty
+        errordlg('Strategy name must be specified','Strategy name missing');
+    else
+        contents_str_box = cellstr(get(handles.drev_str_box,'String')); % Needed also in the "if check == 1"
+        check = 1;
+        for ii=1:numel(contents_str_box) % Check if the strategy name has already been used
+            if strcmp(get(handles.drev_sn_box,'String'),contents_str_box(ii))
+                check = 0;
+                errordlg('A strategy with this name is already in the list','Strategy list error');
+            end
+        end
 
-    
-    spec_list = cellstr(get(handles.drev_spec_box,'String'));
-    for ii = 1:length(spec_list)
-        handles.(string){ii+2} = handles.(spec_list{ii});
+        if check == 1 % If the strategy name has not been used yet, then add the strategy to the list
+            string = ['drev_strategy_' get(handles.drev_sn_box,'String')]; % Just the composition of the name
+            handles.(string)={get(handles.drev_sn_box,'String') get(handles.drev_des_box,'String')};
+
+            set(handles.drev_str_box,'String',[contents_str_box;get(handles.drev_sn_box,'String')]);
+            len=length(contents_str_box);
+            set(handles.drev_str_box,'Value',len+1);
+
+            spec_list = cellstr(get(handles.drev_spec_box,'String'));
+            for ii = 1:length(spec_list)
+                handles.(string){ii+2} = handles.(spec_list{ii});
+            end
+
+            guidata(hObject, handles); % needed to have handles available in the other functions
+        end
     end
-        
-    guidata(hObject, handles); % needed to have handles available in the other functions
  
 % --- Executes on selection change in drev__str_box.
 function drev_str_box_Callback(hObject, eventdata, handles)
@@ -2455,6 +2526,20 @@ function drev_show_str_Callback(hObject, eventdata, handles)
         
 % --- Executes on button press in drev_del_str.
 function drev_del_str_Callback(hObject, eventdata, handles)
+    
+    string_pos = get(handles.drev_str_box,'Value'); % Position in the list of the string to delete
+    contents_str_box = cellstr(get(handles.drev_str_box,'String'));
+    string = ['drev_strategy_' contents_str_box{string_pos}]; % Name of the string to delete
+    
+    % CLEAR HANDLES VARIABLES HAS TO BE IMPLEMENTED. FOR THE MOMENT WE SIMPLY REMOVE IT FROM STRATEGY LIST
+    
+%     clear handles.(string)
+%     delete(handles.(string)); % Delete the handles corresponding to the string to delete
+
+    contents_str_box(string_pos) = []; % Remove the strategy form the strategy list
+    set(handles.drev_str_box,'String',[contents_str_box]);
+    len=length(contents_str_box);
+    set(handles.drev_str_box,'Value',len);
 
 % --- Executes on selection change in drev_sh_hh.
 function drev_sh_hh_Callback(hObject, eventdata, handles)
@@ -2519,9 +2604,9 @@ end
 function drev_enter_Callback(hObject, eventdata, handles)
     
     % Get date numbers for setpoints 
-    yy=str2num(get(handles.dre_dy,'String'));
-    mm=str2num(get(handles.dre_dm,'String'));
-    dd=str2num(get(handles.dre_dd,'String'));
+    yy = handles.yy;
+    mm = handles.mm;
+    dd = handles.dd;
     % Get start hour for setpoints
     contents_sh = cellstr(get(handles.drev_sh_hh,'String'));
     element_sh = contents_sh{get(handles.drev_sh_hh,'Value')};
@@ -2539,21 +2624,35 @@ function drev_enter_Callback(hObject, eventdata, handles)
     element_em = contents_em{get(handles.drev_eh_mm,'Value')};
     em=str2num(element_em);
     
-    date_temp_ref=handles.time_dre; % Date temporary vector
-    [setpoint_sd_index,setpoint_ed_index] = find_date_index(yy,mm,dd,sh,sm,eh,em,date_temp_ref);
+    strategy_start_date = datenum([yy,mm,dd,sh,sm,00]); % To check if the strategy period is within the baseline periode
+    strategy_end_date   = datenum([yy,mm,dd,eh,em,00]);
+    
+    if strategy_start_date > strategy_end_date
+        
+        errordlg('The start hour must be lower than the end hour','Strategy period error');
+        
+    elseif ( (strategy_start_date < handles.check_start_date) || (strategy_end_date > handles.check_end_date) )
+        
+        errordlg('The strategy period is out of the baseline period','Strategy period error');
+                
+    else
+    
+        date_temp_ref=handles.time_dre; % Date temporary vector
+        [setpoint_sd_index,setpoint_ed_index] = find_date_index(yy,mm,dd,sh,sm,eh,em,date_temp_ref);
 
-    spec_list = cellstr(get(handles.drev_spec_box,'String'));
-    spec = spec_list{get(handles.drev_spec_box,'Value')};
-    temp=handles.(spec);
-    temp(setpoint_sd_index:setpoint_ed_index) = str2num(get(handles.drev_val_box,'String'));
-    handles.(spec) = temp;
-    
-    
-    axes(handles.drev_plot);
-    plot(date_temp_ref,handles.(spec));
-    datetick('x','HH:MM','keeplimits')
-    
-    guidata(hObject, handles);
+        spec_list = cellstr(get(handles.drev_spec_box,'String'));
+        spec = spec_list{get(handles.drev_spec_box,'Value')};
+        temp=handles.(spec);
+        temp(setpoint_sd_index:setpoint_ed_index) = str2num(get(handles.drev_val_box,'String'));
+        handles.(spec) = temp;
+
+
+        axes(handles.drev_plot);
+        plot(date_temp_ref,handles.(spec));
+        datetick('x','HH:MM','keeplimits')
+
+        guidata(hObject, handles);
+    end
 
 % --- Executes on button press in drev_run.
 function drev_run_Callback(hObject, eventdata, handles)
@@ -2600,9 +2699,9 @@ function drev_run_Callback(hObject, eventdata, handles)
             load B.mat
             
             % Get date numbers for baseline 
-            yy=str2num(get(handles.dre_dy,'String'));
-            mm=str2num(get(handles.dre_dm,'String'));
-            dd=str2num(get(handles.dre_dd,'String'));
+            yy = handles.yy;
+            mm = handles.mm;
+            dd = handles.dd;
             % Get start hour for baseline
             contents_shm = cellstr(get(handles.dre_shm,'String'));
             element_shm = contents_shm{get(handles.dre_shm,'Value')};
